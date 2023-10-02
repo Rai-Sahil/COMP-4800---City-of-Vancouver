@@ -1,0 +1,33 @@
+#artistsContainer
+{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 5%;
+    margin-left: 10px;
+    margin-right: 10px;
+
+}
+
+#artistsContainer figure img
+{
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    max-width: 400px;
+    max-height: auto;
+}
+
+#artistsContainer figure figcaption
+{
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+h1
+{
+    text-align: center;
+    font-weight: bold;
+    font-size: 2em;
+}
