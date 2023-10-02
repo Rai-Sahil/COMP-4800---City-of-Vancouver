@@ -1,29 +1,120 @@
 import Artist from './Artist.js';
-
 let artistsContainer = document.getElementById("artistsContainer");
 
-for (let i = 0; i < Artist.artists.length; i++)
+let genreFieldset = document.getElementById("genre");
+let mediumFieldset = document.getElementById("medium");
+let culturalFieldset = document.getElementById("cultural");
+
+let checkboxes = [];
+let artists = Artist.artists;
+
+for (let i = 0; i < Artist.genreCategories.length; i++)
 {
-    let artist = Artist.artists[i];
+    let category = Artist.genreCategories[i];
 
-    let artistFigure = document.createElement("figure");
-    artistFigure.classList.add("artist");
+    let checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = category;
+    checkbox.value = category;
+    checkbox.checked = true;
+    checkbox.onclick = generateArtists;
 
-    let artistImage = document.createElement("img");
-    //get a random number between from 0 - 8
-    let randomImageIndex = Math.floor(Math.random() * 9);
-    artistImage.src = artist.images[randomImageIndex];
+    let label = document.createElement("label");
+    label.htmlFor = category;
+    label.innerHTML = category;
 
-    let artistCaption = document.createElement("figcaption");
-    artistCaption.innerHTML = artist.name;
+    genreFieldset.appendChild(checkbox);
+    genreFieldset.appendChild(label);
+    checkboxes.push(checkbox);
+}
 
-    artistFigure.appendChild(artistImage);
-    artistFigure.appendChild(artistCaption);
+for (let i = 0; i < Artist.mediumCategories.length; i++)
+{
+    let category = Artist.mediumCategories[i];
 
-    artistFigure.onclick = function()
+    let checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = category;
+    checkbox.value = category;
+    checkbox.checked = true;
+    checkbox.onclick = generateArtists;
+
+    let label = document.createElement("label");
+    label.htmlFor = category;
+    label.innerHTML = category;
+
+    mediumFieldset.appendChild(checkbox);
+    mediumFieldset.appendChild(label);
+    checkboxes.push(checkbox);
+}
+
+for (let i = 0; i < Artist.culturalCategories.length; i++)
+{
+    let category = Artist.culturalCategories[i];
+
+    let checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = category;
+    checkbox.value = category;
+    checkbox.checked = true;
+    checkbox.onclick = generateArtists;
+
+    let label = document.createElement("label");
+    label.htmlFor = category;
+    label.innerHTML = category;
+
+    culturalFieldset.appendChild(checkbox);
+    culturalFieldset.appendChild(label);
+    checkboxes.push(checkbox); 
+}
+
+generateArtists();
+
+function generateArtists()
+{
+    artistsContainer.innerHTML = "";
+
+    let selectedCategories = [];
+
+    for (let i = 0; i < checkboxes.length; i++)
     {
-        window.location.href = "artist_profile.html?id=" + i;
+        let checkbox = checkboxes[i];
+
+        if (checkbox.checked)
+        {
+            selectedCategories.push(checkbox.value);
+        }
     }
 
-    artistsContainer.appendChild(artistFigure);
+    for (let i = 0; i < artists.length; i++)
+    {
+        let artist = artists[i];
+
+        if(!selectedCategories.some(category => artist.categories.includes(category)))
+        {
+            continue;
+        }
+
+        let artistFigure = document.createElement("figure");
+        artistFigure.classList.add("artist");
+
+        let artistImage = document.createElement("img");
+
+        artistImage.src = artist.images[0];
+
+        let artistCaption = document.createElement("figcaption");
+        artistCaption.innerHTML = artist.name;
+
+        artistFigure.appendChild(artistImage);
+        artistFigure.appendChild(artistCaption);
+
+        artistFigure.onclick = function()
+        {
+            window.location.href = "artist_profile.html?id=" + i;
+        }
+
+        artistsContainer.appendChild(artistFigure);
+    }
 }
+
+

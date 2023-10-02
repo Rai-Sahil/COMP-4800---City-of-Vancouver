@@ -28,11 +28,11 @@ for (let i = 0; i < artist.images.length; i++)
     let image = document.createElement("img");
     image.src = artist.images[i];
 
-    let imageCaption = document.createElement("figcaption");
-    imageCaption.innerHTML = artist.categories[i];
+    //let imageCaption = document.createElement("figcaption");
+    //imageCaption.innerHTML = artist.categories[i];
 
     imageFigure.appendChild(image);
-    imageFigure.appendChild(imageCaption);
+    //imageFigure.appendChild(imageCaption);
 
     imageContainer.appendChild(imageFigure);
 
