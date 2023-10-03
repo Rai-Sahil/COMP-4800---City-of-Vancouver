@@ -16,15 +16,18 @@ for (let i = 0; i < Artist.genreCategories.length; i++)
     checkbox.type = "checkbox";
     checkbox.id = category;
     checkbox.value = category;
-    checkbox.checked = true;
+    checkbox.checked = false;
     checkbox.onclick = generateArtists;
 
     let label = document.createElement("label");
     label.htmlFor = category;
     label.innerHTML = category;
 
+    let br = document.createElement("br");
+
     genreFieldset.appendChild(checkbox);
     genreFieldset.appendChild(label);
+    genreFieldset.appendChild(br);
     checkboxes.push(checkbox);
 }
 
@@ -36,15 +39,18 @@ for (let i = 0; i < Artist.mediumCategories.length; i++)
     checkbox.type = "checkbox";
     checkbox.id = category;
     checkbox.value = category;
-    checkbox.checked = true;
+    checkbox.checked = false;
     checkbox.onclick = generateArtists;
 
     let label = document.createElement("label");
     label.htmlFor = category;
     label.innerHTML = category;
 
+    let br = document.createElement("br");
+
     mediumFieldset.appendChild(checkbox);
     mediumFieldset.appendChild(label);
+    mediumFieldset.appendChild(br);
     checkboxes.push(checkbox);
 }
 
@@ -56,15 +62,18 @@ for (let i = 0; i < Artist.culturalCategories.length; i++)
     checkbox.type = "checkbox";
     checkbox.id = category;
     checkbox.value = category;
-    checkbox.checked = true;
+    checkbox.checked = false;
     checkbox.onclick = generateArtists;
 
     let label = document.createElement("label");
     label.htmlFor = category;
     label.innerHTML = category;
 
+    let br = document.createElement("br");
+
     culturalFieldset.appendChild(checkbox);
     culturalFieldset.appendChild(label);
+    culturalFieldset.appendChild(br);
     checkboxes.push(checkbox); 
 }
 
@@ -90,7 +99,7 @@ function generateArtists()
     {
         let artist = artists[i];
 
-        if(!selectedCategories.some(category => artist.categories.includes(category)))
+        if(selectedCategories.length > 0 && !selectedCategories.some(category => artist.categories.includes(category)))
         {
             continue;
         }

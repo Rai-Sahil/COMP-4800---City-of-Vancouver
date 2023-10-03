@@ -54,7 +54,7 @@ class Artist
         {
             let name = Artist.names[i];
 
-            let artist = new Artist(name, [], [], "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl quis aliquam lacinia, nunc nisl aliquet nunc, nec aliquam nisl nunc nec nisl. Sed euismod, nisl quis aliquam lacinia, nunc nisl aliquet nunc, nec aliquam nisl nunc nec nisl.", "bart@fake.com", "555-555-5555", "https://www.google.com", "https://www.facebook.com");
+            let artist = new Artist(name, [], [], "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl quis aliquam lacinia, nunc nisl aliquet nunc, nec aliquam nisl nunc nec nisl. Sed euismod, nisl quis aliquam lacinia, nunc nisl aliquet nunc, nec aliquam nisl nunc nec nisl.", "bart@fake.com", "555-555-5555", "https://www.google.com", "https://www.facebook.com", "https://www.instagram.com");
 
             //insert a random number of categories and images
             // there can be from 3 - 10 images and any amount of catergories

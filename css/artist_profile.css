@@ -91,3 +91,13 @@ dialog[open] img
     max-width: 800px;
     max-height: 800px;
 }
+
+#instagram img
+{
+    max-width: 32px;
+}
+
+#facebook img
+{
+    max-width: 32px;
+}

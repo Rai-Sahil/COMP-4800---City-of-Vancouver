@@ -9,8 +9,10 @@ document.getElementById("artistName").innerHTML += artist.name;
 document.getElementById("artistBio").innerHTML += artist.bio;
 document.getElementById("artistEmail").innerHTML += artist.email;
 document.getElementById("artistPhone").innerHTML += artist.phone;
-document.getElementById("artistWebsite").innerHTML += artist.website;
-document.getElementById("artistSocialMedia").innerHTML += artist.socialMedia;
+document.getElementById("artistWebsite").href = artist.website;
+document.getElementById("artistWebsite").innerHTML = artist.website;
+document.getElementById("facebook").href = artist.facebook;
+document.getElementById("instagram").href = artist.instagram;
 
 let imageContainer = document.getElementById("artistImagesContainer");
 let dialog = document.getElementById("imageDialog");
