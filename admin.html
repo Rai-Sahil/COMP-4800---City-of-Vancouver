@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+</head>
+
+<body>
+    <h1>Welcome to the Admin Dashboard</h1>
+    <h2>Pending User Registrations:</h2>
+    <ul id="pending-users-list">
+        <!-- Pending user registrations will be displayed here -->
+    </ul>
+    <script>
+        // Function to fetch and display pending user registrations
+        async function displayPendingUsers() {
+            const response = await fetch('/admin/pending-users');
+            const data = await response.json();
+
+            const pendingUsersList = document.getElementById('pending-users-list');
+            pendingUsersList.innerHTML = '';
+
+            data.forEach((user) => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `Name: ${user.name}, Email: ${user.email}, Description: ${user.description}`;
+                pendingUsersList.appendChild(listItem);
+            });
+        }
+
+        // Call the function when the admin dashboard loads
+        window.onload = displayPendingUsers;
+    </script>
+
+</body>
+
+</html>
