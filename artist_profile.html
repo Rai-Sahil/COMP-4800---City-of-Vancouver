@@ -9,33 +9,54 @@
 </head>
 <body>
 
-    
-    <div id="title"><h1 id="artistName"></h1></div>
-    
-    <div id="subtitle">
+    <nav>
+        <a href="index.html"><img src="images/Logo.png" alt="logo"></a>
+        <a href="index.html">Home</a>
+        <a href="index.html">Artists</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+    </nav>
 
-        <div id="artistInfoContainer">
-            <h2>artist info</h2>
-            <p id="artistEmail">Email: </p>
-            <p id="artistPhone">Phone: </p>
-            <p>Website: <a id="artistWebsite"></a></p>
-            <a id="facebook"><img src="images/Facebook_Logo_Primary.png"></a>
-            <a id="instagram"><img src="images/Instagram_Glyph_Gradient.png"></a>
-        </div>
-
-        <div id="artistBioContainer">
-            <h2>artist bio</h2>
-            <p id="artistBio"></p>
-        </div>
+    <div id="artistHeader">
+        <div id="title"><h1 id="artistName"></h1></div>
         
-    </div>
+        <div id="subtitle">
+
+            <div id="artistInfoContainer" class="headerBlock">
+                <h2>artist info</h2>
+                <p id="artistEmail">Email: </p>
+                <p id="artistPhone">Phone: </p>
+                <p>Website: <a id="artistWebsite"></a></p>
+                <a id="facebook"><img src="images/Facebook_Logo_Primary.png"></a>
+                <a id="instagram"><img src="images/Instagram_Glyph_Gradient.png"></a>
+            </div>
+
+            <div id="artistBioContainer" class="headerBlock">
+                <h2>artist bio</h2>
+                <p id="artistBio"></p>
+            </div>
+
+            <div id="artistCategoriesContainer" class="headerBlock">
+                <h2>categories</h2>
+                <p id="artistCultural"></p>
+                <p id="artistGenre"></p>
+                <p id="artistMedium"></p>
+            </div>
+            
+        </div>
+    </div >
+
+    <div id="rule">hi</div>
 
     <div id="artistImagesContainer">
             
     </div>
 
     <dialog id="imageDialog"> 
+        <button id="previousImage"><</button>
         <img id="imageDialogImage" src="" alt="">
+        <button id="nextImage">></button>
+        <button class="topRightCornerButton" id="closeImageDialog" onclick="closeDialog()">X</button>
     </dialog>
 
 

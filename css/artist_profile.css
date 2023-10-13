@@ -46,6 +46,10 @@
     margin-bottom: 10px;
     max-width: 400px;
     max-height: auto;
+    border-radius: 5%;
+    border-color: rgb(0, 130, 200);
+    border-style: solid;
+    border-width: 5px;
 }
 
 #imageDialogClose
@@ -94,10 +98,66 @@ dialog[open] img
 
 #instagram img
 {
-    max-width: 32px;
+    max-width: 64px;
 }
 
 #facebook img
 {
-    max-width: 32px;
+    max-width: 64px;
+}
+
+button
+{
+    background-color: white;
+    border: none;
+    border-radius: 25%;
+    padding: 0.5em;
+    margin: 0.5em;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.5em;
+    color: black;
+    box-shadow: 0 0 5px black;
+    user-select: none;
+}
+
+.topRightCornerButton
+{
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+
+#artistHeader
+{
+    background-color: rgb(140, 198, 63);
+    padding: 100px;
+}
+
+body
+{
+    margin: 0;
+}
+
+.headerBlock
+{
+    background-color: rgb(186, 255, 147);
+    border-radius: 10px;
+    padding: 30px;
+    margin-top: 10px;
+}
+
+#rule
+{
+    height: 10%;
+    background-color: rgb(0, 130, 200);
+}
+
+nav
+{
+    background-color: rgb(0, 130, 200);
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }

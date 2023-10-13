@@ -4,6 +4,7 @@ import Artist from './Artist.js';
 let artistId = new URLSearchParams(window.location.search).get("id");
 
 let artist = Artist.artists[artistId];
+let selectedImageIndex = 0;
 
 document.getElementById("artistName").innerHTML += artist.name;
 document.getElementById("artistBio").innerHTML += artist.bio;
@@ -18,10 +19,26 @@ let imageContainer = document.getElementById("artistImagesContainer");
 let dialog = document.getElementById("imageDialog");
 let dialogImage = dialog.getElementsByTagName("img")[0];
 
-dialog.onclick = function()
+let previousButton = document.getElementById("previousImage");
+let nextButton = document.getElementById("nextImage");
+
+previousButton.onclick = function()
 {
-    dialog.close();
+    selectedImageIndex = (selectedImageIndex - 1) % artist.images.length;
+    if (selectedImageIndex < 0)
+    {
+        selectedImageIndex = artist.images.length - 1;
+    }
+    dialogImage.src = artist.images[selectedImageIndex];
 }
+
+nextButton.onclick = function()
+{
+    selectedImageIndex = (selectedImageIndex + 1) % artist.images.length;
+    dialogImage.src = artist.images[selectedImageIndex];
+    
+}
+
 
 for (let i = 0; i < artist.images.length; i++)
 {
@@ -42,6 +59,16 @@ for (let i = 0; i < artist.images.length; i++)
     image.onclick = function()
     {
         dialogImage.src = image.src;
+        selectedImageIndex = i;
         dialog.showModal();
     }
+
+    
 }
+
+function closeDialog()
+{
+    dialog.close();
+}
+
+window.closeDialog = closeDialog;
