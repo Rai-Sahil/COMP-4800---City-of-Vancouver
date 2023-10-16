@@ -161,3 +161,10 @@ nav
     justify-content: space-around;
     align-items: center;
 }
+
+nav a
+{
+    color: white;
+    text-decoration: none;
+    font-size: 1.5em;
+}
