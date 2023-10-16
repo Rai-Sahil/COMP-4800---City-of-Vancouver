@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Form</title>
+  <link rel="stylesheet" type="text/css" href="/styles.css"> <!-- Include your CSS file for styling -->
+</head>
+<body>
+  <h1>User Application Form</h1>
+  <form action="/submit" method="POST">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required><br>
+
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" rows="4" required></textarea><br>
+
+    <label for="instaHandle">Instagram Handle:</label>
+    <input type="text" id="instaHandle" name="instaHandle"><br>
+
+    <label for="facebookHandle">Facebook Handle:</label>
+    <input type="text" id="facebookHandle" name="facebookHandle"><br>
+
+    <input type="submit" value="Submit">
+  </form>
+</body>
+</html>
