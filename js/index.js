@@ -1,6 +1,5 @@
 import Artist from './Artist.js';
 let artistsContainer = document.getElementById("artistsContainer");
-
 let genreFieldset = document.getElementById("genre");
 let mediumFieldset = document.getElementById("medium");
 let culturalFieldset = document.getElementById("cultural");
@@ -18,6 +17,7 @@ for (let i = 0; i < Artist.genreCategories.length; i++)
     checkbox.value = category;
     checkbox.checked = false;
     checkbox.onclick = generateArtists;
+    checkbox.innerHTML = category;
 
     let label = document.createElement("label");
     label.htmlFor = category;

@@ -2,7 +2,6 @@ import Artist from './Artist.js';
 
 // get the artist id from the url with key "id"
 let artistId = new URLSearchParams(window.location.search).get("id");
-
 let artist = Artist.artists[artistId];
 let selectedImageIndex = 0;
 
@@ -39,7 +38,7 @@ nextButton.onclick = function()
     
 }
 
-
+// populate the image container with images
 for (let i = 0; i < artist.images.length; i++)
 {
     let imageFigure = document.createElement("figure");

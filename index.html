@@ -5,27 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/site.css">
     <script type="module" src="js/index.js" defer></script>
 </head>
 <body>
-    <h1>Artists roster prototype</h1>
+    <nav class =navBar>
+        <a href="index.html">Home</a>
+        <a href="index.html">Artists</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+    </nav>
 
-    <h2>Filter by</h2>
+    <div class="header">
+        <h1>Artists roster prototype</h1>
 
-    <div id="filtersContainer">
-        <fieldset id="cultural">
-            <legend>Cultural</legend>
-        </fieldset>
-    
-        <fieldset id="genre">
-            <legend>Genre</legend>
-        </fieldset>
-    
-        <fieldset id="medium">
-            <legend>Medium</legend>
-        </fieldset>
+        <h2>Filter by</h2>
+
+        <div id="filtersContainer">
+            <fieldset class="headerBlock flex" id="cultural">
+                <legend>Cultural</legend>
+            </fieldset>
+        
+            <fieldset class="headerBlock flex" id="genre">
+                <legend>Genre</legend>
+            </fieldset>
+        
+            <fieldset class="headerBlock flex" id="medium">
+                <legend>Medium</legend>
+            </fieldset>
+        </div>
     </div>
 
+    <div class="rule">hi</div>
 
     <div id="artistsContainer"></div>
 </body>
