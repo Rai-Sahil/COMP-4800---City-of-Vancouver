@@ -1,0 +1,49 @@
+const utils = require('./modules/utils.js');
+const db = require("./modules/db.js");
+const definitionsApi = require('./modules/definitionsApi.js');
+const port = process.env.PORT || 4000
+
+const url = require('url');
+const http = require('http');
+
+db.setEnvVar();
+
+
+http.createServer(function (req, res) 
+{
+    //get the url without any paramters
+    const baseURL = req.url.split("/?")[0];
+    switch(baseURL)
+    { 
+      case "/COMP4537/labs/3/getDate":
+        let q = url.parse(req.url, true);
+        res.writeHead(200, {'Content-Type': 'text/html'});
+        res.end("<p style='color: blue'>Hello " + q.query["name"] + ", What a beautiful day. Server current date and time is: " + utils.getDate() + " </p>");
+        break;
+      case "/api/definitions":
+        if(req.method == "GET")
+        {
+            definitionsApi.definitionsGet(req, res);
+        }
+        else if(req.method == "POST")
+        {
+            definitionsApi.definitionsPost(req, res);
+        }
+        break;
+      case "/api/sql":
+        if(req.method == "GET")
+        {
+            db.sqlGet(req, res);
+        }
+        else if(req.method == "POST")
+        {
+            db.sqlPost(req, res);
+        }
+        break;
+      default:
+        res.writeHead(404, {'Content-Type': 'text/html'});
+        res.end("<p style='color: red'>404 Not Found</p>");
+        break;
+    }
+}).listen(port);
+
