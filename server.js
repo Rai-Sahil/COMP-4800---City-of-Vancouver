@@ -19,9 +19,19 @@ app.get('/', (req, res) => {
 app.post('/submit', (req, res) => {
     const user = {
         name: req.body.name,
-        description: req.body.description,
+        email: req.body.email,
+        phone: req.body.phone,
+        website: req.body.website,
         instaHandle: req.body.instaHandle,
         facebookHandle: req.body.facebookHandle,
+        bcResident: req.body.BCResident,
+        experience: req.body.experience,
+        experienceDescription: req.body.experienceDescription,
+        biography: req.body.biography,
+        genre: req.body.genre,
+        cultural: req.body.cultural,
+        preference: req.body.preference,        
+        
     };
 
     tempData.push(user);
