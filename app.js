@@ -4,7 +4,7 @@ const session = require('express-session');
 const multer = require('multer');
 const path = require('path');
 const app = express();
-
+let currentFile = 0;
 const storage = multer.diskStorage({
   destination: function (req, file, cb) 
   {
@@ -12,7 +12,8 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) 
   {
-    cb(null, file.fieldname + path.extname(file.originalname))
+    cb(null, file.fieldname + currentFile + path.extname(file.originalname))
+    currentFile++;
   }
 })
 
@@ -31,7 +32,7 @@ const upload = multer({ storage: storage,
   
     cb("Error: File upload only supports the following filetypes - " + filetypes);
   },
-  limits: { fileSize: 2000000 }
+  limits: { fileSize: 2000000}
 }).array('file', 8);
 
 

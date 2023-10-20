@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="js/index.js" defer></script>
+    <link rel="stylesheet" href="css/index.css">
     <title>Document</title>
 </head>
+
 <body>
-    <form id="uploadForm" enctype="multipart/form-data" action="/upload" method="post" onsubmit="onSubmit()">
-        <input type="file" name="file" id="file" multiple>
+    <form id="uploadForm" enctype="multipart/form-data" action="/upload" method="post">
+        <div id="images"></div>
+        <input type="file" name="file" id="file" multiple onchange="onChange()">
         <input type="submit" value="Upload" name="submit">
     </form>
 </body>
