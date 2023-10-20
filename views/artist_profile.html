@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artists roster prototype</title>
+    <link rel="stylesheet" href="../public/css/artist_profile.css">
+    <link rel="stylesheet" href="../public/css/site.css">
+    <script type="module" src="../public/js/artist_profile.js" defer></script>
+</head>
+<body>
+
+    <nav class =navBar>
+        <a href="index.html">Home</a>
+        <a href="index.html">Artists</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+
+    <div class="header">
+        <div id="title"><h1 id="artistName"></h1></div>
+        
+        <div id="subtitle">
+
+            <div id="artistInfoContainer" class="headerBlock">
+                <h2>artist info</h2>
+                <p id="artistEmail">Email: </p>
+                <p id="artistPhone">Phone: </p>
+                <p>Website: <a id="artistWebsite"></a></p>
+                <a id="facebook"><img src="../public/images/Facebook_Logo_Primary.png"></a>
+                <a id="instagram"><img src="../public/images/Instagram_Glyph_Gradient.png"></a>
+            </div>
+
+            <div id="artistBioContainer" class="headerBlock">
+                <h2>artist bio</h2>
+                <p id="artistBio"></p>
+            </div>
+
+            <div id="artistCategoriesContainer" class="headerBlock">
+                <h2>categories</h2>
+                <p id="artistCultural"></p>
+            </div>
+            
+        </div>
+    </div >
+
+    <div class="rule">hi</div>
+
+    <div id="artistImagesContainer">
+            
+    </div>
+
+    <dialog id="imageDialog"> 
+        <button id="previousImage"><</button>
+        <img id="imageDialogImage" src="" alt="">
+        <button id="nextImage">></button>
+        <button class="topRightCornerButton" id="closeImageDialog" onclick="closeDialog()">X</button>
+    </dialog>
+
+
+</body>
+</html>
