@@ -3,19 +3,15 @@ const bodyParser = require('body-parser');
 
 const app = express();
 const port = 3000;
+const secretToken = 'admin123';
 
 const tempData = [];
 const permanentUsers = [];
 const rejectedUsers = [];
 
 app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use(express.static('public'));
 app.use(express.static('views'));
-
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/views/userform.html');
-});
 
 app.post('/submit', (req, res) => {
     const user = {
@@ -31,15 +27,22 @@ app.post('/submit', (req, res) => {
         biography: req.body.biography,
         genre: req.body.genre,
         cultural: req.body.cultural,
-        preference: req.body.preference,        
-        
+        preference: req.body.preference,
+
     };
 
     tempData.push(user);
 });
 
-app.get('/admin', (req, res) => {
-    res.send(generateAdminDashboard());
+app.use('/admin', (req, res, next) => {
+    const token = req.query.token;
+
+    if (token === secretToken) {
+        res.send(generateAdminDashboard());
+        next();
+    } else {
+        res.status(403).send('Access Denied');
+    }
 });
 
 app.post('/accept/:index', (req, res) => {
