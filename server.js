@@ -11,9 +11,10 @@ const rejectedUsers = [];
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static('public'));
+app.use(express.static('views'));
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/userform.html');
+    res.sendFile(__dirname + '/views/userform.html');
 });
 
 app.post('/submit', (req, res) => {
