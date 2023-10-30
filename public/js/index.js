@@ -10,7 +10,6 @@ function onChange()
 
     for (let i = 0; i < files.length; i++)
     {
-        console.log(files[i]);
         let file = files[i];
 
         let reader = new FileReader();
@@ -22,7 +21,34 @@ function onChange()
 
             let button = document.createElement('button');
             button.innerText = 'X';
-            //button.className = 'imageButton';
+            button.className = 'imageButton';
+
+            button.onclick = function(e)
+            {
+                div.remove();
+                let fileName = file.name;
+
+                let imageFiles = document.getElementById('file').files;
+
+                let newImageFiles = [];
+
+                for (let i = 0; i < imageFiles.length; i++)
+                {
+                    console.log(imageFiles[i].name);
+                    if(imageFiles[i].name != fileName)
+                    {
+                        newImageFiles.push(imageFiles[i]);
+                    }
+                }
+
+                const dt = new DataTransfer();
+                for (let i = 0; i < newImageFiles.length; i++)
+                {
+                    dt.items.add(newImageFiles[i]);
+                }
+
+                document.getElementById('file').files = dt.files;
+            }
 
             let img = document.createElement('img');
             img.src = e.target.result;
