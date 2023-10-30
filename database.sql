@@ -40,9 +40,9 @@ create table if not exists user_media (
 -- user image
 create table if not exists user_art (
     user_id int not null,
-    image_id varchar(15) not null unique,
+    image_id varchar(63) not null unique,
     name varchar(31),
-    description varchar(255),
+    description varchar(511),
     verified bit default 0,
     upload_date datetime default current_timestamp,
     verified_date datetime,
@@ -52,7 +52,7 @@ create table if not exists user_art (
 
 -- user image category
 create table if not exists user_art_category (
-	user_id int not null,
+    user_id int not null,
     image_id varchar(15) not null,
     category_one bit,
     primary key (user_id, image_id)
