@@ -9,10 +9,10 @@
 </head>
 
 <body>
-    <form id="uploadForm" enctype="multipart/form-data" action="/upload" method="post">
+    <form id="uploadForm">
         <div id="images"></div>
         <input type="file" name="file" id="file" multiple onchange="onChange()">
-        <input type="submit" value="Upload" name="submit">
+        <input type="submit" value="Upload" name="submit" onclick="upload()">
     </form>
 </body>
 </html>

@@ -1,50 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const multer = require('multer');
-const path = require('path');
 const app = express();
-let currentFile = 0;
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) 
-  {
-    cb(null, './artistImages')
-  },
-  filename: function (req, file, cb) 
-  {
-    cb(null, file.fieldname + currentFile + path.extname(file.originalname))
-    currentFile++;
-  }
-})
 
-
-const upload = multer({ storage: storage,
-  fileFilter: function (req, file, cb) 
-  {
-    var filetypes = /jpeg|jpg|png/;
-    var mimetype = filetypes.test(file.mimetype);
-    var extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-  
-    if (mimetype && extname) 
-    {
-      return cb(null, true);
-    }
-  
-    cb("Error: File upload only supports the following filetypes - " + filetypes);
-  },
-  limits: { fileSize: 2000000}
-}).array('file', 8);
-
-
-app.post('/upload',  (req, res) => {
-  upload(req, res, function (err) 
-  {
-    if (err) {
-      return res.end("Error uploading file.");
-    }
-    res.end("File is uploaded");
-  });
-});
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -56,6 +14,7 @@ const users = {};
 const pendingUsers = {}; // Dictionary to store pending user registrations
 
 // Routes
+app.use('/upload', require('./upload'));
 app.use('/admin', require('./admin'));
 app.use('/user', require('./user'));
 app.use(express.static('public'))

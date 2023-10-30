@@ -1,3 +1,4 @@
+
 function onChange()
 {
     let files = document.getElementById('file').files;
@@ -22,4 +23,33 @@ function onChange()
 
         reader.readAsDataURL(file);
     }
+}
+
+function upload()
+{
+    let artistId = "john"
+
+    let files = document.getElementById('file').files;
+
+    let formData = new FormData();
+
+    for (let i = 0; i < files.length; i++)
+    {
+        let file = files[i];
+
+        formData.append('file', file, file.name);
+    }
+
+    fetch(`http://localhost:3000/upload?artistId=${artistId}`, 
+    {
+        method: 'POST',
+        body: formData
+    }).then(response => 
+    {
+        console.log(response);
+    }).catch(error => 
+    {
+        console.error(error);
+    });
+
 }
