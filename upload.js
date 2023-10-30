@@ -11,16 +11,22 @@ router.post('/', (req, res) =>
     res.setHeader('Access-Control-Allow-Origin', '*');
     
     let artistId = req.query.artistId;
+
+    const regex = /^[a-zA-Z0-9]{1,20}$/;
+    if(!regex.test(artistId))
+    {
+        res.status(400).send("Invalid artistId");
+        return;
+    }
+
     upload(artistId)(req, res, function (err) 
     {
         if (err instanceof multer.MulterError) 
         {
-            console.log(err);
             return res.status(500).json(err);
         } 
         else if (err) 
         {
-            console.log(err);
             return res.status(500).json(err);
         }
         
@@ -44,6 +50,7 @@ router.post('/', (req, res) =>
         catch (err)
         {
             //delete all files we just uploaded
+            fs.rm(path, { recursive: true});
             res.status(500).send(err);
         }
 
@@ -70,8 +77,6 @@ const upload = (artistId) =>
         return cb(null, true);
       }
       
-
-
       cb("Error: File upload only supports the following filetypes - " + filetypes);
     }
   }).array('file', 8);

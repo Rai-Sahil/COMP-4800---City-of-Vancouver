@@ -19,6 +19,30 @@
     border-radius: 5px;
 }
 
+.singleImage
+{
+
+}
+
+.imageButton
+{
+    /* Make this and x button in the top right corner */
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    border: black 2px solid;
+    border-radius: 5px;
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+    cursor: pointer;
+    z-index: 1;
+}
+
 #uploadForm
 {
     display: flex;
