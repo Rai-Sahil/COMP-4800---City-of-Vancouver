@@ -1,0 +1,54 @@
+body {
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+h1 {
+    text-align: center;
+}
+
+.user-card {
+    background-color: #f0f0f0;
+    border: 1px solid #00b7ff;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 10px;
+}
+
+.user-card h3 {
+    color: #00a7e1;
+}
+
+.button-container {
+    display: flex; /* Display the buttons side by side */
+    gap: 10px; /* Add some spacing between the buttons */
+}
+
+.accept-button {
+    background-color: #00a7e1; /* Specify the color for the "Accept" button */
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 10px 20px;
+}
+
+.reject-button {
+    background-color: #ff0000; /* Specify the color for the "Reject" button */
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 10px 20px;
+}
+
+.accept-button:hover {
+    background-color: #fff; /* Specify the color for the "Reject" button */
+    color: #00a7e1;
+    border: 1px solid #00a7e1;
+}
+
+.reject-button:hover {
+    background-color: #fff; /* Specify the color for the "Reject" button */
+    color: #ff0000;
+    border: 1px solid #ff0000;
+}
