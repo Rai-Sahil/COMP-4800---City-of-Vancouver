@@ -6,7 +6,6 @@
     margin-top: 5%;
     margin-left: 10px;
     margin-right: 10px;
-
 }
 
 #artistsContainer figure img
@@ -42,11 +41,10 @@ h2
 #filtersContainer
 {
     display: flex;
-    
     flex-wrap: wrap;
     justify-content: center;
-    margin-left: 10px;
-    margin-right: 10px;
+    /* margin-left: 10px;
+    margin-right: 10px; */
 }
 
 #filtersContainer fieldset
@@ -60,6 +58,9 @@ h2
 {
     font-weight: bold;
     font-size: 2em;
+    color: rgb(0, 122, 188);
+    /* back shadow */
+    text-shadow: 0 0 1px black;
 }
 
 #artistsContainer img
