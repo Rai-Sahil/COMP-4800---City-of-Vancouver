@@ -9,9 +9,9 @@
     <script type="module" src="js/artist_profile.js" defer></script>
 </head>
 <body>
-
     <nav class =navBar>
-        <a href="index.html">Home</a>
+        <img src="images/cov-logo.png"  class="cov-logo" alt="CoVArtistHomepage.ca"></img>
+        <a href="index.html">CityOfVancouver.ca</a>
         <a href="index.html">Artists</a>
         <a href="about.html">About</a>
         <a href="contact.html">Contact</a>
@@ -19,11 +19,10 @@
 
     <div class="header">
         <div id="title"><h1 id="artistName"></h1></div>
-        
         <div id="subtitle">
 
             <div id="artistInfoContainer" class="headerBlock">
-                <h2>artist info</h2>
+                <h2>Contact Information</h2>
                 <p id="artistEmail">Email: </p>
                 <p id="artistPhone">Phone: </p>
                 <p>Website: <a id="artistWebsite"></a></p>
@@ -32,31 +31,24 @@
             </div>
 
             <div id="artistBioContainer" class="headerBlock">
-                <h2>artist bio</h2>
+                <h2>Biography</h2>
                 <p id="artistBio"></p>
             </div>
 
             <div id="artistCategoriesContainer" class="headerBlock">
-                <h2>categories</h2>
+                <h2>Filter by Category</h2>
                 <p id="artistCultural"></p>
             </div>
             
         </div>
     </div >
-
-    <div class="rule">hi</div>
-
     <div id="artistImagesContainer">
-            
     </div>
-
     <dialog id="imageDialog"> 
         <button id="previousImage"><</button>
         <img id="imageDialogImage" src="" alt="">
         <button id="nextImage">></button>
         <button class="topRightCornerButton" id="closeImageDialog" onclick="closeDialog()">X</button>
     </dialog>
-
-
 </body>
 </html>
