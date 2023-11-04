@@ -1,0 +1,16 @@
+
+.header {
+    background-image: url("../images/mural1.jpg");
+}
+
+.about-us-text {
+    color: black;
+    word-spacing: normal;
+    font-size: 1.5em;
+}
+
+.about-us-text p {
+    background-color: rgb(255,255,255,0.8);
+    border-radius: 10px;
+    padding: 10px;
+}

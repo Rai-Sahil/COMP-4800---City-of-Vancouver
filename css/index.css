@@ -95,3 +95,9 @@ input[type="checkbox"]:checked + label {
     margin-left: 10px;
     margin-right: 10px;
 }
+
+.header {
+    padding: 100px;
+    background-size: cover;
+    background-image: url("../images/mural3.jpg");
+}

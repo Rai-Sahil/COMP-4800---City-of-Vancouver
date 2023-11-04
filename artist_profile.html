@@ -3,20 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="js/site.js"></script>
     <link rel="stylesheet" href="css/artist_profile.css">
     <link rel="stylesheet" href="css/site.css">
     <script type="module" src="js/artist_profile.js" defer></script>
 </head>
 <body>
-    <nav class="navBar">
-        <img src="images/cov-logo.png" class="cov-logo" alt="CoVArtistHomepage.ca">
-        <a href="index.html">CityOfVancouver.ca</a>
-        <a href="index.html">Artists</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-    </nav>
-
-    <div class="header-artist">
+    <div id="header"></div>
+    <div class="header">
         <div id="title">
             <h1 id="artistName"></h1>
         </div>
@@ -29,12 +23,10 @@
                 <a id="facebook"><img src="images/Facebook_Logo_Primary.png"></a>
                 <a id="instagram"><img src="images/Instagram_Glyph_Gradient.png"></a>
             </div>
-
             <div id="artistBioContainer" class="headerBlock">
                 <h2>Biography</h2>
                 <p id="artistBio"></p>
             </div>
-
             <div id="artistCategoriesContainer" class="headerBlock">
                 <h2>Artist Categories</h2>
                 <p id="artistCultural"></p>

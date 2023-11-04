@@ -1,4 +1,5 @@
-import Artist from './Artist.js';
+import Artist from './artist.js';
+
 
 const artistsContainer = document.getElementById("artistsContainer");
 const genreFieldset = document.getElementById("genre");

@@ -35,16 +35,17 @@ nav a:hover {
     text-decoration: underline;
 }
 
-.header,
-.header-artist {
+.header {
     padding: 100px;
     background-size: cover;
+    background-color: rgb(0, 122, 188);
 }
 
-.header {
-    background-image: url("../images/mural3.jpg");
-}
-
-.header-artist {
-    background-image: url("../images/mural6.jpg");
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin-top: 5%;
+    margin-left: 10px;
+    margin-right: 10px;
 }

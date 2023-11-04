@@ -1,4 +1,4 @@
-import Artist from './Artist.js';
+import Artist from './artist.js';
 
 const artistId = new URLSearchParams(window.location.search).get("id");
 const artist = Artist.artists[artistId];
