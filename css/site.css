@@ -18,8 +18,7 @@ nav {
 }
 
 .cov-logo {
-    width: 8%;
-    margin: 10px;
+    width: 40%;
 }
 
 nav a {
@@ -43,7 +42,7 @@ nav a:hover {
 }
 
 .header {
-    background-image: url("../images/mural1.jpg");
+    background-image: url("../images/mural3.jpg");
 }
 
 .header-artist {
