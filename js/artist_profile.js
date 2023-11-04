@@ -5,6 +5,7 @@ let artistId = new URLSearchParams(window.location.search).get("id");
 let artist = Artist.artists[artistId];
 let selectedImageIndex = 0;
 
+// populate the artist profile page with the artist's information
 document.getElementById("artistName").innerHTML += artist.name;
 document.getElementById("artistBio").innerHTML += artist.bio;
 document.getElementById("artistEmail").innerHTML += artist.email;
@@ -14,10 +15,13 @@ document.getElementById("artistWebsite").innerHTML = artist.website;
 document.getElementById("facebook").href = artist.facebook;
 document.getElementById("instagram").href = artist.instagram;
 
+// set the page title to the artist name
+document.title = "Artist " + artist.name;
+
+// populate the artist's images
 let imageContainer = document.getElementById("artistImagesContainer");
 let dialog = document.getElementById("imageDialog");
 let dialogImage = dialog.getElementsByTagName("img")[0];
-
 let previousButton = document.getElementById("previousImage");
 let nextButton = document.getElementById("nextImage");
 
