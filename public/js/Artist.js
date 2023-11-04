@@ -45,7 +45,7 @@ class Artist
 
             for(let j = 0; j < numberOfImages; j++) {
                 const imageIndex = Math.floor(Math.random() * 20) + 1;
-                const image = `../images/${imageIndex}.jpg`;
+                const image = `../public/images/${imageIndex}.jpg`;
                 artist.images.push(image);
             }
 

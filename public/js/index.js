@@ -1,4 +1,4 @@
-import Artist from './artist.js';
+import Artist from './Artist.js';
 
 
 const artistsContainer = document.getElementById("artistsContainer");
@@ -56,7 +56,7 @@ function generateArtists() {
         artistFigure.appendChild(artistCaption);
 
         artistFigure.onclick = function() {
-            window.location.href = "artist_profile.html?id=" + i;
+            window.location.href = "/views/artist_profile.html?id=" + i;
         }
 
         artistsContainer.appendChild(artistFigure);
