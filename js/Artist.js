@@ -19,7 +19,7 @@ class Artist
 
     static culturalCategories = 
     [
-        "Musqueam, Squamish or Tsleil-Waututh",
+        "Musqueam, Squamish, Tsleil-Waututh",
         "Urban Indigenous",
         "Black",
         "South Asian",
