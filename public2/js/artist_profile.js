@@ -1,7 +1,7 @@
 import Artist from './Artist.js';
 
-const artistId = new URLSearchParams(window.location.search).get("id");
-const artist = Artist.artists[artistId];
+let artistId = new URLSearchParams(window.location.search).get("id");
+let artist = Artist.artists[artistId];
 let selectedImageIndex = 0;
 
 document.getElementById("artistName").innerHTML += artist.name;
