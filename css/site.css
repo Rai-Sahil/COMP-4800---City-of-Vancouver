@@ -1,57 +1,51 @@
-body
-{
+body {
     margin: 0;
 }
 
-.headerBlock
-{
-    
+.headerBlock {
     border-radius: 10px;
     padding: 30px;
     margin-top: 10px;
     background-color: rgba(255, 255, 255, 0.8);
 }
 
-nav
-{
-    background-color: white;
+nav {
     display: flex;
     align-items: center;
-    position: fixed; /* floats the nav bar */
+    position: fixed;
+    background-color: white;
     border-bottom: 1px solid rgb(101, 101, 101);
 }
 
-.cov-logo
-{
+.cov-logo {
     width: 8%;
     margin: 10px;
 }
 
-nav a
-{
-    color: rgb(0, 122, 188);
-    font-weight: bold;
-    text-decoration: none;
-    font-size: 3vh;
-    text-align: center;
+nav a {
     width: 100%;
+    font-size: 3vh;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: rgb(0, 122, 188);
 }
 
-nav a:hover
-{
+nav a:hover {
     color: rgb(140, 198, 63);
     text-decoration: underline;
 }
 
-.header
-{
+.header,
+.header-artist {
     padding: 100px;
-    background-image: url("../images/mural1.jpg");
     background-size: cover;
 }
 
-.header-artist { 
-    padding: 100px;
+.header {
+    background-image: url("../images/mural1.jpg");
+}
+
+.header-artist {
     background-image: url("../images/mural6.jpg");
-    background-size: cover;
 }

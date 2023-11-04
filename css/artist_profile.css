@@ -1,5 +1,4 @@
-#title
-{
+#title {
     margin-left: 10%;
     margin-right: 10%;
     margin-bottom: 1%;
@@ -7,65 +6,47 @@
     justify-content: space-around;
 }
 
-#subtitle
-{
+#subtitle {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
-    
 }
 
 h1 {
     font-size: 4em;
     color: black;
-    /* text-shadow: 0 0 2px black; */
-    /* transparent round white background */
     font-family: 'Roboto', sans-serif;
     background-color: rgba(255, 255, 255, 0.8);
     border-radius: 10px;
     padding: 10px;
 }
 
-#artistBioContainer
-{
+#artistBioContainer,
+#artistInfoContainer {
     margin-left: 10px;
     margin-right: 10px;
-    max-width: 500px
+    max-width: 500px;
 }
 
-#artistInfoContainer
-{
-    margin-left: 10px;
-    margin-right: 10px;
-    max-width: 500px
-}
-
-#artistImagesContainer
-{
+#artistImagesContainer {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
     margin-top: 5%;
     margin-left: 10px;
     margin-right: 10px;
-
 }
 
-#artistImagesContainer img
-{
+#artistImagesContainer img {
     width: 100%;
     height: auto;
     margin-bottom: 10px;
     max-width: 400px;
-    max-height: auto;
     border-radius: 5%;
-    border-color: rgb(0, 130, 200);
-    border-style: solid;
-    border-width: 5px;
+    border: 5px solid rgb(0, 130, 200);
 }
 
-#imageDialogClose
-{
+#imageDialogClose {
     width: 5%;
     background-color: white;
     border: none;
@@ -79,15 +60,12 @@ h1 {
     box-shadow: 0 0 5px black;
 }
 
-#imageBox
-{
+#imageBox {
     display: flex;
     flex-direction: column-reverse;
-
 }
 
-dialog[open]
-{
+dialog[open] {
     width: 100%;
     height: 100%;
     background-color: rgba(0,0,0,0.8);
@@ -100,26 +78,18 @@ dialog[open]
     align-items: center;
 }
 
-dialog[open] img
-{
+dialog[open] img {
     width: 100%;
     height: auto;
     max-width: 800px;
-    max-height: 800px;
 }
 
-#instagram img
-{
+#instagram img,
+#facebook img {
     max-width: 64px;
 }
 
-#facebook img
-{
-    max-width: 64px;
-}
-
-button
-{
+button {
     background-color: white;
     border: none;
     border-radius: 25%;
@@ -139,6 +109,3 @@ button
     top: 0;
     right: 0;
 }
-
-
-

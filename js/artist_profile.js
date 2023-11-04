@@ -1,11 +1,9 @@
 import Artist from './Artist.js';
 
-// get the artist id from the url with key "id"
-let artistId = new URLSearchParams(window.location.search).get("id");
-let artist = Artist.artists[artistId];
+const artistId = new URLSearchParams(window.location.search).get("id");
+const artist = Artist.artists[artistId];
 let selectedImageIndex = 0;
 
-// populate the artist profile page with the artist's information
 document.getElementById("artistName").innerHTML += artist.name;
 document.getElementById("artistBio").innerHTML += artist.bio;
 document.getElementById("artistEmail").innerHTML += artist.email;
@@ -15,63 +13,48 @@ document.getElementById("artistWebsite").innerHTML = artist.website;
 document.getElementById("facebook").href = artist.facebook;
 document.getElementById("instagram").href = artist.instagram;
 
-// set the page title to the artist name
-document.title = "Artist " + artist.name;
+document.title = `Artist ${artist.name}`;
 
-// populate the artist's images
-let imageContainer = document.getElementById("artistImagesContainer");
-let dialog = document.getElementById("imageDialog");
-let dialogImage = dialog.getElementsByTagName("img")[0];
-let previousButton = document.getElementById("previousImage");
-let nextButton = document.getElementById("nextImage");
+const imageContainer = document.getElementById("artistImagesContainer");
+const dialog = document.getElementById("imageDialog");
+const dialogImage = dialog.getElementsByTagName("img")[0];
+const previousButton = document.getElementById("previousImage");
+const nextButton = document.getElementById("nextImage");
 
-previousButton.onclick = function()
-{
-    selectedImageIndex = (selectedImageIndex - 1) % artist.images.length;
-    if (selectedImageIndex < 0)
-    {
-        selectedImageIndex = artist.images.length - 1;
-    }
+previousButton.onclick = () => { 
+    selectedImageIndex = (selectedImageIndex - 1 + artist.images.length) % artist.images.length;
     dialogImage.src = artist.images[selectedImageIndex];
 }
 
-nextButton.onclick = function()
-{
+nextButton.onclick = () => {
     selectedImageIndex = (selectedImageIndex + 1) % artist.images.length;
     dialogImage.src = artist.images[selectedImageIndex];
-    
 }
 
-// populate the image container with images
-for (let i = 0; i < artist.images.length; i++)
-{
-    let imageFigure = document.createElement("figure");
-    
-    let image = document.createElement("img");
-    image.src = artist.images[i];
-
-    //let imageCaption = document.createElement("figcaption");
-    //imageCaption.innerHTML = artist.categories[i];
+// Create the image elements
+artist.images.forEach((imageSrc, i) => {
+    const imageFigure = document.createElement("figure");
+    const image = document.createElement("img");
+    image.src = imageSrc;
 
     imageFigure.appendChild(image);
-    //imageFigure.appendChild(imageCaption);
-
     imageContainer.appendChild(imageFigure);
 
-    //create a dialog box with an image and a caption when the image is clicked
-    image.onclick = function()
-    {
+    image.onclick = () => {
         dialogImage.src = image.src;
         selectedImageIndex = i;
         dialog.showModal();
     }
+});
 
-    
-}
-
-function closeDialog()
-{
+// Close the dialog if the user presses escape
+window.closeDialog = () => {
     dialog.close();
 }
 
-window.closeDialog = closeDialog;
+// Close the dialog if the user clicks outside of it
+dialog.addEventListener('click', (event) => {
+    if (event.target === dialog) {
+        dialog.close();
+    }
+});
