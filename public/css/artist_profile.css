@@ -13,12 +13,43 @@
 }
 
 h1 {
-    font-size: 4em;
+    font-size: 5em;
     color: black;
     font-family: 'Roboto', sans-serif;
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 10px;
     padding: 10px;
+    color: rgb(212, 143, 15);
+    text-shadow: 0 5px 5px black;
+
+}
+
+#artistSocialMedia {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+h2 {
+    font-size: 2em;
+    color: black;
+    font-family: 'Roboto', sans-serif;
+    padding: 10px;
+    /* blue */
+    color: rgb(0, 130, 200);
+}
+
+#artistBio, #artistEmail, #artistPhone, #artistWeb, #artistCategoriesContainer {
+    font-size: 1.5em;
+    font-family: 'Roboto', sans-serif;
+    padding: 10px;
+    color: black;
+}
+
+#artistCategoriesContainer {
+    text-align: center;
+}
+
+#artistCategoriesContainer h2 {
+    font-size: 1.5em;
 }
 
 #artistBioContainer,
@@ -111,7 +142,7 @@ button {
 }
 
 .header {
-    background-image: url("../images/mural6.jpg");
+    background-image: url("../images/mural4.jpg");
     background-size: cover;
     background-color: rgb(0, 122, 188);
 }

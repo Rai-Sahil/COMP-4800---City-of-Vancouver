@@ -58,3 +58,14 @@ dialog.addEventListener('click', (event) => {
         dialog.close();
     }
 });
+
+// List all artist art categories in artistCategoriesContainer without duplicates 
+const artistCategoriesContainer = document.getElementById("artistCategoriesContainer");
+const categories = artist.categories;
+const uniqueCategories = [...new Set(categories)];
+uniqueCategories.forEach(category => {
+    const categoryElement = document.createElement("p");
+    categoryElement.innerHTML = category;
+    artistCategoriesContainer.appendChild(categoryElement);
+});
+
