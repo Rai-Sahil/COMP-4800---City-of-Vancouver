@@ -1,5 +1,7 @@
-const express = require("express");
-const bodyParser = require("body-parser");
+const express = require('express');
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const path = require('path');
 
 const app = express();
 const port = 3000;
@@ -9,26 +11,53 @@ const tempData = [];
 const permanentUsers = [];
 const rejectedUsers = [];
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
-app.use(express.static("views"));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public'));
+app.use(express.static('views'));
+app.use(session({ secret: 'secret', resave: false, saveUninitialized: true }));
 
-app.post("/submit", (req, res) => {
-  const user = {
-    name: req.body.name,
-    email: req.body.email,
-    phone: req.body.phone,
-    website: req.body.website,
-    instaHandle: req.body.instaHandle,
-    facebookHandle: req.body.facebookHandle,
-    bcResident: req.body.BCResident,
-    experience: req.body.experience,
-    experienceDescription: req.body.experienceDescription,
-    biography: req.body.biography,
-    genre: req.body.genre,
-    cultural: req.body.cultural,
-    preference: req.body.preferences,
-  };
+app.post('/login', (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    if (username === 'user' && password === 'user') {
+        req.session.authenticated = true;
+        res.redirect(`/`);
+    } else {
+        res.redirect('/login.html');
+    }
+});
+
+app.get('/logout', (req, res) => {
+    req.session.destroy(() => {
+        res.redirect('/login.html');
+    });
+});
+
+function checkAuthenticated(req, res, next) {
+    if (req.session.authenticated) {
+        next();
+    } else {
+        res.redirect('/login.html');
+    }
+}
+
+app.post('/userform-submit', (req, res) => {
+    const user = {
+        name: req.body.name,
+        email: req.body.email,
+        phone: req.body.phone,
+        website: req.body.website,
+        instaHandle: req.body.instaHandle,
+        facebookHandle: req.body.facebookHandle,
+        bcResident: req.body.BCResident,
+        experience: req.body.experience,
+        experienceDescription: req.body.experienceDescription,
+        biography: req.body.biography,
+        genre: req.body.genre,
+        cultural: req.body.cultural,
+        preference: req.body.preference,
+    };
 
   tempData.push(user);
   res.redirect("/successfulSubmission.html");
@@ -123,5 +152,5 @@ function generateAdminDashboard() {
 }
 
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+    console.info(`Server is running on http://localhost:${port}`);
 });
