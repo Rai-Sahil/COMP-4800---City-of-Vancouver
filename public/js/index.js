@@ -1,6 +1,4 @@
 import Artist from './Artist.js';
-
-
 const artistsContainer = document.getElementById("artistsContainer");
 const genreFieldset = document.getElementById("genre");
 const mediumFieldset = document.getElementById("medium");
@@ -62,3 +60,19 @@ function generateArtists() {
         artistsContainer.appendChild(artistFigure);
     });
 }
+
+// var hamburger = document.querySelector('.hamburger');
+// var navLinks = document.querySelector('.nav-links');
+
+// hamburger.addEventListener('click', function() {
+//     navLinks.classList.toggle('show');
+// });
+
+// document.addEventListener('click', function(event) {
+//     var isClickInside = hamburger.contains(event.target) || navLinks.contains(event.target);
+//     if (!isClickInside) {
+//         navLinks.classList.remove('show');
+//     }
+// });
+
+
