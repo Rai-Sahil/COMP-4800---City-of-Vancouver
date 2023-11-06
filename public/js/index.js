@@ -1,6 +1,7 @@
 const MAX_FILESIZE_BYTES = 2000000; // 2MB
 const ACCEPTED_FILE_EXTENSIONS = /jpeg|jpg|png/;
 const MAX_AMOUNT_OF_FILES = 10;
+const MIN_AMOUNT_OF_FILES = 3;
 
 function onChange()
 {
@@ -55,9 +56,12 @@ function onChange()
             img.width = 200;
             img.height = 200;
 
-            
-            div.appendChild(img);
+            let p = document.createElement('p');
+            p.innerText = file.name;
+
             div.appendChild(button);
+            div.appendChild(img);
+            div.appendChild(p);
             images.appendChild(div);
         };
 
@@ -77,9 +81,9 @@ function upload()
         alert(`You can only upload ${MAX_AMOUNT_OF_FILES} files at a time`);
         return;
     }
-    else if(files.length == 0)
+    else if(files.length < MIN_AMOUNT_OF_FILES)
     {
-        alert(`You must select at least one file`);
+        alert(`You must select at least ${MIN_AMOUNT_OF_FILES} file`);
         return;
     }
 
@@ -91,7 +95,13 @@ function upload()
 
         if(file.size > MAX_FILESIZE_BYTES)
         {
-            alert(`File ${file.name} is too large`);
+            alert(`File ${file.name} is too large, must be less than ${MAX_FILESIZE_BYTES / 1000000} mb`);
+            return;
+        }
+
+        if(!ACCEPTED_FILE_EXTENSIONS.test(file.type))
+        {
+            alert(`File ${file.name} must have one of the following extensions: ${ACCEPTED_FILE_EXTENSIONS}`);
             return;
         }
 

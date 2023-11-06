@@ -4,14 +4,15 @@ const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 const sharp = require('sharp');
-
+const FILESIZE_MAX_BYTES = 2000000; // 2MB
 router.post('/', (req, res) => 
 {
     console.log("Upload request received");
     res.setHeader('Access-Control-Allow-Origin', '*');
     
+   
     let artistId = req.query.artistId;
-
+    
     const regex = /^[a-zA-Z0-9]{1,20}$/;
     if(!regex.test(artistId))
     {
@@ -19,15 +20,19 @@ router.post('/', (req, res) =>
         return;
     }
 
+    // check if artistId exists
+    // TODO
+
+
     upload(artistId)(req, res, function (err) 
     {
         if (err instanceof multer.MulterError) 
         {
-            return res.status(500).json(err);
+            return res.status(400).json("Multer error");
         } 
         else if (err) 
         {
-            return res.status(500).json(err);
+            return res.status(400).json("Unknown error");
         }
         
         bob(req, res);
@@ -35,7 +40,7 @@ router.post('/', (req, res) =>
 
     const bob = async (req, res) =>
     {
-        const path = `artistImages/${artistId}/`;
+        const path = `public/artistImages/${artistId}/`;
         fs.rmSync(path, { recursive: true});
         fs.mkdirSync(path, { recursive: true });
         let files = req.files;
@@ -51,7 +56,7 @@ router.post('/', (req, res) =>
         {
             //delete all files we just uploaded
             fs.rm(path, { recursive: true});
-            res.status(500).send(err);
+            res.status(400).send("Error converting images");
         }
 
         res.status(200).send();
@@ -65,7 +70,7 @@ const upload = (artistId) =>
 
   return imageUpload = multer({
     storage: multer.memoryStorage(),
-    limits: { fileSize: 2000000 },
+    limits: { fileSize: FILESIZE_MAX_BYTES },
     fileFilter: function (req, file, cb) 
     {
       var filetypes = /jpeg|jpg|png/;

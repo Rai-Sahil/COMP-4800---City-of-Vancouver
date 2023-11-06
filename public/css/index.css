@@ -13,34 +13,34 @@
 {
     width: 200px;
     height: 200px;
-    object-fit: cover;
-    margin: 10px;
+    object-fit:contain;
     border: black 2px solid;
     border-radius: 5px;
 }
 
+
+
 .singleImage
 {
-    display: absolute;
+    position: relative;
+    text-align: center;
+    margin: 10px;
 }
 
 .imageButton
 {
+    position: absolute;
     top: 0;
     right: 0;
-    width: 5%;
-    background-color: white;
-    border: none;
-    border-radius: 50%;
-    padding: 0.5em;
-    margin: 0.5em;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 1.5em;
-    color: black;
-    box-shadow: 0 0 5px black;
-
-
+    line-height: 12px;
+    width: 10%;
+    height: 10%;
+    font-size: 8pt;
+    font-family: tahoma;
+    margin-top: 10%;
+    margin-right: 10%;
+    border-radius: 5px;
+    background-color: red;
 }
 
 #uploadForm
