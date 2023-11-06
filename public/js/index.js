@@ -1,6 +1,6 @@
 const MAX_FILESIZE_BYTES = 2000000; // 2MB
 const ACCEPTED_FILE_EXTENSIONS = /jpeg|jpg|png/;
-const MAX_AMOUNT_OF_FILES = 10;
+const MAX_AMOUNT_OF_FILES = 8;
 const MIN_AMOUNT_OF_FILES = 3;
 
 function onChange()
