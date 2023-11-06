@@ -10,6 +10,7 @@ function onChange()
     let files = document.getElementById('image').files;
 
     let images = document.getElementById('images');
+    images.innerHTML = '';
 
     for (let i = 0; i < files.length; i++)
     {
@@ -37,7 +38,6 @@ function onChange()
 
                 for (let i = 0; i < imageFiles.length; i++)
                 {
-                    console.log(imageFiles[i].name);
                     if(imageFiles[i].name != fileName)
                     {
                         newImageFiles.push(imageFiles[i]);

@@ -164,7 +164,6 @@ function generateAdminDashboard() {
 
 app.post('/imageUpload', (req, res) => 
 {
-
     upload()(req, res, function (err) 
     {
         if (err instanceof multer.MulterError) 
