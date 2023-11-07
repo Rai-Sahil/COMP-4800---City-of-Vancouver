@@ -5,13 +5,23 @@ use roster_database;
 -- general user data
 create table if not exists user (
     userID int not null auto_increment,
+    login_email varchar(31) not null,
+    password varchar(63),
+    name varchar(31) not null,
+    phone varchar(15),
     email varchar(31) not null,
-    password varchar(31),
+    biography varchar(1023),
+    website varchar(127),
+    facebook varchar(127),
+    instagram varchar(127),
+    twitter varchar(127), 
+    linkedin varchar(127),
+    youtube varchar(127),
     admin bit default 0,
     verified bit default 0,
     creationDate datetime default current_timestamp,
     verifiedDate datetime,
-    primary key (userID)
+    primary key (userID, email)
 );
 
 -- user application
@@ -38,29 +48,6 @@ create table if not exists user_application (
 ) engine=MyISAM;
 -- using engine MyISAM to have auto increment application IDs
 
--- user profile
-create table if not exists user_profile (
-    userID int not null,
-    name varchar(31) not null,
-    phone varchar(15),
-    biography varchar(1023),
-    primary key (userID),
-    foreign key (userID) references user(userID) on delete cascade	
-);
-
--- user social media
-create table if not exists user_media (
-    userID int not null,
-    website varchar(127),
-    facebook varchar(127),
-    instagram varchar(127),
-    twitter varchar(127), 
-    linkedin varchar(127),
-    youtube varchar(127),
-    primary key (userID),
-    foreign key (userID) references user(userID) on delete cascade
-);
-
 -- user image
 create table if not exists user_art (
     userID int not null,
@@ -85,3 +72,6 @@ create table if not exists user_art_category (
     foreign key (imageID) references user_art(imageID) on delete cascade
 ) engine=MyISAM;
 
+create view user_login as select contact_email, password from user;
+create view user_profile as select userID, email, name, phone, email, biography from user;
+create view user_media as select userID, website, facebook, instagram, twitter, linkedin, youtube from user;
