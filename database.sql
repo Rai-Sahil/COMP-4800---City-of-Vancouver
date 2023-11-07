@@ -1,6 +1,6 @@
-create database if not exists rosterDatabase;
+create database if not exists roster_database;
 
-use rosterDatabase;
+use roster_database;
 
 -- general user data
 create table if not exists user (
@@ -11,13 +11,13 @@ create table if not exists user (
     verified bit default 0,
     creationDate datetime default current_timestamp,
     verifiedDate datetime,
-    primary key (userID, email)
+    primary key (userID)
 );
 
 -- user application
-create table if not exists userApplication (
+create table if not exists user_application (
     userID int not null,
-    applicationID varchar(15) not null unique,
+    applicationID int not null auto_increment,
     name varchar(31) not null,
     email varchar(31) not null,
     phone varchar(15),
@@ -35,10 +35,11 @@ create table if not exists userApplication (
     rejectionReason varchar(255),
     primary key (userID, applicationID),
     foreign key (userID) references user(userID) on delete cascade	
-);
+) engine=MyISAM;
+-- using engine MyISAM to have auto increment application IDs
 
 -- user profile
-create table if not exists userProfile (
+create table if not exists user_profile (
     userID int not null,
     name varchar(31) not null,
     phone varchar(15),
@@ -48,7 +49,7 @@ create table if not exists userProfile (
 );
 
 -- user social media
-create table if not exists userMedia (
+create table if not exists user_media (
     userID int not null,
     website varchar(127),
     facebook varchar(127),
@@ -61,9 +62,9 @@ create table if not exists userMedia (
 );
 
 -- user image
-create table if not exists userArt (
+create table if not exists user_art (
     userID int not null,
-    imageID varchar(15) not null unique,
+    imageID int not null auto_increment,
     name varchar(31),
     description varchar(255),
     verified bit default 0,
@@ -71,14 +72,16 @@ create table if not exists userArt (
     verifiedDate datetime,
     primary key (userID, imageID),
     foreign key (userID) references user(userID) on delete cascade
-);
+) engine=MyISAM;
+-- using engine MyISAM to have auto increment image IDs
 
 -- user image category
-create table if not exists userArtCategory (
+create table if not exists user_art_category (
 	userID int not null,
-    imageID varchar(15) not null,
+    imageID int not null,
     categoryOne bit,
     primary key (userID, imageID),
     foreign key (userID) references user(userID) on delete cascade,
-    foreign key (imageID) references userArt(imageID) on delete cascade
-);
+    foreign key (imageID) references user_art(imageID) on delete cascade
+) engine=MyISAM;
+
