@@ -97,7 +97,6 @@ input[type="checkbox"]:checked + label {
 }
 
 .header {
-    padding: 100px;
     background-size: cover;
     background-image: url("../images/mural3.jpg");
 }

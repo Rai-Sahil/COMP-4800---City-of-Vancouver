@@ -12,14 +12,13 @@
     flex-wrap: wrap;
 }
 
-h1 {
+ .artist-name{
     font-size: 5em;
     color: black;
     font-family: 'Roboto', sans-serif;
     padding: 10px;
     color: rgb(212, 143, 15);
     text-shadow: 0 5px 5px black;
-
 }
 
 #artistSocialMedia {

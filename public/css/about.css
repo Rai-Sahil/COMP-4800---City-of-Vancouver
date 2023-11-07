@@ -1,7 +1,7 @@
 /* make the sides of the body blue and making the image extend to the full height */
 .header {
     background-image: url("../images/mural2.jpg");
-    height: 100%;
+    height: 200%;
     background-position: center;
     padding: 100px;
 }
@@ -37,5 +37,5 @@ body {
 }
 
 p {
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(255, 255, 255, 0.8);
 }
