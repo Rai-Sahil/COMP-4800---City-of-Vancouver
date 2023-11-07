@@ -61,18 +61,3 @@ function generateArtists() {
     });
 }
 
-// var hamburger = document.querySelector('.hamburger');
-// var navLinks = document.querySelector('.nav-links');
-
-// hamburger.addEventListener('click', function() {
-//     navLinks.classList.toggle('show');
-// });
-
-// document.addEventListener('click', function(event) {
-//     var isClickInside = hamburger.contains(event.target) || navLinks.contains(event.target);
-//     if (!isClickInside) {
-//         navLinks.classList.remove('show');
-//     }
-// });
-
-

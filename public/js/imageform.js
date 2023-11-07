@@ -3,8 +3,6 @@ const ACCEPTED_FILE_EXTENSIONS = /jpeg|jpg|png/;
 const MAX_AMOUNT_OF_FILES = 8;
 const MIN_AMOUNT_OF_FILES = 3;
 
-
-
 function onChange()
 {
     let files = document.getElementById('image').files;
