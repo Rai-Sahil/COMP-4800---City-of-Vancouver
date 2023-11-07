@@ -1,6 +1,4 @@
 import Artist from './Artist.js';
-
-
 const artistsContainer = document.getElementById("artistsContainer");
 const genreFieldset = document.getElementById("genre");
 const mediumFieldset = document.getElementById("medium");
@@ -62,3 +60,4 @@ function generateArtists() {
         artistsContainer.appendChild(artistFigure);
     });
 }
+
