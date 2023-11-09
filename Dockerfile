@@ -5,7 +5,7 @@ FROM node:14
 COPY package*.json ./
 
 # Install your application's dependencies
-RUN npm install express body-parser
+RUN npm install express body-parser express-session multer path fs sharp
 
 # Bundle your app's source code inside the container
 COPY . .

@@ -5,7 +5,8 @@ const multer = require('multer');
 const fs = require('fs');
 const sharp = require('sharp');
 const FILESIZE_MAX_BYTES = 2000000;
-const { requireLogin, requireLogout, checkForFormSubmission } = require('./middleware');
+// Required login and logout functions from middleware.js
+const { requireLogin, requireLogout } = require('./middleware');
 
 const app = express.Router();
 const secretToken = 'admin123';
@@ -17,7 +18,7 @@ const rejectedUsers = [];
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-app.get('/', requireLogin, (_, res) => {
+app.get('/', (_, res) => {
     res.sendFile("index.html", {
         root: path.join(__dirname, '../views')
     });
@@ -219,7 +220,7 @@ app.post('/imageUpload', (req, res) => {
             }
             res.status(400).send("Error converting images");
         }
-        
+
         res.render('Components/successfullSubmission');
     };
 }
