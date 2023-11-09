@@ -16,16 +16,7 @@ function requireLogout(req, res, next) {
     }
 }
 
-function checkForFormSubmission(req, res, next) {
-    if (req.query && req.query.formSubmitted === 'true') {
-        next();
-    } else {
-        res.redirect('/userform');
-    }
-}
-
 module.exports = {
     requireLogin,
-    requireLogout,
-    checkForFormSubmission
+    requireLogout
 };

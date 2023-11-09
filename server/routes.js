@@ -47,12 +47,6 @@ app.get('/userform', (req, res) => {
     });
 });
 
-app.post('/successfulSubmission', checkForFormSubmission, (_, res) => {
-    res.sendFile("successfulSubmission.html", {
-        root: path.join(__dirname, '../views')
-    });
-});
-
 app.post('/login', (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
@@ -225,6 +219,7 @@ app.post('/imageUpload', (req, res) => {
             }
             res.status(400).send("Error converting images");
         }
+        
         res.render('Components/successfullSubmission');
     };
 }
