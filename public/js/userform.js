@@ -1,4 +1,3 @@
-
 // Function to toggle the visibility of the experience description textarea and its label
 function toggleExperienceDescription() {
   var descriptionTextArea = document.getElementById("experienceDescription");
