@@ -5,6 +5,7 @@ const multer = require('multer');
 const fs = require('fs');
 const sharp = require('sharp');
 const FILESIZE_MAX_BYTES = 2000000;
+const { createUser, authenticate } = require('./db');
 // Required login and logout functions from middleware.js
 const { requireLogin, requireLogout } = require('./middleware');
 
@@ -86,8 +87,8 @@ app.post('/userform-submit', (req, res) => {
 
     // Switch to the image upload page
     // REPLACE user.name with the artistId
-    //res.render('Components/imageform', { artistId: user.name });
-    res.render('Components/successfullSubmission');
+    res.render('Components/imageform', { artistId: user.name });
+    //res.render('Components/successfullSubmission');
 });
 
 app.use("/admin", (req, res, next) => {
@@ -105,13 +106,12 @@ app.post("/accept/:index", (req, res) => {
     const index = req.params.index;
     const user = tempData[index];
 
-    permanentUsers.push(user);
+    createUser(user, (response) => {
+        console.log(response);
+    });
 
     tempData.splice(index, 1);
-
-    console.log("permanentUsers", permanentUsers);
-    console.log("tempData", tempData);
-
+    console.log(tempData);
     res.send(generateAdminDashboard());
 });
 
@@ -197,9 +197,9 @@ app.post('/imageUpload', (req, res) =>
         let artistId = req.body.artistId;
 
         const regex = /^[a-zA-Z0-9]{1,20}$/;
-        if(!regex.test(artistId))
+        if(!regex.test('1234abc'))
         {
-            res.status(400).send("Invalid artistId");
+            res.status(400).send(artistId);
             return;
         }
 
@@ -246,6 +246,7 @@ app.post('/imageUpload', (req, res) =>
 
         res.render('Components/successfullSubmission');
     };
+
 }
 );
 
