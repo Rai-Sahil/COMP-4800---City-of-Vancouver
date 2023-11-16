@@ -8,13 +8,11 @@ const connection = mysql.createConnection(connectionParams).promise();
 
 async function authenticate(email, password, callback) {
     try {
-        const query = `SELECT uuid, name, email, password FROM ${dbUserTable} WHERE email = ? LIMIT 1;`;
-
+        const query = `SELECT uuid, name, email, password FROM user WHERE email = ? LIMIT 1;`;
         const [[user]] = await connection.query(query, [email]);
 
-        if (!user) {
-            return callback(null);
-        } else {
+        if (!user) return callback(null);
+        else {
             const passwordsMatch = await bcrypt.compare(password, user.password);
             if (passwordsMatch) {
                 return callback({
@@ -22,12 +20,22 @@ async function authenticate(email, password, callback) {
                     email: user.email,
                     uuid: user.uuid,
                 });
-            } else {
-                return callback(null);
-            }
+            } else return callback(null);
         }
     } catch (error) {
         console.log("Error authenticating the user: ", error);
+    }
+}
+
+async function isEmailInUse(email) {
+    try {
+        const query = `SELECT * FROM user WHERE email = ?`;
+        const [[user]] = await connection.query(query, [email])
+
+        if (!user) return true;
+        else return false;
+    } catch (err) {
+        console.log("Error something went wrong: ", err)
     }
 }
 
@@ -35,11 +43,13 @@ async function createUser(user, callback) {
     try {
         const { name, email, password, phone, biography, website, facebook, instagram, twitter, linkedin, youtube, admin } = user;
 
-        // if (await isEmailInUse(email)) {
-        //     return callback({ status: 409, message: "Email already in use." });
-        // }
+        if (await isEmailInUse(email)) {
+            return callback({ status: 409, message: "Email already in use." });
+        }
+
+        const saltRounds = 10;
         
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        const hashedPassword = await bcrypt.hash("password", saltRounds);
         const insertUserQuery = `
             INSERT INTO user (name, email, password, phone, biography, website, facebook, instagram, twitter, linkedin, youtube, admin)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
