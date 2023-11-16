@@ -3,60 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artists roster prototype</title>
-    <link rel="stylesheet" href="/css/artist_profile.css">
+    <script defer src="/js/site.js"></script>
     <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="/css/artist_profile.css">
     <script type="module" src="/js/artist_profile.js" defer></script>
 </head>
 <body>
-
-    <nav class =navBar>
-        <a href="/index.html">Home</a>
-        <a href="/index.html">Artists</a>
-        <a href="">About</a>
-        <a href="">Contact</a>
-    </nav>
-
+    <div id="header"></div>
     <div class="header">
-        <div id="title"><h1 id="artistName"></h1></div>
-        
+        <div id="title">
+            <h1 id="artistName" class="artist-name"></h1>
+        </div>
         <div id="subtitle">
-
             <div id="artistInfoContainer" class="headerBlock">
-                <h2>artist info</h2>
+                <h2>Contact Information</h2>
                 <p id="artistEmail">Email: </p>
                 <p id="artistPhone">Phone: </p>
-                <p>Website: <a id="artistWebsite"></a></p>
-                <a id="facebook"><img src="/images/Facebook_Logo_Primary.png"></a>
-                <a id="instagram"><img src="/images/Instagram_Glyph_Gradient.png"></a>
+                <p id="artistWeb">Website: <a id="artistWebsite"></a></p>
+                <div id="artistSocialMedia">
+                    <a id="facebook"><img src="/images/Facebook_Logo_Primary.png"></a>
+                    <a id="instagram"><img src="/images/Instagram_Glyph_Gradient.png"></a>
+                </div>
             </div>
-
             <div id="artistBioContainer" class="headerBlock">
-                <h2>artist bio</h2>
+                <h2>Biography</h2>
                 <p id="artistBio"></p>
             </div>
-
             <div id="artistCategoriesContainer" class="headerBlock">
-                <h2>categories</h2>
+                <h2>Artist Categories</h2>
                 <p id="artistCultural"></p>
             </div>
-            
         </div>
-    </div >
-
-    <div class="rule">hi</div>
-
-    <div id="artistImagesContainer">
-            
     </div>
-
+    <div id="artistImagesContainer"></div>
     <dialog id="imageDialog"> 
         <button id="previousImage"><</button>
         <img id="imageDialogImage" src="" alt="">
         <button id="nextImage">></button>
         <button class="topRightCornerButton" id="closeImageDialog" onclick="closeDialog()">X</button>
     </dialog>
-
-
 </body>
 </html>

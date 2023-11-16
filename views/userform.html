@@ -1,277 +1,165 @@
 <!DOCTYPE html>
+<html lang="en">
 <html>
-  <head>
-    <title>Application Form</title>
-    <link rel="stylesheet" type="text/css" href="/css/userform.css" />
-    <!-- Include your CSS file for styling -->
-  </head>
-  <body>
-    <h1>Artist Roster Application Questions</h1>
-    <h3>
-      This is a legal agreement for collection and publishing of artists'
-      information and the publication of their artwork/images for non-commercial
-      use
-    </h3>
-    <h3>
-      Your application will stay active for 2 years, after which time you will
-      need to renew. You will receive an automated e-mail close to the time of
-      expiry and be prompted to renew. If you do not renew, it will expire
-    </h3>
-    <h3>
-      You will be able to edit and/or make changes to your application materials
-      any time after you apply, however, in order for the changes to be
-      published, the City of Vancouver will need to review and approve
-    </h3>
-    <form id="contactForm" action="/submit" method="POST">
-      <pr
-        >Please provide contact information which you don’t mind being posted
-        publicly. These will be shared on our website in order for interested
-        businesses and organisations to contact you. City staff may also contact
-        you about opportunities
-      </pr>
-      <br /><br />
-      <pr></pr>
-      <label for="name"
-        >Preferred Name / Artist Handle:<span class="isRequired">*</span></label
-      >
-      <input type="text" id="name" name="name" required /><br />
 
-      <label for="email">Email:<span class="isRequired">*</span></label>
-      <input type="email" id="email" name="email" required /><br />
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Application Form</title>
+  <link rel="stylesheet" type="text/css" href="/css/userform.css" />
+  <script defer src="/js/site.js"></script>
+</head>
+<div id="header"></div>
+<div class="header"></div>
 
-      <label for="phone">Phone Number:</label>
-      <input type="tel" id="phone" name="phone" /><br />
+<body>
+  <h1 class="title-header">Artist Roster Application Questions</h1>
+  <h3>
+    This is a legal agreement for collection and publishing of artists'
+    information and the publication of their artwork/images for non-commercial
+    use
+  </h3>
+  <h3>
+    Your application will stay active for 2 years, after which time you will
+    need to renew. You will receive an automated e-mail close to the time of
+    expiry and be prompted to renew. If you do not renew, it will expire
+  </h3>
+  <h3>
+    You will be able to edit and/or make changes to your application materials
+    any time after you apply, however, in order for the changes to be
+    published, the City of Vancouver will need to review and approve
+  </h3>
+  <form id="contactForm" action="/userform-submit" method="POST">
+    <pr>Please provide contact information which you don’t mind being posted
+      publicly. These will be shared on our website in order for interested
+      businesses and organisations to contact you. City staff may also contact
+      you about opportunities
+    </pr>
+    <br /><br />
+    <pr></pr>
+    <label for="name">Preferred Name / Artist Handle:<span class="isRequired">*</span></label>
+    <input type="text" id="name" name="name" required /><br />
 
-      <label for="website">Website:</label>
-      <input type="url" id="website" name="website" /><br />
+    <label for="email">Email:<span class="isRequired">*</span></label>
+    <input type="email" id="email" name="email" required /><br />
 
-      <label for="instaHandle">Instagram Handle:</label>
-      <input type="text" id="instaHandle" name="instaHandle" /><br />
+    <label for="phone">Phone Number:</label>
+    <input type="tel" id="phone" name="phone" /><br />
 
-      <label for="facebookHandle">Facebook Handle:</label>
-      <input type="text" id="facebookHandle" name="facebookHandle" /><br />
+    <label for="website">Website:</label>
+    <input type="url" id="website" name="website" /><br />
 
-      <pr
-        >Do you reside in BC and have the legal right to work here?<span
-          class="isRequired"
-          >*</span
-        ></pr
-      >
-      <div class="align-pair">
-        <label for="yesBC">Yes</label>
-        <input type="radio" id="yesBC" name="BCResident" value="yes" required />
-      </div>
-      <div class="align-pair">
-        <label for="noBC">No</label>
-        <input type="radio" id="noBC" name="BCResident" value="no" />
-        <br />
-      </div>
-      <pr
-        >Do you have past experience producing murals or digital designs?<span
-          class="isRequired"
-          >*</span
-        ></pr
-      >
-      <div class="align-pair">
-        <label for="yesExperience">Yes</label>
-        <input
-          type="radio"
-          id="yesExperience"
-          name="experience"
-          value="yes"
-          required
-          onclick="toggleExperienceDescription()"
-          onchange="togglePrElement()"
-        />
-      </div>
-      <div class="align-pair">
-        <label for="noExperience">No</label>
-        <input
-          type="radio"
-          id="noExperience"
-          name="experience"
-          value="no"
-          onclick="toggleExperienceDescription()"
-          onchange="togglePrElement()"
-        />
-        <br />
-      </div>
-      <label
-        id="experienceDescriptionLabel"
-        for="experienceDescription"
-        style="display: none"
-        >If yes, please describe your past experience producing murals or
-        digital designs:</label
-      ><br />
-      <textarea
-        id="experienceDescription"
-        name="experienceDescription"
-        rows="4"
-        required
-        style="display: none"
-      >
-      </textarea
-      ><br />
+    <label for="instaHandle">Instagram Handle:</label>
+    <input type="text" id="instaHandle" name="instaHandle" /><br />
 
-      <label for="biography">Please provide a short biography:</label><br />
-      <textarea id="biography" name="biography" rows="4" required></textarea>
+    <label for="facebookHandle">Facebook Handle:</label>
+    <input type="text" id="facebookHandle" name="facebookHandle" /><br />
 
-      <pr
-        >Please select any genre that your artwork fits into. You may select as
-        many as you like (minimum one):<span class="isRequired">*</span></pr
-      >
-      <div class="align-pair-2">
-        <label for="abstract">Abstract</label>
-        <input
-          type="checkbox"
-          id="abstract"
-          name="genre"
-          value="Abstract"
-          required
-        />
-      </div>
-      <div class="align-pair-2">
-        <label for="cultural">Cultural Expression</label>
-        <input
-          type="checkbox"
-          id="cultural"
-          name="genre"
-          value="Cultural expression"
-        />
-      </div>
-      <div class="align-pair-2">
-        <label for="realism">Realism</label>
-        <input type="checkbox" id="realism" name="genre" value="Realism" />
-      </div>
-      <div class="align-pair-2">
-        <label for="landscape">Landscape / Nature</label>
-        <input
-          type="checkbox"
-          id="landscape"
-          name="genre"
-          value="Landscape / Nature"
-        />
-      </div>
-      <div class="align-pair-2">
-        <label for="narrative"
-          >Narrative (storytelling, myths, fairytales)</label
-        >
-        <input type="checkbox" id="narrative" name="genre" value="Narrative" />
-      </div>
-      <div class="align-pair-2">
-        <label for="graffiti">Graffiti</label>
-        <input type="checkbox" id="graffiti" name="genre" value="Graffiti" />
-      </div>
-      <div class="align-pair-2">
-        <label for="cartoon">Cartoon / Illustration</label>
-        <input
-          type="checkbox"
-          id="cartoon"
-          name="genre"
-          value="Cartoon / Illustration"
-        />
-      </div>
+    <pr>Do you reside in BC and have the legal right to work here?<span class="isRequired">*</span></pr>
+    <div class="align-pair">
+      <input type="radio" id="yesBC" name="BCResident" value="yes" required />
+      <label for="yesBC">Yes</label>
+    </div>
+    <div class="align-pair">
+      <input type="radio" id="noBC" name="BCResident" value="no" />
+      <label for="noBC">No</label>
       <br />
+    </div>
+    <pr>Do you have past experience producing murals or digital designs?<span class="isRequired">*</span></pr>
+    <div class="align-pair">
+      <input type="radio" id="yesExperience" name="experience" value="yes" required
+      onclick="toggleExperienceDescription()" onchange="togglePrElement()" />
+      <label for="yesExperience">Yes</label>
+    </div>
+    <div class="align-pair">
+      <input type="radio" id="noExperience" name="experience" value="no" onclick="toggleExperienceDescription()"
+      onchange="togglePrElement()" />
+      <label for="noExperience">No</label>
+      <br />
+    </div>
+    <label id="experienceDescriptionLabel" for="experienceDescription" style="display: none">If yes, please describe
+      your past experience producing murals or
+      digital designs:</label><br />
+    <textarea id="experienceDescription" name="experienceDescription" rows="4" required style="display: none">
+      </textarea><br />
 
-      <pr
-        >Please select any cultural categories which your artwork fits into. You
-        may select as many as you like (minimum one):<span class="isRequired"
-          >*</span
-        ></pr
-      >
-      <div class="align-pair-2">
-        <label for="musqueam">xʷməθkʷəy̓əm (Musqueam)</label>
-        <input type="checkbox" id="musqueam" name="cultural" value="Musqueam" />
-      </div>
-      <div class="align-pair-2">
-        <label for="squamish">Sḵwx̱wú7mesh (Squamish)</label>
-        <input type="checkbox" id="squamish" name="cultural" value="Squamish" />
-      </div>
-      <div class="align-pair-2">
-        <label for="tsleil-waututh">səlilwətaɬ (Tsleil-Waututh)</label>
-        <input
-          type="checkbox"
-          id="tsleil-waututh"
-          name="cultural"
-          value="Tsleil-Waututh"
-        />
-      </div>
-      <div class="align-pair-2">
-        <label for="urban-indigenous">Urban Indigenous</label>
-        <input
-          type="checkbox"
-          id="urban-indigenous"
-          name="cultural"
-          value="Urban Indigenous"
-        />
-      </div>
-      <div class="align-pair-2">
-        <label for="black-artist">Black Artist</label>
-        <input
-          type="checkbox"
-          id="black-artist"
-          name="cultural"
-          value="Black Artist"
-        />
-      </div>
-      <div class="align-pair-2">
-        <label for="south-asian">South Asian</label>
-        <input
-          type="checkbox"
-          id="south-asian"
-          name="cultural"
-          value="South Asian"
-        />
-      </div>
-      <div class="align-pair-2">
-        <label for="chinatown">Chinatown or Chinese heritage</label>
-        <input
-          type="checkbox"
-          id="chinatown"
-          name="cultural"
-          value="Chinatown or Chinese heritage"
-        />
-      </div>
-      <br />
-      <pr
-        >Please select your art medium (minimum one):<span class="isRequired"
-          >*</span
-        ></pr
-      >
-      <div class="align-pair-2">
-        <label for="murals">Painted Murals</label>
-        <input
-          type="checkbox"
-          id="murals"
-          name="preferences"
-          value="Painted Murals"
-        />
-      </div>
-      <div class="align-pair-2">
-        <label for="digital">Digital Design</label>
-        <input
-          type="checkbox"
-          id="digital"
-          name="preferences"
-          value="Digital Design"
-        />
-      </div>      
-    </form>
-    <form id="imageForm" action="/submit" method="POST" enctype="multipart/form-data">
-      <label for="image">Select Image to upload (between 3 to 8):</label>
-      <input
-        type="file"
-        name="image"
-        id="image"
-        accept="image/*"
-        multiple="multiple"
-        min="3"
-        max="8"
-      />
-      <br />
-      <br />
-      <input type="submit" value="Submit" />
-    </form>
-    <script src="/js/userform.js"></script>
-  </body>
+    <label for="biography">Please provide a short biography:</label><br />
+    <textarea id="biography" name="biography" rows="4" required></textarea>
+
+    <pr>Please select any genre that your artwork fits into. You may select as
+      many as you like (minimum one):<span class="isRequired">*</span></pr>
+    <div class="align-pair-2">
+      <input type="checkbox" id="abstract" name="genre" value="Abstract" required />
+      <label for="abstract">Abstract</label>
+    </div>
+    <div class="align-pair-2">
+      <input type="checkbox" id="cultural" name="genre" value="Cultural expression" />
+      <label for="cultural">Cultural Expression</label>
+    </div>
+    <div class="align-pair-2">
+      <input type="checkbox" id="realism" name="genre" value="Realism" />
+      <label for="realism">Realism</label>
+    </div>
+    <div class="align-pair-2">
+      <input type="checkbox" id="landscape" name="genre" value="Landscape / Nature" />
+      <label for="landscape">Landscape / Nature</label>
+    </div>
+    <div class="align-pair-2">
+      <input type="checkbox" id="narrative" name="genre" value="Narrative" />
+      <label for="narrative">Narrative (storytelling, myths, fairytales)</label>
+    </div>
+    <div class="align-pair-2">
+      <input type="checkbox" id="graffiti" name="genre" value="Graffiti" />
+      <label for="graffiti">Graffiti</label>
+    </div>
+    <div class="align-pair-2">
+      <input type="checkbox" id="cartoon" name="genre" value="Cartoon / Illustration" />
+      <label for="cartoon">Cartoon / Illustration</label>
+    </div>
+    <br />
+    <pr>Please select any cultural categories which your artwork fits into. You
+      may select as many as you like (minimum one):<span class="isRequired">*</span></pr>
+    <div class="align-pair-2">
+      <input type="checkbox" id="musqueam" name="cultural" value="Musqueam" />
+      <label for="musqueam">xʷməθkʷəy̓əm (Musqueam)</label>
+    </div>
+    <div class="align-pair-2">
+      <input type="checkbox" id="squamish" name="cultural" value="Squamish" />
+      <label for="squamish">Sḵwx̱wú7mesh (Squamish)</label>
+    </div>
+    <div class="align-pair-2">
+      <input type="checkbox" id="tsleil-waututh" name="cultural" value="Tsleil-Waututh" />
+      <label for="tsleil-waututh">səlilwətaɬ (Tsleil-Waututh)</label>
+    </div>
+    <div class="align-pair-2">
+      <input type="checkbox" id="urban-indigenous" name="cultural" value="Urban Indigenous" />
+      <label for="urban-indigenous">Urban Indigenous</label>
+    </div>
+    <div class="align-pair-2">
+      <input type="checkbox" id="black-artist" name="cultural" value="Black Artist" />
+      <label for="black-artist">Black Artist</label>
+    </div>
+    <div class="align-pair-2">
+      <input type="checkbox" id="south-asian" name="cultural" value="South Asian" />
+      <label for="south-asian">South Asian</label>
+    </div>
+    <div class="align-pair-2">
+      <input type="checkbox" id="chinatown" name="cultural" value="Chinatown or Chinese heritage" />
+      <label for="chinatown">Chinatown or Chinese heritage</label>
+    </div>
+    <br />
+    <pr>Please select your art medium (minimum one):<span class="isRequired">*</span></pr>
+    <div class="align-pair-2">
+      <input type="checkbox" id="murals" name="preferences" value="Painted Murals" />
+      <label for="murals">Painted Murals</label>
+    </div>
+    <div class="align-pair-2">
+      <input type="checkbox" id="digital" name="preferences" value="Digital Design" />
+      <label for="digital">Digital Design</label>
+    </div>
+    <input type="submit" value="Submit" />
+  </form>
+  <script src="/js/userform.js"></script>
+</body>
+
 </html>

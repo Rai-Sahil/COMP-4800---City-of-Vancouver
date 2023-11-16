@@ -1,6 +1,25 @@
-version: '3'
+# version: '3'
+# services:
+#   web:
+#     build: .
+#     ports:
+#       - "3000:3000"
+
+version: '3.8'
+
 services:
-  web:
-    build: .
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+      MYSQL_DATABASE: CityofVan
+      MYSQL_USER: sa
+      MYSQL_PASSWORD: secret
     ports:
-      - "3000:3000"
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
+
