@@ -49,6 +49,12 @@ app.get('/userform', (req, res) => {
     });
 });
 
+app.get('/userProfile', (req, res) => {
+    res.sendFile("userProfile.html", {
+        root: path.join(__dirname, '../views')
+    });
+});
+
 app.post('/login', (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
