@@ -5,6 +5,7 @@ const multer = require('multer');
 const fs = require('fs');
 const sharp = require('sharp');
 const FILESIZE_MAX_BYTES = 2000000;
+const { createUser, authenticate } = require('./db');
 // Required login and logout functions from middleware.js
 const { requireLogin, requireLogout } = require('./middleware');
 
@@ -58,17 +59,19 @@ app.post('/login', (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    if (username === 'admin' && password === 'admin') {
-        req.session.user = 'admin';
-        req.session.loggedIn = true;
-        req.session.save(() => {
-            (err) => err && console.log("Unable to save the session", err);
-        })
-        res.redirect('/');
-
-    } else {
-        res.redirect('/login');
-    }
+    const user = authenticate(username, password, (user) => {
+        if (user !== null) {
+            req.session.user = user.name;
+            req.session.uuid = user.uuid;
+            req.session.loggedIn = true;
+            req.session.save(() => {
+                (err) => err && console.log("Unable to save the session", err);
+            })
+            res.redirect('/');
+        } else {
+            res.redirect('/login');
+        }
+    })
 });
 
 app.post('/userform-submit', (req, res) => {
@@ -93,7 +96,7 @@ app.post('/userform-submit', (req, res) => {
     // Switch to the image upload page
     // REPLACE user.name with the artistId
     res.render('Components/imageform', { artistId: user.name });
-
+    //res.render('Components/successfullSubmission');
 });
 
 app.use("/admin", (req, res, next) => {
@@ -111,13 +114,12 @@ app.post("/accept/:index", (req, res) => {
     const index = req.params.index;
     const user = tempData[index];
 
-    permanentUsers.push(user);
+    createUser(user, (response) => {
+        console.log(response);
+    });
 
     tempData.splice(index, 1);
-
-    console.log("permanentUsers", permanentUsers);
-    console.log("tempData", tempData);
-
+    console.log(tempData);
     res.send(generateAdminDashboard());
 });
 
@@ -182,6 +184,7 @@ function generateAdminDashboard() {
 }
 
 app.post('/imageUpload', (req, res) => {
+
     upload()(req, res, function (err) {
         if (err instanceof multer.MulterError) {
             return res.status(400).json("Multer error");
@@ -190,16 +193,15 @@ app.post('/imageUpload', (req, res) => {
             return res.status(400).json("Unknown error");
         }
 
-        bob(req, res);
+        createFiles(req, res);
     });
 
-    const bob = async (req, res) => {
-        //Chnage this to artist ID
-        let artistId = req.body.name;
+    const createFiles = async (req, res) => {
+        let artistId = req.body.artistId;
 
         const regex = /^[a-zA-Z0-9]{1,20}$/;
-        if (!regex.test(artistId)) {
-            res.status(400).send("Invalid artistId");
+        if (!regex.test('1234abc')) {
+            res.status(400).send(artistId);
             return;
         }
 
@@ -208,7 +210,19 @@ app.post('/imageUpload', (req, res) => {
 
         const path = `public/artistImages/${artistId}/`;
         if (fs.existsSync(path)) {
+            // check if artist has been approved
+            // TODO
+
+
+            // if artist has been approved, dont let them upload again
+            // {
+            //     res.status(400).send("Artist has already been approved, cannot upload again");
+            //     return;
+            // }
+            // else
+            // {
             fs.rmSync(path, { recursive: true });
+            // }
         }
 
         fs.mkdirSync(path, { recursive: true });
@@ -229,12 +243,11 @@ app.post('/imageUpload', (req, res) => {
 
         res.render('Components/successfullSubmission');
     };
+
 }
 );
 
 const upload = (artistId) => {
-    let currentFile = 0;
-
     return imageUpload = multer({
         storage: multer.memoryStorage(),
         limits: { fileSize: FILESIZE_MAX_BYTES },
@@ -251,5 +264,42 @@ const upload = (artistId) => {
         }
     }).array('image', 8);
 }
+
+
+app.delete("/imageUpload", (req, res) => {
+    const artistId = req.body.artistId;
+    const token = req.body.token;
+
+    if (token !== secretToken) {
+        res.status(403).send("Access Denied");
+        return;
+    }
+
+    const regex = /^[a-zA-Z0-9]{1,20}$/;
+    if (!regex.test(artistId)) {
+        res.status(400).send("Invalid artistId");
+        return;
+    }
+
+    // check if artistId exists
+    // TODO
+
+    const path = `public/artistImages/${artistId}/`;
+    if (fs.existsSync(path)) {
+        try {
+            fs.rmSync(path, { recursive: true });
+        }
+        catch (err) {
+            res.status(400).send("Error deleting images");
+            return;
+        }
+    }
+    else {
+        res.status(400).send("Could not delete, directory does not exist");
+        return;
+    }
+
+    res.send("Success");
+});
 
 module.exports = app;
