@@ -5,6 +5,7 @@ const multer = require('multer');
 const fs = require('fs');
 const sharp = require('sharp');
 const FILESIZE_MAX_BYTES = 2000000;
+const { createUser, authenticate } = require('./db');
 // Required login and logout functions from middleware.js
 const { requireLogin, requireLogout } = require('./middleware');
 const { pushApplication } = require('./db_controller');
@@ -49,21 +50,29 @@ app.get('/userform', (req, res) => {
     });
 });
 
+app.get('/userProfile', (req, res) => {
+    res.sendFile("userProfile.html", {
+        root: path.join(__dirname, '../views')
+    });
+});
+
 app.post('/login', (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    if (username === 'admin' && password === 'admin') {
-        req.session.user = 'admin';
-        req.session.loggedIn = true;
-        req.session.save(() => {
-            (err) => err && console.log("Unable to save the session", err);
-        })
-        res.redirect('/');
-
-    } else {
-        res.redirect('/login');
-    }
+    const user = authenticate(username, password, (user) => {
+        if (user !== null) {
+            req.session.user = user.name;
+            req.session.uuid = user.uuid;
+            req.session.loggedIn = true;
+            req.session.save(() => {
+                (err) => err && console.log("Unable to save the session", err);
+            })
+            res.redirect('/');
+        } else {
+            res.redirect('/login');
+        }
+    })
 });
 
 app.post('/userform-submit', (req, res) => {
@@ -88,8 +97,8 @@ app.post('/userform-submit', (req, res) => {
 
     // Switch to the image upload page
     // REPLACE user.name with the artistId
-    //res.render('Components/imageform', { artistId: user.name });
-    res.render('Components/successfullSubmission');
+    res.render('Components/imageform', { artistId: user.name });
+    //res.render('Components/successfullSubmission');
 });
 
 app.use("/admin", (req, res, next) => {
@@ -107,13 +116,12 @@ app.post("/accept/:index", (req, res) => {
     const index = req.params.index;
     const user = tempData[index];
 
-    permanentUsers.push(user);
+    createUser(user, (response) => {
+        console.log(response);
+    });
 
     tempData.splice(index, 1);
-
-    console.log("permanentUsers", permanentUsers);
-    console.log("tempData", tempData);
-
+    console.log(tempData);
     res.send(generateAdminDashboard());
 });
 
@@ -177,31 +185,25 @@ function generateAdminDashboard() {
     return dashboard;
 }
 
-app.post('/imageUpload', (req, res) => 
-{
+app.post('/imageUpload', (req, res) => {
 
-    upload()(req, res, function (err) 
-    {
-        if (err instanceof multer.MulterError) 
-        {
+    upload()(req, res, function (err) {
+        if (err instanceof multer.MulterError) {
             return res.status(400).json("Multer error");
-        } 
-        else if (err) 
-        {
+        }
+        else if (err) {
             return res.status(400).json("Unknown error");
         }
 
         createFiles(req, res);
     });
 
-    const createFiles = async (req, res) =>
-    {
+    const createFiles = async (req, res) => {
         let artistId = req.body.artistId;
 
         const regex = /^[a-zA-Z0-9]{1,20}$/;
-        if(!regex.test(artistId))
-        {
-            res.status(400).send("Invalid artistId");
+        if (!regex.test('1234abc')) {
+            res.status(400).send(artistId);
             return;
         }
 
@@ -209,12 +211,11 @@ app.post('/imageUpload', (req, res) =>
         // TODO
 
         const path = `public/artistImages/${artistId}/`;
-        if(fs.existsSync(path))
-        {
+        if (fs.existsSync(path)) {
             // check if artist has been approved
             // TODO
 
-            
+
             // if artist has been approved, dont let them upload again
             // {
             //     res.status(400).send("Artist has already been approved, cannot upload again");
@@ -222,64 +223,56 @@ app.post('/imageUpload', (req, res) =>
             // }
             // else
             // {
-                fs.rmSync(path, { recursive: true});
+            fs.rmSync(path, { recursive: true });
             // }
         }
 
         fs.mkdirSync(path, { recursive: true });
         let files = req.files;
 
-        try
-        {
-            for (let i = 0; i < files.length; i++)
-            {
+        try {
+            for (let i = 0; i < files.length; i++) {
                 await sharp(files[i].buffer).toFormat('jpeg').toFile(path + i + '.jpeg');
             }
         }
-        catch (err)
-        {
+        catch (err) {
             //delete all files we just uploaded
-            if(fs.existsSync(path))
-            {
-                fs.rm(path, { recursive: true});
+            if (fs.existsSync(path)) {
+                fs.rm(path, { recursive: true });
             }
             res.status(400).send("Error converting images");
         }
 
         res.render('Components/successfullSubmission');
     };
+
 }
 );
 
-const upload = (artistId) => 
-{
-  return imageUpload = multer({
-    storage: multer.memoryStorage(),
-    limits: { fileSize: FILESIZE_MAX_BYTES },
-    fileFilter: function (req, file, cb) 
-    {
-      var filetypes = /jpeg|jpg|png/;
-      var mimetype = filetypes.test(file.mimetype);
-      var extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+const upload = (artistId) => {
+    return imageUpload = multer({
+        storage: multer.memoryStorage(),
+        limits: { fileSize: FILESIZE_MAX_BYTES },
+        fileFilter: function (req, file, cb) {
+            var filetypes = /jpeg|jpg|png/;
+            var mimetype = filetypes.test(file.mimetype);
+            var extname = filetypes.test(path.extname(file.originalname).toLowerCase());
 
-      if (mimetype && extname) 
-      {
-        return cb(null, true);
-      }
+            if (mimetype && extname) {
+                return cb(null, true);
+            }
 
-      cb("Error: File upload only supports the following filetypes - " + filetypes);
-    }
-  }).array('image', 8);
+            cb("Error: File upload only supports the following filetypes - " + filetypes);
+        }
+    }).array('image', 8);
 }
 
 
-app.delete("/imageUpload", (req, res) => 
-{
+app.delete("/imageUpload", (req, res) => {
     const artistId = req.body.artistId;
     const token = req.body.token;
 
-    if (token !== secretToken)
-    {
+    if (token !== secretToken) {
         res.status(403).send("Access Denied");
         return;
     }
@@ -292,22 +285,18 @@ app.delete("/imageUpload", (req, res) =>
 
     // check if artistId exists
     // TODO
-    
+
     const path = `public/artistImages/${artistId}/`;
-    if (fs.existsSync(path)) 
-    {
-        try
-        {
+    if (fs.existsSync(path)) {
+        try {
             fs.rmSync(path, { recursive: true });
         }
-        catch (err)
-        {
+        catch (err) {
             res.status(400).send("Error deleting images");
             return;
         }
     }
-    else 
-    {
+    else {
         res.status(400).send("Could not delete, directory does not exist");
         return;
     }

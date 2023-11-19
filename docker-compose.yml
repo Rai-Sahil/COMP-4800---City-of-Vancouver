@@ -1,6 +1,40 @@
-version: '3'
+# version: '3'
+# services:
+#   web:
+#     build: .
+#     ports:
+#       - "3000:3000"
+
+version: '3.8'
+
 services:
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+      MYSQL_DATABASE: CityofVan
+      MYSQL_USER: sa
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
   web:
     build: .
     ports:
       - "3000:3000"
+    depends_on:
+      - mysql
+    restart: always
+    
+    environment:
+      DB_HOST: mysql
+      DB_USER: sa
+      DB_PASSWORD: secret
+      DB_NAME: CityofVan
+      DB_PORT: 3306
+
+volumes:
+  mysql_data:
+
