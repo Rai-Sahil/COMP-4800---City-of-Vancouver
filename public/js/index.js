@@ -1,10 +1,9 @@
-import Artist from './Artist.js';
+import {Artist, PartialArtist} from './Artist.js';
 const artistsContainer = document.getElementById("artistsContainer");
 const genreFieldset = document.getElementById("genre");
 const mediumFieldset = document.getElementById("medium");
 const culturalFieldset = document.getElementById("cultural");
 const checkboxes = [];
-const artists = Artist.artists;
 
 function createCheckboxAndLabel(category, fieldset, onclickFunction) {
     let checkbox = document.createElement("input");
@@ -31,21 +30,47 @@ Artist.culturalCategories.forEach(category => createCheckboxAndLabel(category, c
 
 generateArtists();
 
-function generateArtists() {
+async function generateArtists() {
+
+    let artists;
+
+    try {
+        const response = await fetch('/artists');
+        
+        // Checking if the response is OK (status 200)
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+    
+        artists = await response.json();
+        // Work with the received data
+        console.log('Received JSON data:', artists);
+        // Perform operations with the received data
+      } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+      }
+
+
     artistsContainer.innerHTML = "";
 
     let selectedCategories = checkboxes.filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
 
-    artists.forEach((artist, i) => {
-        if(selectedCategories.length > 0 && !selectedCategories.some(category => artist.categories.includes(category))) {
-            return;
+
+    for (let i = 0; i < artists.length; i++) {
+        let artist = artists[i];
+        artist.categories = separateCategories(artist.preference);
+        artist.categories = artist.categories.concat(separateCategories(artist.cultural));
+        artist.categories = artist.categories.concat(separateCategories(artist.genre));
+
+        if (selectedCategories.length > 0 && !selectedCategories.some(category => artist.categories.includes(category))) {
+            continue;
         }
 
         let artistFigure = document.createElement("figure");
         artistFigure.classList.add("artist");
 
         let artistImage = document.createElement("img");
-        artistImage.src = artist.images[0];
+        artistImage.src = artist.image;
 
         let artistCaption = document.createElement("figcaption");
         artistCaption.innerHTML = artist.name;
@@ -53,11 +78,22 @@ function generateArtists() {
         artistFigure.appendChild(artistImage);
         artistFigure.appendChild(artistCaption);
 
-        artistFigure.onclick = function() {
-            window.location.href = "/artist_profile.html?id=" + i;
+        artistFigure.onclick = function () {
+            window.location.href = "/artist_profile.html?id=" + artist.uuid;
         }
 
         artistsContainer.appendChild(artistFigure);
-    });
+    }
 }
 
+function separateCategories(categories) 
+{
+    let categoryArray = categories.split(",");
+
+    for (let i = 0; i < categoryArray.length; i++)
+    {
+        categoryArray[i] = categoryArray[i].trim();
+    }
+
+    return categoryArray;
+}
