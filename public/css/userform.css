@@ -25,7 +25,8 @@ body {
   h3 {
     margin: 20px 0;
     padding: 10px;
-    background-color: rgb(235, 63, 6);
+    background-color: black;
+    color: white;
   }
   
   /* Form container styles */

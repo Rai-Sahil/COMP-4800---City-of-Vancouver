@@ -1,3 +1,18 @@
+/* Color Palette 
+    / Main Blue /
+    background-color: rgb(0, 122, 188);
+    / Secondary Blue Shade /
+    background-color: rgb(62, 143, 179);
+    / Main Green /
+    background-color: rgb(140, 198, 63);
+    / Secondary Green Shade /
+    background-color: rgb(174, 214, 96);
+    / Yellow /
+    background-color: rgb(255, 196, 0);
+    / Neutral Gray /
+    background-color: rgb(169, 169, 169); 
+*/
+
 body {
   margin: 0;
 }
