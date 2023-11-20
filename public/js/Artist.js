@@ -8,13 +8,23 @@ export class Artist
     ];
 
     static culturalCategories = [
-        "Musqueam", "Squamish", "Tsleil-Waututh", "Urban Indigenous", "Black",
-        "South Asian", "Chinatown", "Chinese"
+        "Musqueam",
+        "Squamish",
+        "Tsleil-Waututh",
+        "Urban Indigenous",
+        "Black Artist",
+        "South Asian",
+        "Chinatown or Chinese Heritage"
     ];
 
     static genreCategories = [
-        "Abstract", "Cultural Expression", "Realism", "Landscape",
-        "Narrative", "Graffiti", "Cartoon", "Illustration"
+        "Abstract",
+        "Cultural expression",
+        "Realism",
+        "Landscape / Nature",
+        "Narrative",
+        "Graffiti",
+        "Cartoon / Illustration"
     ];
 
     static mediumCategories = ["Painted Murals", "Digital Design"];

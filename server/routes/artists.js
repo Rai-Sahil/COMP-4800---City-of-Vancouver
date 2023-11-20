@@ -52,7 +52,6 @@ router.get('/', (req, res) =>
             partialArtists.push(partialArtist);
         }
         const stringified = JSON.stringify(partialArtists);
-        console.log(stringified);
         res.contentType('application/json');
         res.send(stringified);
     });
