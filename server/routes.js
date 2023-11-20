@@ -113,8 +113,19 @@ app.post('/userform-submit', (req, res) => {
         }
         else
         {
-            // SWITCH ARTISTID TO ACTUAL UUID
-            res.render('Components/imageform', { artistId: user.name });
+            const appIdQuery = `SELECT applicationID FROM user_application WHERE uuid = ${dummyUUID};`
+            mainConnection.query(appIdQuery, function (err, result)
+            {
+                if (err)
+                {
+                    res.status(500).send(err.message);
+                    return;
+                }
+                else
+                {
+                    res.render('Components/imageform', { applicationID: result[0].applicationID });
+                }
+            });
         }
     });
 
