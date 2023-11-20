@@ -12,3 +12,17 @@ function toggleExperienceDescription() {
     ? "block"
     : "none";
 }
+
+document.getElementById('biography').addEventListener('input', function (e) {
+  var letters = e.target.value.length;
+  document.getElementById('letterCount').style.display = 'block';
+  document.getElementById('letterCount').textContent = letters + '/1000 letters';
+
+  if (letters > 1000) {
+      document.getElementById('letterCount').textContent = 'Your biography cannot exceed 1000 letters.';
+      document.getElementById('letterCount').style.color = 'red';
+      e.target.value = e.target.value.slice(0, 1000);
+  } else {
+      document.getElementById('letterCount').style.color = 'black';
+  }
+});
