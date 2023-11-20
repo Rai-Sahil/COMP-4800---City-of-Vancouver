@@ -5,10 +5,10 @@ const multer = require('multer');
 const fs = require('fs');
 const sharp = require('sharp');
 const FILESIZE_MAX_BYTES = 2000000;
-const { createUser, authenticate } = require('./db');
+const { createUser, authenticate, mainConnection } = require('./db');
 // Required login and logout functions from middleware.js
 const { requireLogin, requireLogout } = require('./middleware');
-const { pushApplication } = require('./db_controller');
+const { randomUUID } = require('crypto');
 
 const app = express.Router();
 const secretToken = 'admin123';
@@ -20,7 +20,7 @@ const rejectedUsers = [];
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-app.get('/', (_, res) => {
+app.get('/', (req, res) => {
     res.sendFile("index.html", {
         root: path.join(__dirname, '../views')
     });
@@ -89,16 +89,36 @@ app.post('/userform-submit', (req, res) => {
         biography: req.body.biography,
         genre: req.body.genre,
         cultural: req.body.cultural,
-        preference: req.body.preference,
+        preference: req.body.preferences,
     };
 
     tempData.push(user);
     pushApplication(user);
 
-    // Switch to the image upload page
-    // REPLACE user.name with the artistId
-    res.render('Components/imageform', { artistId: user.name });
-    //res.render('Components/successfullSubmission');
+    // CHANGE TO ACTUAL UUID
+
+    const dummyUUID = Math.floor(Math.random() * 1000);
+    
+
+    const bcResident = user.bcResident === 'no' ? 0 : 1;
+    const experience = user.experience === 'no' ? 0 : 1;
+
+    const query = `CALL createApplication(${dummyUUID}, '${user.name}', '${user.email}', '${user.phone}', '${user.website}', '${user.instaHandle}', '${user.facebookHandle}', ${bcResident}, ${experience}, '${user.experienceDescription}', '${user.biography}', '${user.genre}', '${user.cultural}', '${user.preference}');`
+
+    mainConnection.query(query, function (err, result) 
+    {
+        if (err) 
+        {
+            res.status(500).send("Could not register user");
+            return;
+        }
+        else
+        {
+            // SWITCH ARTISTID TO ACTUAL UUID
+            res.render('Components/imageform', { artistId: user.name });
+        }
+    });
+
 });
 
 app.use("/admin", (req, res, next) => {
@@ -185,123 +205,5 @@ function generateAdminDashboard() {
     return dashboard;
 }
 
-app.post('/imageUpload', (req, res) => {
-
-    upload()(req, res, function (err) {
-        if (err instanceof multer.MulterError) {
-            return res.status(400).json("Multer error");
-        }
-        else if (err) {
-            return res.status(400).json("Unknown error");
-        }
-
-        createFiles(req, res);
-    });
-
-    const createFiles = async (req, res) => {
-        let artistId = req.body.artistId;
-
-        const regex = /^[a-zA-Z0-9]{1,20}$/;
-        if (!regex.test('1234abc')) {
-            res.status(400).send(artistId);
-            return;
-        }
-
-        // check if artistId exists
-        // TODO
-
-        const path = `public/artistImages/${artistId}/`;
-        if (fs.existsSync(path)) {
-            // check if artist has been approved
-            // TODO
-
-
-            // if artist has been approved, dont let them upload again
-            // {
-            //     res.status(400).send("Artist has already been approved, cannot upload again");
-            //     return;
-            // }
-            // else
-            // {
-            fs.rmSync(path, { recursive: true });
-            // }
-        }
-
-        fs.mkdirSync(path, { recursive: true });
-        let files = req.files;
-
-        try {
-            for (let i = 0; i < files.length; i++) {
-                await sharp(files[i].buffer).toFormat('jpeg').toFile(path + i + '.jpeg');
-            }
-        }
-        catch (err) {
-            //delete all files we just uploaded
-            if (fs.existsSync(path)) {
-                fs.rm(path, { recursive: true });
-            }
-            res.status(400).send("Error converting images");
-        }
-
-        res.render('Components/successfullSubmission');
-    };
-
-}
-);
-
-const upload = (artistId) => {
-    return imageUpload = multer({
-        storage: multer.memoryStorage(),
-        limits: { fileSize: FILESIZE_MAX_BYTES },
-        fileFilter: function (req, file, cb) {
-            var filetypes = /jpeg|jpg|png/;
-            var mimetype = filetypes.test(file.mimetype);
-            var extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-
-            if (mimetype && extname) {
-                return cb(null, true);
-            }
-
-            cb("Error: File upload only supports the following filetypes - " + filetypes);
-        }
-    }).array('image', 8);
-}
-
-
-app.delete("/imageUpload", (req, res) => {
-    const artistId = req.body.artistId;
-    const token = req.body.token;
-
-    if (token !== secretToken) {
-        res.status(403).send("Access Denied");
-        return;
-    }
-
-    const regex = /^[a-zA-Z0-9]{1,20}$/;
-    if (!regex.test(artistId)) {
-        res.status(400).send("Invalid artistId");
-        return;
-    }
-
-    // check if artistId exists
-    // TODO
-
-    const path = `public/artistImages/${artistId}/`;
-    if (fs.existsSync(path)) {
-        try {
-            fs.rmSync(path, { recursive: true });
-        }
-        catch (err) {
-            res.status(400).send("Error deleting images");
-            return;
-        }
-    }
-    else {
-        res.status(400).send("Could not delete, directory does not exist");
-        return;
-    }
-
-    res.send("Success");
-});
 
 module.exports = app;

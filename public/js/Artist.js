@@ -1,6 +1,4 @@
-export default
-
-class Artist
+export class Artist
 {
     static artists = [];
     static names = [
@@ -10,7 +8,7 @@ class Artist
     ];
 
     static culturalCategories = [
-        "Musqueam, Squamish, Tsleil-Waututh", "Urban Indigenous", "Black",
+        "Musqueam", "Squamish", "Tsleil-Waututh", "Urban Indigenous", "Black",
         "South Asian", "Chinatown", "Chinese"
     ];
 
@@ -64,6 +62,20 @@ class Artist
         this.website = website;
         this.facebook = facebook;
         this.instagram = instagram;
+    }
+
+}
+
+export class PartialArtist
+{
+    constructor(uuid, name, cultural, preference, genre, images)
+    {
+        this.uuid = uuid;
+        this.name = name;
+        this.cultural = cultural;
+        this.preference = preference;
+        this.genre = genre;
+        this.images = images;
     }
 
 }
