@@ -2,17 +2,20 @@
 <html>
 <head>
     <title>Login Page</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/login.css">
+    <script type="module" src="/js/site.js"></script>
 </head>
 <body>
+<div id="header"></div>
+
     <div class="login-container">
-        <form class="login-form" action="/login" method="post">
+        <form class="login-form" action="/login.html" method="post">
             <h1>Login</h1>
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
-            <button type="submit">Login</button>
+            <button type="submit" class="login-button">Login</button>
         </form>
     </div>
 </body>
