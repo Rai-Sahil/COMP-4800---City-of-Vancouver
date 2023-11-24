@@ -24,18 +24,18 @@ router.post('/', (req, res) => {
     });
 
     const createFiles = async (req, res) => {
-        let artistId = req.body.artistId;
+        let applicationID = req.body.applicationID;
 
         const regex = /^[a-zA-Z0-9]{1,20}$/;
         if (!regex.test('1234abc')) {
-            res.status(400).send(artistId);
+            res.status(400).send();
             return;
         }
 
         // check if artistId exists
         // TODO
 
-        const path = `public/artistImages/${artistId}/`;
+        const path = `public/artistImages/${applicationID}/`;
         if (fs.existsSync(path)) {
             // check if artist has been approved
             // TODO

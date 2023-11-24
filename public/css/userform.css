@@ -1,147 +1,140 @@
 .isRequired {
-    color: red; /* Change the color to your desired color */
-    font-weight: bold; /* Optionally, make the asterisk bold or apply other styles */
-    margin-left: 3px; /* Optionally, add some spacing between the label text and the asterisk */
-  }
+  color: red; /* Change the color to your desired color */
+  font-weight: bold; /* Optionally, make the asterisk bold or apply other styles */
+  margin-left: 3px; /* Optionally, add some spacing between the label text and the asterisk */
+}
 
 /* Body styles */
 body {
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
-    background-color: #f7f7f7;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .title-header {
-    background-color: #333;
-    color: #fff;
-    padding: 20px;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  background-color: #f7f7f7;
+  margin: 0;
+  padding: 0;
+}
+
+.title-header {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  margin: 0;
+}
+
+
+/* Section styles */
+h3 {
+  margin: 20px 0;
+  padding: 10px;
+  background-color: rgb(0, 122, 188);
+  color: white;
+}
+
+/* Form container styles */
+form {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0px 0px 10px #ccc;
+  border-radius: 5px;
+}
+
+/* Label styles */
+label {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  align-items: middle;
+  /* font-weight: bold; */
+}
+
+/* Input and textarea styles */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="url"],
+input[type="checkbox"],
+input[type="radio"]{
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Checkbox and radio button styles */
+input[type="checkbox"],
+input[type="radio"] {
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+/* Button styles */
+input[type="submit"], input[type="button"] {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.align-pair {
+  display: flex;
+  align-items: center;
+}
+
+.align-pair-2 {
+  display: flex;
+  align-items: center;
+}
+
+/* Additional styles for required elements
+span.isRequired {
+  color: red;
+  font-weight: bold;
+} */
+
+/* Hide elements initially */
+#experienceDescriptionLabel, #experienceDescription {
+  display: none;
+}
+
+#imageForm
+{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 50vw;
+}
+
+#flexContainer
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-    margin: 0;
-  }
+    min-height: 100vh;
 
-  
-  /* Section styles */
-  h3 {
-    margin: 20px 0;
-    padding: 10px;
-    background-color: rgb(0, 122, 188);
-    color: white;
-  }
-  
-  /* Form container styles */
-  form {
-    max-width: 800px;
-    margin: 0 auto;
-    background-color: #fff;
-    padding: 20px;
-    box-shadow: 0px 0px 10px #ccc;
-    border-radius: 5px;
-  }
-  
-  pr {
-    display: block;
-    margin: 10px 0;
-    /* font-weight: bold; */
-  }
-  /* Label styles */
-  label {
-    display: block;
-    width: 50%;
-    margin: 10px 0;
-    align-items: middle;
-    /* font-weight: bold; */
-  }
-  
-  /* Input and textarea styles */
-  input[type="text"],
-  input[type="email"],
-  input[type="tel"],
-  input[type="url"],
-  input[type="checkbox"],
-  input[type="radio"]{
-    padding: 10px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
+}
 
-  textarea {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  /* Checkbox and radio button styles */
-  input[type="checkbox"],
-  input[type="radio"] {
-    margin-right: 5px;
-    vertical-align: middle;
-  }
-  
-  /* Button styles */
-  input[type="submit"], input[type="button"] {
-    background-color: #333;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-
-  .align-pair {
-    width: 10%;
-    display: flex;
-    align-items: center;
-  }
-
-  .align-pair-2 {
-    width: 50%;
-    display: flex;
-    align-items: center;
-  }
-  
-  /* Additional styles for required elements
-  span.isRequired {
-    color: red;
-    font-weight: bold;
-  } */
-  
-  /* Hide elements initially */
-  #experienceDescriptionLabel, #experienceDescription {
-    display: none;
-  }
-
-  #imageForm
-  {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-width: 50vw;
-  }
-
-  #flexContainer
-  {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      min-height: 100vh;
-
-  }
-  
-  #images
-  {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0px 0px 10px #ccc;
-    border-radius: 5px;
-    min-height: 50vh;
-    min-width: 50vw;
-    border: #333  solid 1px;
-  }
+#images
+{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 0px 10px #ccc;
+  border-radius: 5px;
+  min-height: 50vh;
+  min-width: 50vw;
+  border: #333  solid 1px;
+}

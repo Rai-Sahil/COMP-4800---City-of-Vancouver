@@ -17,7 +17,7 @@
             <label for="image">Select Image to upload (between 3 to 8):</label>
             <input type="file" name="image" id="image" accept="image/png, image/jpeg" multiple="multiple" min="3"
                 max="8" onchange="onChange()" />
-            <input type="text" hidden value="<%= artistId %>" name="artistId" id="artistId" />
+            <input type="text" hidden value="<%= applicationID %>" name="applicationID" id="applicationID" />
             <br />
             <br />
             <input value="Submit" type="button" onclick="upload()" />

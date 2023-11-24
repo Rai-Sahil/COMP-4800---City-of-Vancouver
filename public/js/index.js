@@ -79,7 +79,7 @@ async function generateArtists() {
         artistFigure.appendChild(artistCaption);
 
         artistFigure.onclick = function () {
-            window.location.href = "/artist_profile.html?id=" + artist.uuid;
+            window.location.href = "/artist_profile.html?id=" + artist.applicationID;
         }
 
         artistsContainer.appendChild(artistFigure);
