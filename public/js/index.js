@@ -54,7 +54,7 @@ function generateArtists() {
         artistFigure.appendChild(artistCaption);
 
         artistFigure.onclick = function() {
-            window.location.href = "/artist_profile.html?id=" + i;
+            window.location.href = "/userProfile?id=" + i;
         }
 
         artistsContainer.appendChild(artistFigure);

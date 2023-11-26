@@ -23,9 +23,15 @@ body {
   
   /* Section styles */
   h3 {
-    margin: 20px 0;
-    padding: 10px;
-    background-color: rgb(235, 63, 6);
+    margin: 20px 50px 20px 50px;
+    padding: 15px;
+    background-color: rgb(0, 122, 188);
+    color: #fff; /* Text color */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for a subtle lift */
+    text-align: center; /* Center-align text */
+    font-size: 1.5em; /* Adjust font size as needed */
+    font-weight: bold; /* Bold text */
   }
   
   /* Form container styles */
@@ -55,6 +61,7 @@ body {
   /* Input and textarea styles */
   input[type="text"],
   input[type="email"],
+  input[type="password"],
   input[type="tel"],
   input[type="url"],
   input[type="checkbox"],

@@ -43,6 +43,9 @@
     <label for="email">Email:<span class="isRequired">*</span></label>
     <input type="email" id="email" name="email" required /><br />
 
+    <label for="Password">Password:<span class="isRequired">*</span></label>
+    <input type="password" id="password" name="password" required /><br />
+
     <label for="phone">Phone Number:</label>
     <input type="tel" id="phone" name="phone" /><br />
 
@@ -68,12 +71,12 @@
     <pr>Do you have past experience producing murals or digital designs?<span class="isRequired">*</span></pr>
     <div class="align-pair">
       <input type="radio" id="yesExperience" name="experience" value="yes" required
-      onclick="toggleExperienceDescription()" onchange="togglePrElement()" />
+        onclick="toggleExperienceDescription()" onchange="togglePrElement()" />
       <label for="yesExperience">Yes</label>
     </div>
     <div class="align-pair">
       <input type="radio" id="noExperience" name="experience" value="no" onclick="toggleExperienceDescription()"
-      onchange="togglePrElement()" />
+        onchange="togglePrElement()" />
       <label for="noExperience">No</label>
       <br />
     </div>
@@ -89,7 +92,7 @@
     <pr>Please select any genre that your artwork fits into. You may select as
       many as you like (minimum one):<span class="isRequired">*</span></pr>
     <div class="align-pair-2">
-      <input type="checkbox" id="abstract" name="genre" value="Abstract"/>
+      <input type="checkbox" id="abstract" name="genre" value="Abstract" />
       <label for="abstract">Abstract</label>
     </div>
     <div class="align-pair-2">
@@ -150,11 +153,11 @@
     <br />
     <pr>Please select your art medium (minimum one):<span class="isRequired">*</span></pr>
     <div class="align-pair-2">
-      <input type="checkbox" id="murals" name="preferences" value="Painted Murals" />
+      <input type="checkbox" id="murals" name="preference" value="Painted Murals" />
       <label for="murals">Painted Murals</label>
     </div>
     <div class="align-pair-2">
-      <input type="checkbox" id="digital" name="preferences" value="Digital Design" />
+      <input type="checkbox" id="digital" name="preference" value="Digital Design" />
       <label for="digital">Digital Design</label>
     </div>
     <input type="submit" value="Submit" />
