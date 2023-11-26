@@ -34,22 +34,22 @@ router.get('/', (req, res) =>
             // let imagePaths = fs.readdirSync(`public/artistImages/${result[0][i].name}/`, { withFileTypes: true });
             // for (let j = 0; j < imagePaths.length; j++)
             // {
-            //     images.push(`artistImages/${result[0][i].applicationID}/${imagePaths[j].name}`);
+            //     images.push(`artistImages/${result[0][i].uuid}/${imagePaths[j].name}`);
             // }
             
             let image;
 
-            if(fs.existsSync(`public/artistImages/${result[0][i].applicationID}/`))
+            if(fs.existsSync(`public/artistImages/${result[0][i].uuid}/`))
             {
-                let imagePaths = fs.readdirSync(`public/artistImages/${result[0][i].applicationID}/`, { withFileTypes: true });
-                image = `artistImages/${result[0][i].applicationID}/${imagePaths[0].name}`;
+                let imagePaths = fs.readdirSync(`public/artistImages/${result[0][i].uuid}/`, { withFileTypes: true });
+                image = `artistImages/${result[0][i].uuid}/${imagePaths[0].name}`;
             }
             else
             {
                 continue;
             }
 
-            let partialArtist = {applicationID: result[0][i].applicationID, name: result[0][i].name, cultural: result[0][i].cultural, preference: result[0][i].preference, genre: result[0][i].genre , image: image};
+            let partialArtist = {uuid: result[0][i].uuid, name: result[0][i].name, cultural: result[0][i].cultural, preference: result[0][i].preference, genre: result[0][i].genre , image: image};
             partialArtists.push(partialArtist);
         }
         const stringified = JSON.stringify(partialArtists);

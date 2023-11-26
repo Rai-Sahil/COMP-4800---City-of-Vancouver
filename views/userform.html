@@ -14,7 +14,7 @@
   <div class="header"></div>
   <h1 class="title-header">Artist Roster Application Questions</h1>
 
-  <form id="contactForm" action="/userform-submit" method="POST">
+  <form id="contactForm" action="/userform-submit" method="POST" enctype="multipart/form-data">
     <h3>
       This is a legal agreement for collection and publishing of artists'
       information and the publication of their artwork/images for
@@ -156,10 +156,21 @@
       <input type="checkbox" id="digital" name="medium" value="Digital Design" />
       <label for="digital">Digital Design</label>
     </div>
-    <input type="submit" value="Submit" />
+    <div id="flexContainer">
+        <div id="images"></div>
+        <label for="image">Select Image to upload (between 3 to 8):</label>
+        <input type="file" name="image" id="image" accept="image/png, image/jpeg" multiple="multiple" min="3" max="8"
+          onchange="onChange()" />
+    </div>
+
+    <input type="button" onclick="upload()" value="Submit" />
   </form>
+
+
+
 </body>
 <!-- Leave this script at the bottom or error will occur with biography being null -->
 <script src="/js/userform.js" defer></script>
+<script src="/js/imageform.js" defer></script>
 
 </html>

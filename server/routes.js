@@ -9,7 +9,6 @@ const { createUser, authenticate, mainConnection } = require('./db');
 // Required login and logout functions from middleware.js
 const { requireLogin, requireLogout } = require('./middleware');
 const { randomUUID } = require('crypto');
-
 const app = express.Router();
 const secretToken = 'admin123';
 
@@ -75,7 +74,26 @@ app.post('/login', (req, res) => {
     })
 });
 
-app.post('/userform-submit', (req, res) => {
+const upload = () => 
+{
+    return imageUpload = multer({
+        storage: multer.memoryStorage(),
+        limits: { fileSize: FILESIZE_MAX_BYTES },
+        fileFilter: function (req, file, cb) {
+            var filetypes = /jpeg|jpg|png/;
+            var mimetype = filetypes.test(file.mimetype);
+            var extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+            if (mimetype && extname) {
+                return cb(null, true);
+            }
+
+            cb("Error: File upload only supports the following filetypes - " + filetypes);
+        }
+    }).array('image', 8);
+}
+
+app.post('/userform-submit', upload(), (req, res) => {
     const user = {
         name: req.body.name,
         email: req.body.email,
@@ -94,11 +112,19 @@ app.post('/userform-submit', (req, res) => {
 
     tempData.push(user);
 
-    // CHANGE TO ACTUAL UUID
-
     const dummyUUID = Math.floor(Math.random() * 1000);
-    
 
+    req.body.uuid = dummyUUID;
+    try 
+    {
+        createFiles(req, res);
+    }
+    catch (err) 
+    {
+        res.status(400).send("Error uploading images");
+        return;
+    }
+        
     const bcResident = user.bcResident === 'no' ? 0 : 1;
     const experience = user.experience === 'no' ? 0 : 1;
 
@@ -113,19 +139,7 @@ app.post('/userform-submit', (req, res) => {
         }
         else
         {
-            const appIdQuery = `SELECT applicationID FROM user_application WHERE uuid = ${dummyUUID};`
-            mainConnection.query(appIdQuery, function (err, result)
-            {
-                if (err)
-                {
-                    res.status(500).send(err.message);
-                    return;
-                }
-                else
-                {
-                    res.render('Components/imageform', { applicationID: result[0].applicationID });
-                }
-            });
+            res.render("Components/successfullSubmission")
         }
     });
 
@@ -215,5 +229,55 @@ function generateAdminDashboard() {
     return dashboard;
 }
 
+
+
+const createFiles = async (req, res) => 
+{
+    console.log("hellow world");
+    let uuid = req.body.uuid;
+
+
+    const regex = /^[a-zA-Z0-9]{1,20}$/;
+    if (!regex.test('1234abc')) {
+        res.status(400).send();
+        return;
+    }
+
+    // check if artistId exists
+    // TODO
+
+    const path = `public/artistImages/${uuid}/`;
+    if (fs.existsSync(path)) {
+        // check if artist has been approved
+        // TODO
+
+
+        // if artist has been approved, dont let them upload again
+        // {
+        //     res.status(400).send("Artist has already been approved, cannot upload again");
+        //     return;
+        // }
+        // else
+        // {
+        fs.rmSync(path, { recursive: true });
+        // }
+    }
+
+    fs.mkdirSync(path, { recursive: true });
+    let files = req.files;
+
+    try {
+        for (let i = 0; i < files.length; i++) {
+            await sharp(files[i].buffer).toFormat('jpeg').toFile(path + i + '.jpeg');
+        }
+    }
+    catch (err) {
+        //delete all files we just uploaded
+        if (fs.existsSync(path)) {
+            fs.rm(path, { recursive: true });
+        }
+        res.status(400).send("Error converting images");
+    }
+};
 
 module.exports = app;
