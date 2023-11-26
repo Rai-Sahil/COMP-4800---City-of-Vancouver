@@ -4,7 +4,8 @@ const { connectionParams } = require("./constants");
 const bcrypt = require("bcrypt");
 const mysql = require("mysql2");
 
-const connection = mysql.createConnection(connectionParams).promise();
+const mainConnection = mysql.createConnection(connectionParams);
+const connection = mainConnection.promise();
 
 async function authenticate(email, password, callback) {
     try {
@@ -70,7 +71,9 @@ async function createUser(user, callback) {
     }
 }
 
+
 module.exports = {
     authenticate,
     createUser,
+    mainConnection
 };

@@ -1,45 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
-<html>
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet" />
   <title>Application Form</title>
   <link rel="stylesheet" type="text/css" href="/css/userform.css" />
   <script defer src="/js/site.js"></script>
 </head>
-<div id="header"></div>
-<div class="header"></div>
 
 <body>
+  <div id="header"></div>
+  <div class="header"></div>
   <h1 class="title-header">Artist Roster Application Questions</h1>
-  <h3>
-    This is a legal agreement for collection and publishing of artists'
-    information and the publication of their artwork/images for non-commercial
-    use
-  </h3>
-  <h3>
-    Your application will stay active for 2 years, after which time you will
-    need to renew. You will receive an automated e-mail close to the time of
-    expiry and be prompted to renew. If you do not renew, it will expire
-  </h3>
-  <h3>
-    You will be able to edit and/or make changes to your application materials
-    any time after you apply, however, in order for the changes to be
-    published, the City of Vancouver will need to review and approve
-  </h3>
-  <form id="contactForm" action="/userform-submit" method="POST">
-    <pr>Please provide contact information which you don’t mind being posted
-      publicly. These will be shared on our website in order for interested
-      businesses and organisations to contact you. City staff may also contact
-      you about opportunities
-    </pr>
-    <br /><br />
-    <pr></pr>
-    <label for="name">Preferred Name / Artist Handle:<span class="isRequired">*</span></label>
-    <input type="text" id="name" name="name" required /><br />
 
+  <form id="contactForm" action="/userform-submit" method="POST">
+    <h3>
+      This is a legal agreement for collection and publishing of artists'
+      information and the publication of their artwork/images for
+      non-commercial use.
+    </h3>
+    <h3>
+      Your application will stay active for 2 years, after which time you
+      will need to renew. You will receive an automated e-mail close to the
+      time of expiry and be prompted to renew. If you do not renew, it will
+      expire.
+    </h3>
+    <h3>
+      You will be able to edit and/or make changes to your application
+      materials any time after you apply, however, in order for the changes
+      to be published, the City of Vancouver will need to review and approve.
+    </h3>
+    <p>Please provide contact information which you don’t mind being posted
+      publicly. These will be shared on our website in order for interested
+      businesses and organisations to contact you. City staff may also
+      contact you about opportunities.
+    </p>
+    <br /><br />
+    <p></p>
+    <label for="name">Preferred Name / Artist Handle:<span class="isRequired">*</span></label>
+    <input type="text" id="name" name="name" required />
+    <br />
     <label for="email">Email:<span class="isRequired">*</span></label>
     <input type="email" id="email" name="email" required /><br />
 
@@ -47,18 +48,18 @@
     <input type="password" id="password" name="password" required /><br />
 
     <label for="phone">Phone Number:</label>
-    <input type="tel" id="phone" name="phone" /><br />
-
+    <input type="tel" id="phone" name="phone" />
+    <br />
     <label for="website">Website:</label>
-    <input type="url" id="website" name="website" /><br />
-
+    <input type="text" id="website" name="website" />
+    <br />
     <label for="instaHandle">Instagram Handle:</label>
-    <input type="text" id="instaHandle" name="instaHandle" /><br />
-
+    <input type="text" id="instaHandle" name="instaHandle" />
+    <br />
     <label for="facebookHandle">Facebook Handle:</label>
-    <input type="text" id="facebookHandle" name="facebookHandle" /><br />
-
-    <pr>Do you reside in BC and have the legal right to work here?<span class="isRequired">*</span></pr>
+    <input type="text" id="facebookHandle" name="facebookHandle" />
+    <br />
+    <p>Do you reside in BC and have the legal right to work here?<span class="isRequired">*</span></p>
     <div class="align-pair">
       <input type="radio" id="yesBC" name="BCResident" value="yes" required />
       <label for="yesBC">Yes</label>
@@ -68,7 +69,7 @@
       <label for="noBC">No</label>
       <br />
     </div>
-    <pr>Do you have past experience producing murals or digital designs?<span class="isRequired">*</span></pr>
+    <p>Do you have past experience producing murals or digital designs?<span class="isRequired">*</span></p>
     <div class="align-pair">
       <input type="radio" id="yesExperience" name="experience" value="yes" required
         onclick="toggleExperienceDescription()" onchange="togglePrElement()" />
@@ -80,13 +81,14 @@
       <label for="noExperience">No</label>
       <br />
     </div>
-    <label id="experienceDescriptionLabel" for="experienceDescription" style="display: none">If yes, please describe
-      your past experience producing murals or
-      digital designs:</label><br />
-    <textarea id="experienceDescription" name="experienceDescription" rows="4" required style="display: none">
-      </textarea><br />
-
-    <label for="biography">Please provide a short biography:</label><br />
+    <label id="experienceDescriptionLabel" for="experienceDescription" style="display: block;">If yes, please describe
+      your past experience
+      producing murals or digital designs:</label>
+    <br />
+    <textarea id="experienceDescription" name="experienceDescription" rows="4" style="display: block;"></textarea>
+    <div id="experienceLetterCount" style="display: none"></div>
+    <br />
+    <label for="biography">Please provide a short biography:<span class="isRequired">*</span></label><br />
     <textarea id="biography" name="biography" rows="4" required></textarea>
 
     <pr>Please select any genre that your artwork fits into. You may select as
@@ -151,7 +153,38 @@
       <label for="chinatown">Chinatown or Chinese heritage</label>
     </div>
     <br />
-    <pr>Please select your art medium (minimum one):<span class="isRequired">*</span></pr>
+    <p>Please select any genre that your artwork fits into. You may select
+      as many as you like (minimum one):<span class="isRequired">*</span></p>
+    <div class="align-pair-2">
+      <input type="checkbox" id="abstract" name="genre" value="Abstract" />
+      <label for="abstract">Abstract</label>
+    </div>
+    <div class="align-pair-2">
+      <input type="checkbox" id="cultural" name="genre" value="Cultural expression" />
+      <label for="cultural">Cultural Expression</label>
+    </div>
+    <div class="align-pair-2">
+      <input type="checkbox" id="realism" name="genre" value="Realism" />
+      <label for="realism">Realism</label>
+    </div>
+    <div class="align-pair-2">
+      <input type="checkbox" id="landscape" name="genre" value="Landscape / Nature" />
+      <label for="landscape">Landscape / Nature</label>
+    </div>
+    <div class="align-pair-2">
+      <input type="checkbox" id="narrative" name="genre" value="Narrative" />
+      <label for="narrative">Narrative (storytelling, myths, fairytales)</label>
+    </div>
+    <div class="align-pair-2">
+      <input type="checkbox" id="graffiti" name="genre" value="Graffiti" />
+      <label for="graffiti">Graffiti</label>
+    </div>
+    <div class="align-pair-2">
+      <input type="checkbox" id="cartoon" name="genre" value="Cartoon / Illustration" />
+      <label for="cartoon">Cartoon / Illustration</label>
+    </div>
+    <br />
+    <p>Please select your art medium (minimum one):<span class="isRequired">*</span></p>
     <div class="align-pair-2">
       <input type="checkbox" id="murals" name="preference" value="Painted Murals" />
       <label for="murals">Painted Murals</label>
@@ -162,7 +195,8 @@
     </div>
     <input type="submit" value="Submit" />
   </form>
-  <script src="/js/userform.js"></script>
 </body>
+<!-- Leave this script at the bottom or error will occur with biography being null -->
+<script src="/js/userform.js" defer></script>
 
 </html>

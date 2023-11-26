@@ -1,6 +1,4 @@
-export default
-
-class Artist
+export class Artist
 {
     static artists = [];
     static names = [
@@ -10,13 +8,23 @@ class Artist
     ];
 
     static culturalCategories = [
-        "Musqueam, Squamish, Tsleil-Waututh", "Urban Indigenous", "Black",
-        "South Asian", "Chinatown", "Chinese"
+        "Musqueam",
+        "Squamish",
+        "Tsleil-Waututh",
+        "Urban Indigenous",
+        "Black Artist",
+        "South Asian",
+        "Chinatown or Chinese Heritage"
     ];
 
     static genreCategories = [
-        "Abstract", "Cultural Expression", "Realism", "Landscape",
-        "Narrative", "Graffiti", "Cartoon", "Illustration"
+        "Abstract",
+        "Cultural expression",
+        "Realism",
+        "Landscape / Nature",
+        "Narrative",
+        "Graffiti",
+        "Cartoon / Illustration"
     ];
 
     static mediumCategories = ["Painted Murals", "Digital Design"];
@@ -64,6 +72,20 @@ class Artist
         this.website = website;
         this.facebook = facebook;
         this.instagram = instagram;
+    }
+
+}
+
+export class PartialArtist
+{
+    constructor(uuid, name, cultural, preference, genre, images)
+    {
+        this.uuid = uuid;
+        this.name = name;
+        this.cultural = cultural;
+        this.preference = preference;
+        this.genre = genre;
+        this.images = images;
     }
 
 }

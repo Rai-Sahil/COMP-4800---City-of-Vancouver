@@ -5,7 +5,7 @@ FROM node:14
 COPY package*.json ./
 
 # Install your application's dependencies
-RUN npm install express body-parser express-session multer path fs sharp bcrypt mysql2
+RUN npm install express body-parser express-session multer path fs sharp bcrypt mysql2 ejs
 
 # Bundle your app's source code inside the container
 COPY . .

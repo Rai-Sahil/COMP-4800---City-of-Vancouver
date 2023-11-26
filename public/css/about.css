@@ -1,9 +1,7 @@
 /* make the sides of the body blue and making the image extend to the full height */
 .header {
-    background-image: url("../images/mural2.jpg");
-    background-repeat: repeat;
-    background-position: center;
     padding: 10px;
+    background-color: rgb(0, 122, 188);
 }
 
 html {
@@ -21,12 +19,13 @@ body {
     word-spacing: normal;
     font-size: 1.5em;
     width: 100%;
-
+    color: white;
 }
 
 .about-us-text p {
     border-radius: 10px;
     padding: 10px;
+    background-color: rgb(58, 58, 58);
 }
 
 h1, h2 {
