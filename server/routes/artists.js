@@ -29,14 +29,6 @@ router.get('/', (req, res) =>
         console.log(result[0]);
         for (let i = 0; i < result[0].length; i++)
         {
-            // let images = [];
-            // // SWITCH TO UUID
-            // let imagePaths = fs.readdirSync(`public/artistImages/${result[0][i].name}/`, { withFileTypes: true });
-            // for (let j = 0; j < imagePaths.length; j++)
-            // {
-            //     images.push(`artistImages/${result[0][i].uuid}/${imagePaths[j].name}`);
-            // }
-            
             let image;
 
             if(fs.existsSync(`public/artistImages/${result[0][i].uuid}/`))
@@ -59,5 +51,43 @@ router.get('/', (req, res) =>
 
 });
 
+router.get('/single', (req, res) => 
+{
+    const artistId = req.query.id;
+
+    const query = `CALL getArtistById(${artistId});`;
+
+    mainConnection.query(query, function(err, result)
+    {
+        if (err)
+        {
+
+            res.status(500).send("Could not get artists");
+            return;
+            //throw err;  
+        }
+
+        if(result[0].length == 0)
+        {
+            res.status(404).send("Artist not found");
+            return;
+        }
+
+        let artist = result[0][0];
+
+        artist.images = [];
+        // SWITCH TO UUID
+        let imagePaths = fs.readdirSync(`public/artistImages/${artistId}/`, { withFileTypes: true });
+        for (let j = 0; j < imagePaths.length; j++)
+        {
+            artist.images.push(`artistImages/${artistId}/${imagePaths[j].name}`);
+        }
+            
+
+        res.contentType('application/json');
+        res.json(artist);
+    });
+
+});
 
 module.exports = router;

@@ -119,4 +119,9 @@ BEGIN
     SELECT uuid, genre, cultural, preference, name FROM user_application WHERE approved = 1;
 END //
 
+CREATE PROCEDURE getArtistById( IN p_uuid INT)
+BEGIN
+    SELECT name, email, phone, website, instagramHandle, facebookHandle, biography, cultural, genre, preference FROM user_application WHERE uuid = p_uuid;
+END //
+
 DELIMITER ;

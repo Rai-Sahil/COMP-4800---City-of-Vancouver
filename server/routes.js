@@ -108,7 +108,7 @@ app.post('/userform-submit', upload(), (req, res) => {
         biography: req.body.biography,
         genre: req.body.genre,
         cultural: req.body.cultural,
-        preference: req.body.medium,
+        preference: req.body.preference,
     };
 
     console.log(req.body);
