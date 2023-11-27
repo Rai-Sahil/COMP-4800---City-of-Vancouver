@@ -11,7 +11,6 @@ const { requireLogin, requireLogout } = require('./middleware');
 const { randomUUID } = require('crypto');
 const app = express.Router();
 const secretToken = 'admin123';
-const { mainConnection } = require('./db');
 
 const tempData = [];
 const permanentUsers = [];
