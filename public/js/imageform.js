@@ -71,7 +71,7 @@ function onChange()
 
 function upload()
 {
-    let form = document.getElementById('imageForm');
+    let form = document.getElementById('contactForm');
     let files = document.getElementById('image').files;
 
     if(files.length > MAX_AMOUNT_OF_FILES)
@@ -84,8 +84,6 @@ function upload()
         alert(`You must select at least ${MIN_AMOUNT_OF_FILES} file`);
         return;
     }
-
-    let formData = new FormData();
 
     for (let i = 0; i < files.length; i++)
     {
@@ -103,7 +101,6 @@ function upload()
             return;
         }
 
-        formData.append('file', file, file.name);
     }
 
     form.submit();

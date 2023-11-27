@@ -111,12 +111,12 @@ END //
 
 CREATE PROCEDURE getPartialApplications()
 BEGIN
-    SELECT applicationID, genre, cultural, preference, name FROM user_application;
+    SELECT uuid, genre, cultural, preference, name FROM user_application;
 END //
 
 CREATE PROCEDURE getPartialApprovedApplications()
 BEGIN
-    SELECT applicationID, genre, cultural, preference, name FROM user_application WHERE approved = 1;
+    SELECT uuid, genre, cultural, preference, name FROM user_application WHERE approved = 1;
 END //
 
 DELIMITER ;
