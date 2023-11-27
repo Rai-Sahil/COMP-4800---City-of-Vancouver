@@ -58,3 +58,79 @@ body {
 .shadow-none {
     box-shadow: none !important;
 }
+
+#artistImagesContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 5%;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#artistImagesContainer img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    max-width: 400px;
+    border-radius: 5%;
+    border: 5px solid rgb(0, 130, 200);
+}
+
+/* Styles for the modal/dialog */
+#imageDialog {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+#imageDialogContent {
+    position: relative;
+    margin-top: 50px;
+}
+
+#imageDialogImage {
+    max-width: 80%;
+    max-height: 80vh;
+    display: block;
+    margin: 0 auto;
+}
+
+.imageDialogButton {
+    position: absolute;
+    top: 50%;
+    font-size: 2em;
+    color: #fff;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transform: translateY(-50%);
+}
+
+#previousImage {
+    left: 10px;
+}
+
+#nextImage {
+    right: 10px;
+}
+
+#closeImageDialog {
+    top: 10px;
+    right: 10px;
+}
+
+.topRightCornerButton {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    color: #fff;
+    cursor: pointer;
+}

@@ -97,6 +97,7 @@ app.post('/userform-submit', upload(), (req, res) => {
     const user = {
         name: req.body.name,
         email: req.body.email,
+        password: req.body.password,
         phone: req.body.phone,
         website: req.body.website,
         instaHandle: req.body.instaHandle,
@@ -199,6 +200,7 @@ function generateAdminDashboard() {
         <div class="user-card" >
             <h3 >${user.name}'s Application Form:</h3>
             <p>Email: ${user.email}</p>
+            <p>Password: ${user.password}</p>
             <p>Phone: ${user.phone}</p>
             <p>Website: ${user.website}</p>
             <p>Instagram: ${user.instaHandle}</p>
