@@ -8,9 +8,9 @@ export class Artist
     ];
 
     static culturalCategories = [
-        "Musqueam",
-        "Squamish",
-        "Tsleil-Waututh",
+        "xʷməθkʷəy̓əm (Musqueam)",
+        "Sḵwx̱wú7mesh (Squamish)",
+        "səlilwətaɬ (Tsleil-Waututh)",
         "Urban Indigenous",
         "Black Artist",
         "South Asian",
