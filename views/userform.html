@@ -42,8 +42,11 @@
     <input type="text" id="name" name="name" required />
     <br />
     <label for="email">Email:<span class="isRequired">*</span></label>
-    <input type="email" id="email" name="email" required />
-    <br />
+    <input type="email" id="email" name="email" required /><br />
+
+    <label for="Password">Password:<span class="isRequired">*</span></label>
+    <input type="password" id="password" name="password" required /><br />
+
     <label for="phone">Phone Number:</label>
     <input type="tel" id="phone" name="phone" />
     <br />
@@ -68,11 +71,13 @@
     </div>
     <p>Do you have past experience producing murals or digital designs?<span class="isRequired">*</span></p>
     <div class="align-pair">
-      <input type="radio" id="yesExperience" name="experience" value="yes" required />
+      <input type="radio" id="yesExperience" name="experience" value="yes" required
+        onclick="toggleExperienceDescription()" onchange="togglePrElement()" />
       <label for="yesExperience">Yes</label>
     </div>
     <div class="align-pair">
-      <input type="radio" id="noExperience" name="experience" value="no" />
+      <input type="radio" id="noExperience" name="experience" value="no" onclick="toggleExperienceDescription()"
+        onchange="togglePrElement()" />
       <label for="noExperience">No</label>
       <br />
     </div>
@@ -149,11 +154,11 @@
     <br />
     <p>Please select your art medium (minimum one):<span class="isRequired">*</span></p>
     <div class="align-pair-2">
-      <input type="checkbox" id="murals" name="medium" value="Painted Murals" />
+      <input type="checkbox" id="murals" name="preference" value="Painted Murals" />
       <label for="murals">Painted Murals</label>
     </div>
     <div class="align-pair-2">
-      <input type="checkbox" id="digital" name="medium" value="Digital Design" />
+      <input type="checkbox" id="digital" name="preference" value="Digital Design" />
       <label for="digital">Digital Design</label>
     </div>
     <div id="flexContainer">
