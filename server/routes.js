@@ -107,13 +107,16 @@ app.post('/userform-submit', upload(), (req, res) => {
         biography: req.body.biography,
         genre: req.body.genre,
         cultural: req.body.cultural,
-        preference: req.body.preferences,
+        preference: req.body.medium,
     };
 
+    console.log(req.body);
     tempData.push(user);
 
     const dummyUUID = Math.floor(Math.random() * 1000);
 
+    console.log(req.session.uuid);
+    //req.body.uuid = req.session.uuid;
     req.body.uuid = dummyUUID;
     try 
     {
