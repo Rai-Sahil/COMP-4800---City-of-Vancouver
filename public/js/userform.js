@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var yesExperienceRadio = document.getElementById('yesExperience');
   var noExperienceRadio = document.getElementById('noExperience');
   var experienceDescription = document.getElementById('experienceDescription');
+  
 
   yesExperienceRadio.addEventListener('change', function () {
     experienceDescription.required = this.checked;
@@ -33,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   document.getElementById('biography').addEventListener('input', function (e) {
-    limitLetters(e, biographyLetterCountMaximum, 'letterCount');
+    limitLetters(e, biographyLetterCountMaximum, 'bioLetterCount');
   });
 
   document.getElementById('experienceDescription').addEventListener('input', function (e) {
