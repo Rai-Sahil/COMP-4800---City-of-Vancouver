@@ -41,7 +41,7 @@ create table if not exists user_application (
     preference varchar(1023),
     approved bit default 0,
     rejectionReason varchar(255),
-    primary key (applicationID),
+    primary key (uuid, applicationID),
     foreign key (uuid) references user(uuid) on delete cascade	
 ) engine=MyISAM;
 
