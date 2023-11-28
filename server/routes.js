@@ -96,6 +96,7 @@ const upload = () =>
 app.post('/userform-submit', upload(), (req, res) => {
     const user = {
         name: req.body.name,
+        pronoun: req.body.pronoun,
         email: req.body.email,
         password: req.body.password,
         phone: req.body.phone,
@@ -199,6 +200,7 @@ function generateAdminDashboard() {
         dashboard += `
         <div class="user-card" >
             <h3 >${user.name}'s Application Form:</h3>
+            <p>Pronoun: ${user.pronoun}</p>
             <p>Email: ${user.email}</p>
             <p>Password: ${user.password}</p>
             <p>Phone: ${user.phone}</p>
