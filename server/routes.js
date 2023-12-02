@@ -81,7 +81,6 @@ app.post('/login', (req, res) => {
 });
 
 const upload = () => {
-const upload = () => {
     return imageUpload = multer({
         storage: multer.memoryStorage(),
         limits: { fileSize: FILESIZE_MAX_BYTES },
@@ -208,16 +207,14 @@ app.get('/artists', (req, res) => {
             let image;
 
             if (fs.existsSync(`public/artistImages/${result[0][i].uuid}/`)) {
-            if (fs.existsSync(`public/artistImages/${result[0][i].uuid}/`)) {
+            
                 let imagePaths = fs.readdirSync(`public/artistImages/${result[0][i].uuid}/`, { withFileTypes: true });
                 image = `artistImages/${result[0][i].uuid}/${imagePaths[0].name}`;
             }
             else {
-            else {
                 continue;
             }
 
-            let partialArtist = { uuid: result[0][i].uuid, name: result[0][i].name, cultural: result[0][i].cultural, preference: result[0][i].preference, genre: result[0][i].genre, image: image };
             let partialArtist = { uuid: result[0][i].uuid, name: result[0][i].name, cultural: result[0][i].cultural, preference: result[0][i].preference, genre: result[0][i].genre, image: image };
             partialArtists.push(partialArtist);
         }
@@ -393,6 +390,6 @@ const createFiles = async (req, res) => {
         }
         res.status(400).send("Error converting images");
     }
-};
 
+};
 module.exports = app;
