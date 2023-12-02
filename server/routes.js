@@ -80,8 +80,7 @@ app.post('/login', (req, res) => {
     })
 });
 
-const upload = () => 
-{
+const upload = () => {
     return imageUpload = multer({
         storage: multer.memoryStorage(),
         limits: { fileSize: FILESIZE_MAX_BYTES },
@@ -128,12 +127,11 @@ app.post('/userform-submit', upload(), (req, res) => {
     req.body.uuid = dummyUUID;
     try {
         createFiles(req, res);
-    } catch (err) 
-    {
+    } catch (err) {
         res.status(400).send("Error uploading images");
         return;
     }
-        
+
     const bcResident = user.bcResident === 'no' ? 0 : 1;
     const experience = user.experience === 'no' ? 0 : 1;
 
@@ -186,14 +184,11 @@ app.post("/reject/:index", (req, res) => {
     });
 });
 
-app.get('/artists', (req, res) => 
-{
+app.get('/artists', (req, res) => {
     const query = `CALL getPartialApplications();`;
 
-    mainConnection.query(query, function(err, result)
-    {
-        if (err)
-        {
+    mainConnection.query(query, function (err, result) {
+        if (err) {
             res.status(500).send("Could not get artists");
             return;
             //throw err;  
@@ -202,21 +197,18 @@ app.get('/artists', (req, res) =>
         let partialArtists = [];
 
         console.log(result[0]);
-        for (let i = 0; i < result[0].length; i++)
-        {
+        for (let i = 0; i < result[0].length; i++) {
             let image;
 
-            if(fs.existsSync(`public/artistImages/${result[0][i].uuid}/`))
-            {
+            if (fs.existsSync(`public/artistImages/${result[0][i].uuid}/`)) {
                 let imagePaths = fs.readdirSync(`public/artistImages/${result[0][i].uuid}/`, { withFileTypes: true });
                 image = `artistImages/${result[0][i].uuid}/${imagePaths[0].name}`;
             }
-            else
-            {
+            else {
                 continue;
             }
 
-            let partialArtist = {uuid: result[0][i].uuid, name: result[0][i].name, cultural: result[0][i].cultural, preference: result[0][i].preference, genre: result[0][i].genre , image: image};
+            let partialArtist = { uuid: result[0][i].uuid, name: result[0][i].name, cultural: result[0][i].cultural, preference: result[0][i].preference, genre: result[0][i].genre, image: image };
             partialArtists.push(partialArtist);
         }
         const stringified = JSON.stringify(partialArtists);
@@ -226,22 +218,20 @@ app.get('/artists', (req, res) =>
 
 });
 
-app.get('/artists/single', (req, res) => 
-{
+app.get('/artists/single', (req, res) => {
     const artistId = req.query.id;
 
     const query = `CALL getArtistById(${artistId});`;
 
-    mainConnection.query(query, function(err, result)
-    {
-        if (err)
-        {
+    mainConnection.query(query, function (err, result) {
+        if (err) {
 
             res.status(500).send("Could not get artists");
             return;
             //throw err;  
         }
-
+    });
+});
 
 function generateAdminDashboard() {
     let dashboard = `
@@ -290,8 +280,7 @@ function generateAdminDashboard() {
         </div>
         `;
 
-        if(result[0].length == 0)
-        {
+        if (result[0].length == 0) {
             res.status(404).send("Artist not found");
             return;
         }
@@ -301,17 +290,16 @@ function generateAdminDashboard() {
         artist.images = [];
         // SWITCH TO UUID
         let imagePaths = fs.readdirSync(`public/artistImages/${artistId}/`, { withFileTypes: true });
-        for (let j = 0; j < imagePaths.length; j++)
-        {
+        for (let j = 0; j < imagePaths.length; j++) {
             artist.images.push(`artistImages/${artistId}/${imagePaths[j].name}`);
         }
-            
+
 
         res.contentType('application/json');
         res.json(artist);
 
     });
-});
+};
 
 app.delete("/imageUpload", (req, res) => {
     const uuid = req.body.uuid;
@@ -349,8 +337,7 @@ app.delete("/imageUpload", (req, res) => {
     res.send("Success");
 });
 
-const createFiles = async (req, res) => 
-{
+const createFiles = async (req, res) => {
     console.log("hellow world");
     let uuid = req.body.uuid;
 
