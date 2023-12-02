@@ -4,16 +4,16 @@ CREATE DATABASE IF NOT EXISTS `CityofVan`;
 use CityofVan;
 
 create table if not exists user (
-    uuid int not null,
+    uuid int not null auto_increment primary key,
     email varchar(31) not null,
     password varchar(255) not null,
     name varchar(31) not null,
     role bit default 0
-)
+);
 
 create table if not exists user_application (
-    applicationId int not null auto_increment,
-    uuid int not null auto_increment,
+    uuid int not null,
+    applicationID int not null auto_increment,
     name varchar(31) not null,
     email varchar(31) not null,
     phone varchar(15),
@@ -28,9 +28,9 @@ create table if not exists user_application (
     cultural varchar(1023),
     preference varchar(1023),
     approved bit default 0,
-    creationDate datetime default current_timestamp,
-    primary key (applicationId, uuid)
-    foreign key (uuid) references user(uuid) on delete cascade
+    rejectionReason varchar(255),
+    primary key (uuid, applicationID),
+    foreign key (uuid) references user(uuid) on delete cascade	
 ) engine=MyISAM;
 
 create table if not exists user_art (
