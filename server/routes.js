@@ -55,6 +55,12 @@ app.get('/userProfile', (req, res) => {
     });
 });
 
+app.get('/admin', (req, res) => {
+    res.sendFile("admin.html", {
+        root: path.join(__dirname, '../views')
+    });
+});
+
 app.post('/login', (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
@@ -142,19 +148,15 @@ app.post('/userform-submit', upload(), (req, res) => {
     });
 });
 
-app.use("/admin", (req, res, next) => {
-    const token = req.query.token;
+app.use("/admin/user_application", (req, res, next) => {
 
-    if (token === secretToken) {
-        giveAdminUserApplication((data) => {
-            console.log(data[0][0]);
-            if (data[0] !== null) {
-                res.status(200).send(generateAdminDashboard(data[0]));
-            }
-        });
-    } else {
-        res.status(403).send("Access Denied");
-    }
+    giveAdminUserApplication((data) => {
+        console.log('Users are ', data[0][0]);
+        if (data[0] !== null) {
+            // res.status(200).send(generateAdminDashboard(data[0]));
+            res.status(200).send(data[0]);
+        }
+    });
 });
 
 app.post("/accept/:email", (req, res) => {
@@ -163,28 +165,24 @@ app.post("/accept/:email", (req, res) => {
         console.log('Response is ', response);
     });
 
-    // TODO What does this do? Ask Traillio
-    // createUser(user, (response) => {
-    //     console.log(response);
+    // giveAdminUserApplication((data) => {
+    //     console.log(data[0][0]);
+    //     if (data[0] !== null) {
+    //         res.status(200).send(generateAdminDashboard(data[0]));
+    //     }
     // });
 
-    giveAdminUserApplication((data) => {
-        console.log(data[0][0]);
-        if (data[0] !== null) {
-            res.status(200).send(generateAdminDashboard(data[0]));
-        }
+    res.sendFile("admin.html", {
+        root: path.join(__dirname, '../views')
     });
 });
 
 app.post("/reject/:index", (req, res) => {
-    const index = req.params.index;
-    const user = tempData[index];
+    const email = req.params.email;
 
-    rejectedUsers.push(user);
-
-    tempData.splice(index, 1);
-
-    res.send(generateAdminDashboard());
+    res.sendFile("admin.html", {
+        root: path.join(__dirname, '../views')
+    });
 });
 
 app.get('/artists', (req, res) => 
@@ -300,55 +298,6 @@ app.delete("/imageUpload", (req, res) => {
 
     res.send("Success");
 });
-
-function generateAdminDashboard(data) {
-    let dashboard = `
-  <!DOCTYPE html>
-  <html>
-  <head>
-      <title>Admin Dashboard</title>
-      <link rel="stylesheet" type="text/css" href="/css/adminDashboard.css">
-  </head>
-  <body>
-      <h1>Admin Dashboard</h1>
-  `;
-    data.forEach((user, index) => {
-        dashboard += `
-        <div class="user-card" >
-            <h3 >${user.name}'s Application Form:</h3>
-            <p>Email: ${user.email}</p>
-            <p>Phone: ${user.phone}</p>
-            <p>Website: ${user.website}</p>
-            <p>Instagram: ${user.instagramHandle}</p>
-            <p>Facebook: ${user.facebookHandle}</p>
-            <p>BC Resident: ${user.bcResident}</p>
-            <p>Experience: ${user.experience}</p>
-            <p>Experience Description: ${user.experienceDescription}</p>
-            <p>Biography: ${user.biography}</p>
-            <p>Genres: ${Array.isArray(user.genre) ? user.genre.join(", ") : user.genre
-            }</p>
-            <p>Cultural Categories: ${Array.isArray(user.cultural)
-                ? user.cultural.join(", ")
-                : user.cultural
-            }</p>
-            <p>Preferences: ${Array.isArray(user.preference)
-                ? user.preference.join(", ")
-                : user.preference
-            }</p>
-            <div class="button-container">
-                <form method="POST" action="/accept/${user.email}">
-                    <button type="submit" class="accept-button">Accept</button>
-                </form>
-                <form method="POST" action="/reject/${user.email}">
-                    <button type="submit" class="reject-button">Reject</button>
-                </form>
-            </div>        
-        </div>
-        `;
-    });
-    dashboard += '</body></html>';
-    return dashboard;
-}
 
 const createFiles = async (req, res) => 
 {

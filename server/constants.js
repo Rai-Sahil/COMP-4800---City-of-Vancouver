@@ -1,4 +1,5 @@
 "use strict";
+const nodemailer = require("nodemailer");
 
 const connectionParams = {
     host: process.env.DB_HOST || "localhost",

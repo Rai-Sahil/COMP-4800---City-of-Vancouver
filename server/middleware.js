@@ -1,6 +1,5 @@
 "use strict";
 const { transporter } = require("./constants");
-const nodeMailer = require("nodemailer");
 
 function requireLogin(req, res, next) {
     if (req.session.loggedIn) {
