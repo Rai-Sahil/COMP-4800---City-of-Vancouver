@@ -49,7 +49,7 @@ app.get('/userform', (req, res) => {
     });
 });
 
-app.get('/userProfile', (req, res) => {
+app.get('/userProfile', requireLogin, (req, res) => {
     res.sendFile("userProfile.html", {
         root: path.join(__dirname, '../views')
     });
