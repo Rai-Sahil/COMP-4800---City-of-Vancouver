@@ -31,9 +31,9 @@ async function authenticate(email, password, callback) {
 async function isEmailInUse(email) {
     try {
         const query = `SELECT * FROM user WHERE email = ?`;
-        const [[user]] = await connection.query(query, [email])
-
-        if (!user) return true;
+        const result = await connection.query(query, [email])
+        
+        if (result[0].length > 0) return true;
         else return false;
     } catch (err) {
         console.log("Error something went wrong: ", err)
@@ -42,7 +42,7 @@ async function isEmailInUse(email) {
 
 async function createUser(user, callback) {
     try {
-        const { name, email, password, phone, biography, website, facebook, instagram, twitter, linkedin, youtube, admin } = user;
+        const { email, password, name } = user;
 
         if (await isEmailInUse(email)) {
             return callback({ status: 409, message: "Email already in use." });
@@ -50,13 +50,13 @@ async function createUser(user, callback) {
 
         const saltRounds = 10;
         
-        const hashedPassword = await bcrypt.hash("password", saltRounds);
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
         const insertUserQuery = `
-            INSERT INTO user (name, email, password, phone, biography, website, facebook, instagram, twitter, linkedin, youtube, admin)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO user (email, password, name)
+            VALUES (?, ?, ?)
         `;
 
-        await connection.query(insertUserQuery, [name, email, hashedPassword, phone, biography, website, facebook, instagram, twitter, linkedin, youtube, admin]);
+        await connection.query(insertUserQuery, [email, hashedPassword, name]);
 
         const getUserByEmailQuery = `SELECT * FROM user WHERE email = ? LIMIT 1;`;
         const [[newUser]] = await connection.query(getUserByEmailQuery, [email]);

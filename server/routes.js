@@ -80,8 +80,7 @@ app.post('/login', (req, res) => {
     })
 });
 
-const upload = () => 
-{
+const upload = () => {
     return imageUpload = multer({
         storage: multer.memoryStorage(),
         limits: { fileSize: FILESIZE_MAX_BYTES },
@@ -117,35 +116,41 @@ app.post('/userform-submit', upload(), (req, res) => {
         preference: req.body.preference,
     };
 
-    console.log(req.body);
     tempData.push(user);
 
-    const dummyUUID = Math.floor(Math.random() * 1000);
-
-    console.log(req.session.uuid);
-    //req.body.uuid = req.session.uuid;
-    req.body.uuid = dummyUUID;
-    try {
-        createFiles(req, res);
-    } catch (err) 
-    {
-        res.status(400).send("Error uploading images");
-        return;
-    }
-        
-    const bcResident = user.bcResident === 'no' ? 0 : 1;
-    const experience = user.experience === 'no' ? 0 : 1;
-
-    const query = `CALL createApplication(${dummyUUID}, '${user.name}', '${user.email}', '${user.phone}', '${user.website}', '${user.instaHandle}', '${user.facebookHandle}', ${bcResident}, ${experience}, '${user.experienceDescription}', '${user.biography}', '${user.genre}', '${user.cultural}', '${user.preference}');`
-
-    mainConnection.query(query, function (err, result) {
-        if (err) {
-            res.status(500).send("Could not register user");
+    //const dummyUUID = Math.floor(Math.random() * 1000);
+    createUser(user, (response) => {
+        //req.body.uuid = req.session.uuid;
+        if(response.status === 409) {
+            res.status(409).send("Email already in use");
             return;
-        } else {
-            res.render("../views/Components/successfullSubmission.ejs");
         }
+
+        req.body.uuid = response.user.uuid;
+        try {
+            createFiles(req, res);
+        } catch (err) {
+            res.status(400).send("Error uploading images");
+            return;
+        }
+
+        const bcResident = user.bcResident === 'no' ? 0 : 1;
+        const experience = user.experience === 'no' ? 0 : 1;
+
+        const query = `CALL createApplication(${response.user.uuid}, '${user.name}', '${user.email}', '${user.phone}', '${user.website}', '${user.instaHandle}', '${user.facebookHandle}', ${bcResident}, ${experience}, '${user.experienceDescription}', '${user.biography}', '${user.genre}', '${user.cultural}', '${user.preference}');`
+
+        mainConnection.query(query, function (err, result) {
+            if (err) {
+                res.status(500).send("Could not register user");
+                return;
+            } else {
+                res.render("../views/Components/successfullSubmission.ejs");
+            }
+        });
+
     });
+
+
 });
 
 app.use("/admin/user_application", (req, res, next) => {
@@ -185,14 +190,11 @@ app.post("/reject/:index", (req, res) => {
     });
 });
 
-app.get('/artists', (req, res) => 
-{
+app.get('/artists', (req, res) => {
     const query = `CALL getPartialApplications();`;
 
-    mainConnection.query(query, function(err, result)
-    {
-        if (err)
-        {
+    mainConnection.query(query, function (err, result) {
+        if (err) {
             res.status(500).send("Could not get artists");
             return;
             //throw err;  
@@ -200,22 +202,18 @@ app.get('/artists', (req, res) =>
 
         let partialArtists = [];
 
-        console.log(result[0]);
-        for (let i = 0; i < result[0].length; i++)
-        {
+        for (let i = 0; i < result[0].length; i++) {
             let image;
 
-            if(fs.existsSync(`public/artistImages/${result[0][i].uuid}/`))
-            {
+            if (fs.existsSync(`public/artistImages/${result[0][i].uuid}/`)) {
                 let imagePaths = fs.readdirSync(`public/artistImages/${result[0][i].uuid}/`, { withFileTypes: true });
                 image = `artistImages/${result[0][i].uuid}/${imagePaths[0].name}`;
             }
-            else
-            {
+            else {
                 continue;
             }
 
-            let partialArtist = {uuid: result[0][i].uuid, name: result[0][i].name, cultural: result[0][i].cultural, preference: result[0][i].preference, genre: result[0][i].genre , image: image};
+            let partialArtist = { uuid: result[0][i].uuid, name: result[0][i].name, cultural: result[0][i].cultural, preference: result[0][i].preference, genre: result[0][i].genre, image: image };
             partialArtists.push(partialArtist);
         }
         const stringified = JSON.stringify(partialArtists);
@@ -225,24 +223,20 @@ app.get('/artists', (req, res) =>
 
 });
 
-app.get('/artists/single', (req, res) => 
-{
+app.get('/artists/single', (req, res) => {
     const artistId = req.query.id;
 
     const query = `CALL getArtistById(${artistId});`;
 
-    mainConnection.query(query, function(err, result)
-    {
-        if (err)
-        {
+    mainConnection.query(query, function (err, result) {
+        if (err) {
 
             res.status(500).send("Could not get artists");
             return;
             //throw err;  
         }
 
-        if(result[0].length == 0)
-        {
+        if (result[0].length == 0) {
             res.status(404).send("Artist not found");
             return;
         }
@@ -252,11 +246,10 @@ app.get('/artists/single', (req, res) =>
         artist.images = [];
         // SWITCH TO UUID
         let imagePaths = fs.readdirSync(`public/artistImages/${artistId}/`, { withFileTypes: true });
-        for (let j = 0; j < imagePaths.length; j++)
-        {
+        for (let j = 0; j < imagePaths.length; j++) {
             artist.images.push(`artistImages/${artistId}/${imagePaths[j].name}`);
         }
-            
+
 
         res.contentType('application/json');
         res.json(artist);
@@ -299,9 +292,8 @@ app.delete("/imageUpload", (req, res) => {
     res.send("Success");
 });
 
-const createFiles = async (req, res) => 
-{
-    console.log("hellow world");
+const createFiles = async (req, res) => {
+
     let uuid = req.body.uuid;
 
 

@@ -147,7 +147,7 @@ span.isRequired {
   box-shadow: 0px 0px 10px #ccc;
   border-radius: 5px;
   min-height: 50vh;
-  min-width: 50vw;
+  width: 75%;
   border: #333  solid 1px;
 }
 
