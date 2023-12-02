@@ -71,9 +71,43 @@ async function createUser(user, callback) {
     }
 }
 
+async function giveAdminUserApplication(callback) {
+    try {
+        const query = `SELECT * FROM user_application where approved = 0`;
+        const data = await connection.query(query);
+        return callback(data);
+    } catch (error) {
+        console.log("Error something went wrong: ", error);
+    }
+}
+
+async function approveUserApplication(email, callback) {
+    try {
+        const query = `UPDATE user_application SET approved = 1 WHERE email = ?`;
+        await connection.query(query, [email], (err, result) => {
+            if (err) console.log('Error approving user application: ', err);
+            else return callback(result);
+        });
+    } catch (error) {
+        console.log("Error something went wrong: ", error);
+    }
+}
+
+async function getApprovedUser(callback) {
+    try {
+        const query = `SELECT * FROM user_application WHERE approved = 1`;
+        const data = await connection.query(query);
+        return callback(data);
+    } catch (error) {
+        console.log("Error something went wrong: ", error);
+    }
+}
 
 module.exports = {
     authenticate,
     createUser,
-    mainConnection
+    mainConnection,
+    giveAdminUserApplication,
+    approveUserApplication,
+    getApprovedUser
 };

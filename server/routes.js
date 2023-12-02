@@ -5,7 +5,7 @@ const multer = require('multer');
 const fs = require('fs');
 const sharp = require('sharp');
 const FILESIZE_MAX_BYTES = 2000000;
-const { createUser, authenticate, mainConnection } = require('./db');
+const { createUser, authenticate, mainConnection, giveAdminUserApplication, approveUserApplication, getApprovedUser } = require('./db');
 // Required login and logout functions from middleware.js
 const { requireLogin, requireLogout } = require('./middleware');
 const { randomUUID } = require('crypto');
@@ -119,11 +119,9 @@ app.post('/userform-submit', upload(), (req, res) => {
     console.log(req.session.uuid);
     //req.body.uuid = req.session.uuid;
     req.body.uuid = dummyUUID;
-    try 
-    {
+    try {
         createFiles(req, res);
-    }
-    catch (err) 
+    } catch (err) 
     {
         res.status(400).send("Error uploading images");
         return;
@@ -134,16 +132,12 @@ app.post('/userform-submit', upload(), (req, res) => {
 
     const query = `CALL createApplication(${dummyUUID}, '${user.name}', '${user.email}', '${user.phone}', '${user.website}', '${user.instaHandle}', '${user.facebookHandle}', ${bcResident}, ${experience}, '${user.experienceDescription}', '${user.biography}', '${user.genre}', '${user.cultural}', '${user.preference}');`
 
-    mainConnection.query(query, function (err, result) 
-    {
-        if (err) 
-        {
+    mainConnection.query(query, function (err, result) {
+        if (err) {
             res.status(500).send("Could not register user");
             return;
-        }
-        else
-        {
-            res.render("Components/successfullSubmission")
+        } else {
+            res.render("../views/Components/successfullSubmission.ejs");
         }
     });
 });
@@ -152,24 +146,34 @@ app.use("/admin", (req, res, next) => {
     const token = req.query.token;
 
     if (token === secretToken) {
-        res.send(generateAdminDashboard());
-        next();
+        giveAdminUserApplication((data) => {
+            console.log(data[0][0]);
+            if (data[0] !== null) {
+                res.status(200).send(generateAdminDashboard(data[0]));
+            }
+        });
     } else {
         res.status(403).send("Access Denied");
     }
 });
 
-app.post("/accept/:index", (req, res) => {
-    const index = req.params.index;
-    const user = tempData[index];
-
-    createUser(user, (response) => {
-        console.log(response);
+app.post("/accept/:email", (req, res) => {
+    const { email } = req.params;
+    approveUserApplication(email, (response) => {
+        console.log('Response is ', response);
     });
 
-    tempData.splice(index, 1);
-    console.log(tempData);
-    res.send(generateAdminDashboard());
+    // TODO What does this do? Ask Traillio
+    // createUser(user, (response) => {
+    //     console.log(response);
+    // });
+
+    giveAdminUserApplication((data) => {
+        console.log(data[0][0]);
+        if (data[0] !== null) {
+            res.status(200).send(generateAdminDashboard(data[0]));
+        }
+    });
 });
 
 app.post("/reject/:index", (req, res) => {
@@ -191,7 +195,6 @@ app.get('/artists', (req, res) =>
     {
         if (err)
         {
-
             res.status(500).send("Could not get artists");
             return;
             //throw err;  
@@ -298,7 +301,7 @@ app.delete("/imageUpload", (req, res) => {
     res.send("Success");
 });
 
-function generateAdminDashboard() {
+function generateAdminDashboard(data) {
     let dashboard = `
   <!DOCTYPE html>
   <html>
@@ -309,15 +312,14 @@ function generateAdminDashboard() {
   <body>
       <h1>Admin Dashboard</h1>
   `;
-    tempData.forEach((user, index) => {
+    data.forEach((user, index) => {
         dashboard += `
         <div class="user-card" >
             <h3 >${user.name}'s Application Form:</h3>
             <p>Email: ${user.email}</p>
-            <p>Password: ${user.password}</p>
             <p>Phone: ${user.phone}</p>
             <p>Website: ${user.website}</p>
-            <p>Instagram: ${user.instaHandle}</p>
+            <p>Instagram: ${user.instagramHandle}</p>
             <p>Facebook: ${user.facebookHandle}</p>
             <p>BC Resident: ${user.bcResident}</p>
             <p>Experience: ${user.experience}</p>
@@ -334,10 +336,10 @@ function generateAdminDashboard() {
                 : user.preference
             }</p>
             <div class="button-container">
-                <form method="POST" action="/accept/${index}">
+                <form method="POST" action="/accept/${user.email}">
                     <button type="submit" class="accept-button">Accept</button>
                 </form>
-                <form method="POST" action="/reject/${index}">
+                <form method="POST" action="/reject/${user.email}">
                     <button type="submit" class="reject-button">Reject</button>
                 </form>
             </div>        
