@@ -241,6 +241,8 @@ app.get('/artists/single', (req, res) =>
             return;
             //throw err;  
         }
+    });
+});
 
 
 function generateAdminDashboard() {
@@ -311,7 +313,7 @@ function generateAdminDashboard() {
         res.json(artist);
 
     });
-});
+};
 
 app.delete("/imageUpload", (req, res) => {
     const uuid = req.body.uuid;
