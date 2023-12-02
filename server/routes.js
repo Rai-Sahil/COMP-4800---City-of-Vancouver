@@ -49,7 +49,7 @@ app.get('/userform', (req, res) => {
     });
 });
 
-app.get('/userProfile', (req, res) => {
+app.get('/userProfile', requireLogin, (req, res) => {
     res.sendFile("userProfile.html", {
         root: path.join(__dirname, '../views')
     });
@@ -101,6 +101,7 @@ const upload = () => {
 app.post('/userform-submit', upload(), (req, res) => {
     const user = {
         name: req.body.name,
+        pronoun: req.body.pronoun,
         email: req.body.email,
         password: req.body.password,
         phone: req.body.phone,
@@ -235,6 +236,56 @@ app.get('/artists/single', (req, res) => {
             return;
             //throw err;  
         }
+    });
+});
+
+
+function generateAdminDashboard() {
+    let dashboard = `
+  <!DOCTYPE html>
+  <html>
+  <head>
+      <title>Admin Dashboard</title>
+      <link rel="stylesheet" type="text/css" href="/css/adminDashboard.css">
+  </head>
+  <body>
+      <h1>Admin Dashboard</h1>
+  `;
+    tempData.forEach((user, index) => {
+        dashboard += `
+        <div class="user-card" >
+            <h3 >${user.name}'s Application Form:</h3>
+            <p>Pronoun: ${user.pronoun}</p>
+            <p>Email: ${user.email}</p>
+            <p>Password: ${user.password}</p>
+            <p>Phone: ${user.phone}</p>
+            <p>Website: ${user.website}</p>
+            <p>Instagram: ${user.instaHandle}</p>
+            <p>Facebook: ${user.facebookHandle}</p>
+            <p>BC Resident: ${user.bcResident}</p>
+            <p>Experience: ${user.experience}</p>
+            <p>Experience Description: ${user.experienceDescription}</p>
+            <p>Biography: ${user.biography}</p>
+            <p>Genres: ${Array.isArray(user.genre) ? user.genre.join(", ") : user.genre
+            }</p>
+            <p>Cultural Categories: ${Array.isArray(user.cultural)
+                ? user.cultural.join(", ")
+                : user.cultural
+            }</p>
+            <p>Preferences: ${Array.isArray(user.preference)
+                ? user.preference.join(", ")
+                : user.preference
+            }</p>
+            <div class="button-container">
+                <form method="POST" action="/accept/${index}">
+                    <button type="submit" class="accept-button">Accept</button>
+                </form>
+                <form method="POST" action="/reject/${index}">
+                    <button type="submit" class="reject-button">Reject</button>
+                </form>
+            </div>        
+        </div>
+        `;
 
         if (result[0].length == 0) {
             res.status(404).send("Artist not found");
@@ -253,8 +304,9 @@ app.get('/artists/single', (req, res) => {
 
         res.contentType('application/json');
         res.json(artist);
+
     });
-});
+};
 
 app.delete("/imageUpload", (req, res) => {
     const uuid = req.body.uuid;

@@ -41,6 +41,14 @@
     <label for="name">Preferred Name / Artist Handle:<span class="isRequired">*</span></label>
     <input type="text" id="name" name="name" required />
     <br />
+    <label for="pronoun">Pronoun:</label>
+    <select id="pronoun" name="pronoun">
+      <option value="she">she/her/hers</option>
+      <option value="he">he/him/his</option>
+      <option value="they">they/them/theirs</option>
+      <option value="none">prefer not to say</option>
+    </select>
+    <br />
     <label for="email">Email:<span class="isRequired">*</span></label>
     <input type="email" id="email" name="email" required /><br />
 
@@ -61,37 +69,41 @@
     <br />
     <p>Do you reside in BC and have the legal right to work here?<span class="isRequired">*</span></p>
     <div class="align-pair">
-      <input type="radio" id="yesBC" name="BCResident" value="yes" required />
+      <input type="radio" id="yesBC" name="BCResident" value="yes" onclick="toggleResidency()" required />
       <label for="yesBC">Yes</label>
     </div>
     <div class="align-pair">
-      <input type="radio" id="noBC" name="BCResident" value="no" />
+      <input type="radio" id="noBC" name="BCResident" value="no" onclick="toggleResidency()"/>
       <label for="noBC">No</label>
       <br />
     </div>
+    <div id="error-message-1" style="color: red; display: none;">If you are not a BC resident or not legal to work, you can not apply for Artist Roster program.</div>
     <p>Do you have past experience producing murals or digital designs?<span class="isRequired">*</span></p>
     <div class="align-pair">
       <input type="radio" id="yesExperience" name="experience" value="yes" required
-        onclick="toggleExperienceDescription()" onchange="togglePrElement()" />
+        onclick="toggleExperienceDescription()" />
       <label for="yesExperience">Yes</label>
     </div>
     <div class="align-pair">
-      <input type="radio" id="noExperience" name="experience" value="no" onclick="toggleExperienceDescription()"
-        onchange="togglePrElement()" />
+      <input type="radio" id="noExperience" name="experience" value="no" onclick="toggleExperienceDescription()"/>
       <label for="noExperience">No</label>
       <br />
     </div>
-    <label id="experienceDescriptionLabel" for="experienceDescription" style="display: block;">If yes, please describe
+    <div id="error-message-2" style="color: red; display: none;">If you do not have experience, you can not apply for Artist Roster program.</div>
+
+    <label id="experienceDescriptionLabel" for="experienceDescription" >If yes, please describe
       your past experience
       producing murals or digital designs:</label>
     <br />
-    <textarea id="experienceDescription" name="experienceDescription" rows="4" style="display: block;"></textarea>
+    <textarea id="experienceDescription" name="experienceDescription" rows="4" ></textarea>
     <div id="experienceLetterCount" style="display: none"></div>
-    <br />
+    <!-- <br /> -->
     <label for="biography">Please provide a short biography:<span class="isRequired">*</span></label><br />
     <textarea id="biography" name="biography" rows="4" required></textarea>
     <div id="bioLetterCount" style="display: none"></div>
-    <p>Please select any cultural categories which your artwork fits into:</p>
+    <br />
+    <br />
+    <p>Please select any cultural categories which your artwork fits into (Optional):</p>
     <div class="align-pair-2">
       <input type="checkbox" id="musqueam" name="cultural" value="xʷməθkʷəy̓əm (Musqueam)" />
       <label for="musqueam">xʷməθkʷəy̓əm (Musqueam)</label>
@@ -164,11 +176,12 @@
     <div id="flexContainer">
         <div id="images"></div>
         <label for="image">Select Image to upload (between 3 to 8):</label>
+        <label for="image">(Please select all images at one try)</label>
         <input type="file" name="image" id="image" accept="image/png, image/jpeg" multiple="multiple" min="3" max="8"
           onchange="onChange()" />
     </div>
-
-    <input type="button" onclick="upload()" value="Submit" />
+    
+    <input type="button" onclick="upload()" value="Submit Form" />
   </form>
 
 

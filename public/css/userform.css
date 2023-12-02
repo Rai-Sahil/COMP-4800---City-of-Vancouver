@@ -30,7 +30,7 @@ body {
     border-radius: 8px; /* Rounded corners */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for a subtle lift */
     text-align: center; /* Center-align text */
-    font-size: 1.5em; /* Adjust font size as needed */
+    font-size: 1.2em; /* Adjust font size as needed */
     font-weight: bold; /* Bold text */
   }
   
@@ -88,13 +88,15 @@ input[type="radio"] {
 }
 
 /* Button styles */
-input[type="submit"], input[type="button"] {
-  background-color: #333;
+input[type="submit"], input[type="button"], input[type="file"] {
+  background-color: #0f8000;
   color: #fff;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  display: block;
+  margin: 0 auto;
 }
 
 .align-pair {
@@ -134,20 +136,36 @@ span.isRequired {
     justify-content: center;
     align-items: center;
     text-align: center;
-    min-height: 100vh;
+    /* min-height: 100vh; */
+    max-width: 700px;
+    margin: 0 auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+
 
 }
 
 #images
 {
   display: flex;
+  max-width: 100%;  /* Ensure images div doesn't exceed its parent's width */
+  overflow-x: auto; /* Add horizontal scroll if content overflows */
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   box-shadow: 0px 0px 10px #ccc;
   border-radius: 5px;
   min-height: 50vh;
-  width: 75%;
+  min-width: 100%;
   border: #333  solid 1px;
+}
+
+select {
+  width: 232px;
+  padding: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 
