@@ -103,11 +103,24 @@ async function getApprovedUser(callback) {
     }
 }
 
+async function removeUserApplication(uuid, callback) {
+    try {
+        const query = `DELETE FROM user_application WHERE uuid = ?`;
+        await connection.query(query, [uuid], (err, result) => {
+            if (err) console.log('Error removing user application: ', err);
+            else return callback(result);
+        });
+    } catch (error) {
+        console.log("Error something went wrong: ", error);
+    }
+}
+
 module.exports = {
     authenticate,
     createUser,
     mainConnection,
     giveAdminUserApplication,
     approveUserApplication,
-    getApprovedUser
+    getApprovedUser,
+    removeUserApplication
 };
