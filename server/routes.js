@@ -176,13 +176,13 @@ app.post("/accept/:email", (req, res) => {
     });
 });
 
-app.post("/reject/:uuid", (req, res) => {
-    const { uuid } = req.params;
+app.post("/reject/:email", (req, res) => {
+    const { email } = req.params;
     const { comment } = req.body;
-    console.log('uuid is ', uuid);
+    console.log('uuid is ', email);
     console.log('comment is ', comment);
 
-    removeUserApplication(uuid, (response) => {
+    removeUserApplication(email, (response) => {
         console.log('Response is ', response);
     });
 

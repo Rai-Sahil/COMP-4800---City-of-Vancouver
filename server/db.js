@@ -103,10 +103,10 @@ async function getApprovedUser(callback) {
     }
 }
 
-async function removeUserApplication(uuid, callback) {
+async function removeUserApplication(email, callback) {
     try {
-        const query = `DELETE FROM user_application WHERE uuid = ?`;
-        await connection.query(query, [uuid], (err, result) => {
+        const query = `DELETE FROM user_application WHERE email = ?`;
+        await connection.query(query, [email], (err, result) => {
             if (err) console.log('Error removing user application: ', err);
             else return callback(result);
         });

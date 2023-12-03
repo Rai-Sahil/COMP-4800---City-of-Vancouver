@@ -29,7 +29,7 @@ fetch('/admin/user_application')
                 <button type="submit" class="accept-button">Accept</button>
             </form>
             <form method="POST" action="#">
-                <button type="button" class="reject-button" data-uuid="${user.uuid}">Reject</button>
+                <button type="button" class="reject-button" data-email="${user.email}">Reject</button>
             </form>
         </div>`
 
@@ -41,14 +41,14 @@ fetch('/admin/user_application')
 userCard.addEventListener('click', event => {
     if (event.target.classList.contains('reject-button')) {
         // Get user's UUID from the button's data-attribute
-        const userUUID = event.target.dataset.uuid;
-
+        const userEmail = event.target.dataset.email;
+        console.log('Client side user email: ', userEmail);
         // Show a dialog box/modal for comment input
         const comment = prompt('Enter your rejection comment:');
         console.log(comment);
         if (comment !== null) {
             // If the user entered a comment, submit it along with user UUID
-            fetch(`/reject/${userUUID}`, {
+            fetch(`/reject/${userEmail}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
