@@ -3,13 +3,14 @@
 const { connectionParams } = require("./constants");
 const bcrypt = require("bcrypt");
 const mysql = require("mysql2");
+const fs = require('fs');
 
 const mainConnection = mysql.createConnection(connectionParams);
 const connection = mainConnection.promise();
 
 async function authenticate(email, password, callback) {
     try {
-        const query = `SELECT uuid, name, email, password FROM user WHERE email = ? LIMIT 1;`;
+        const query = `SELECT uuid, name, email, password, admin FROM user WHERE email = ? LIMIT 1;`;
         const [[user]] = await connection.query(query, [email]);
 
         if (!user) return callback(null);
@@ -20,6 +21,7 @@ async function authenticate(email, password, callback) {
                     name: user.name,
                     email: user.email,
                     uuid: user.uuid,
+                    admin: user.admin
                 });
             } else return callback(null);
         }
@@ -108,7 +110,15 @@ async function removeUserApplication(email, callback) {
         const query = `DELETE FROM user_application WHERE email = ?`;
         await connection.query(query, [email], (err, result) => {
             if (err) console.log('Error removing user application: ', err);
-            else return callback(result);
+            else
+            {
+                const path = `public/artistImages/${uuid}/`;
+                if (fs.existsSync(path)) {
+                    fs.rm(path, { recursive: true });
+                }
+                return callback(result);
+            }
+             
         });
     } catch (error) {
         console.log("Error something went wrong: ", error);

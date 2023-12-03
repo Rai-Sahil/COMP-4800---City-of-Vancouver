@@ -9,6 +9,8 @@ const { createUser, authenticate, mainConnection, giveAdminUserApplication, appr
     removeUserApplication } = require('./db');
 const { requireLogin, requireLogout } = require('./middleware');
 const { randomUUID } = require('crypto');
+const { JSDOM } = require('jsdom');
+const { red, white } = require('colors');
 const app = express.Router();
 const secretToken = 'admin123';
 
@@ -32,9 +34,15 @@ app.get('/login', requireLogout, (req, res) => {
 });
 
 app.get('/header', (req, res) => {
-    res.sendFile("header.html", {
-        root: path.join(__dirname, '../views')
-    });
+    let headerBar = fs.readFileSync(path.join(__dirname, '../views', "header.html"));
+    let headerBarDOM = new JSDOM(headerBar);
+    if (req.session.admin) {
+        giveAdminUserApplication((data) => {
+            res.send(notifyAdminForApplication(headerBarDOM, data));
+        });
+    } else {
+        res.send(headerBarDOM.serialize());
+    } 
 });
 
 app.get('/about', (req, res) => {
@@ -70,6 +78,8 @@ app.post('/login', (req, res) => {
             req.session.user = user.name;
             req.session.uuid = user.uuid;
             req.session.loggedIn = true;
+            req.session.admin = user.admin.toJSON().data[0] ? true : false;
+            console.log(req.session.admin);
             req.session.save(() => {
                 (err) => err && console.log("Unable to save the session", err);
             })
@@ -225,20 +235,67 @@ app.get('/artists', (req, res) => {
 
 });
 
-app.get('/artists/single', (req, res) => {
+app.get('/artists/single', (req, res) => 
+{
     const artistId = req.query.id;
 
     const query = `CALL getArtistById(${artistId});`;
 
-    mainConnection.query(query, function (err, result) {
-        if (err) {
+    mainConnection.query(query, function(err, result)
+    {
+        if (err)
+        {
 
             res.status(500).send("Could not get artists");
             return;
             //throw err;  
         }
+
+        if(result[0].length == 0)
+        {
+            res.status(404).send("Artist not found");
+            return;
+        }
+
+        let artist = result[0][0];
+
+        artist.images = [];
+        // SWITCH TO UUID
+        let imagePaths = fs.readdirSync(`public/artistImages/${artistId}/`, { withFileTypes: true });
+        for (let j = 0; j < imagePaths.length; j++)
+        {
+            artist.images.push(`artistImages/${artistId}/${imagePaths[j].name}`);
+        }
+            
+
+        res.contentType('application/json');
+        res.json(artist);
     });
 });
+
+function notifyAdminForApplication(headerBarDOM, data) {
+        let nav = headerBarDOM.window.document.getElementsByClassName("nav-links")[0];
+
+        let applications = headerBarDOM.window.document.createElement("a");
+        applications.className = "admin-link"
+        applications.href = "/admin";
+        
+        if (data[0] !== null) {
+            
+            applications.id = "notification-active";
+            applications.innerHTML = "[" + (data[0].length) + "] Admin Dashboard";
+            
+            let hamburger = headerBarDOM.window.document.getElementsByClassName("hamburger")[0];
+            hamburger.id = "notification-active";
+            hamburger.innerHTML += "<b class='notification'>!</b>";
+
+        } else {
+            applications.innerHTML = "Admin Dashboard";
+        }
+
+        nav.insertBefore(applications, nav.children[1]);
+        return headerBarDOM.serialize();   
+}
 
 function generateAdminDashboard() {
     let dashboard = `
@@ -308,71 +365,13 @@ function generateAdminDashboard() {
     });
 };
 
-app.delete("/imageUpload", (req, res) => {
-    const uuid = req.body.uuid;
-    const token = req.body.token;
-
-    if (token !== secretToken) {
-        res.status(403).send("Access Denied");
-        return;
-    }
-
-    const regex = /^[a-zA-Z0-9]{1,20}$/;
-    if (!regex.test(uuid)) {
-        res.status(400).send("Invalid artistId");
-        return;
-    }
-
-    // check if artistId exists
-    // TODO
-
-    const path = `public/artistImages/${uuid}/`;
-    if (fs.existsSync(path)) {
-        try {
-            fs.rmSync(path, { recursive: true });
-        }
-        catch (err) {
-            res.status(400).send("Error deleting images");
-            return;
-        }
-    }
-    else {
-        res.status(400).send("Could not delete, directory does not exist");
-        return;
-    }
-
-    res.send("Success");
-});
-
 const createFiles = async (req, res) => {
 
     let uuid = req.body.uuid;
 
-
-    const regex = /^[a-zA-Z0-9]{1,20}$/;
-    if (!regex.test('1234abc')) {
-        res.status(400).send();
-        return;
-    }
-
-    // check if artistId exists
-    // TODO
-
     const path = `public/artistImages/${uuid}/`;
     if (fs.existsSync(path)) {
-        // check if artist has been approved
-        // TODO
-
-
-        // if artist has been approved, dont let them upload again
-        // {
-        //     res.status(400).send("Artist has already been approved, cannot upload again");
-        //     return;
-        // }
-        // else
-        // {
         fs.rmSync(path, { recursive: true });
-        // }
     }
 
     fs.mkdirSync(path, { recursive: true });

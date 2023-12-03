@@ -8,7 +8,7 @@ create table if not exists user (
     email varchar(31) not null,
     password varchar(255) not null,
     name varchar(31) not null,
-    role bit default 0
+    admin bit default 0
 );
 
 create table if not exists user_application (
@@ -29,30 +29,32 @@ create table if not exists user_application (
     preference varchar(1023),
     approved bit default 0,
     rejectionReason varchar(255),
+    applicationData datetime default current_timestamp,
+    approvedDate datetime,
     primary key (uuid, applicationID),
     foreign key (uuid) references user(uuid) on delete cascade	
 ) engine=MyISAM;
 
-create table if not exists user_art (
-    uuid int not null,
-    imageID int not null auto_increment,
-    name varchar(31),
-    description varchar(255),
-    verified bit default 0,
-    uploadDate datetime default current_timestamp,
-    verifiedDate datetime,
-    primary key (uuid, imageID),
-    foreign key (uuid) references user(uuid) on delete cascade
-) engine=MyISAM;
+-- create table if not exists user_art (
+--     uuid int not null,
+--     imageID int not null auto_increment,
+--     name varchar(31),
+--     description varchar(255),
+--     verified bit default 0,
+--     uploadDate datetime default current_timestamp,
+--     verifiedDate datetime,
+--     primary key (uuid, imageID),
+--     foreign key (uuid) references user(uuid) on delete cascade
+-- ) engine=MyISAM;
 
-create table if not exists user_art_category (
-	uuid int not null,
-    imageID int not null,
-    categoryOne bit,
-    primary key (uuid, imageID),
-    foreign key (uuid) references user(uuid) on delete cascade,
-    foreign key (imageID) references user_art(imageID) on delete cascade
-) engine=MyISAM;
+-- create table if not exists user_art_category (
+-- 	uuid int not null,
+--     imageID int not null,
+--     categoryOne bit,
+--     primary key (uuid, imageID),
+--     foreign key (uuid) references user(uuid) on delete cascade,
+--     foreign key (imageID) references user_art(imageID) on delete cascade
+-- ) engine=MyISAM;
 
 
 -- create view user_login as select contact_email, password from user;
