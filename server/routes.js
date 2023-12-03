@@ -189,8 +189,6 @@ app.post("/accept/:email", (req, res) => {
 app.post("/reject/:email", (req, res) => {
     const { email } = req.params;
     const { comment } = req.body;
-    console.log('uuid is ', email);
-    console.log('comment is ', comment);
 
     removeUserApplication(email, (response) => {
         console.log('Response is ', response);
