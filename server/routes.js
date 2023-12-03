@@ -5,8 +5,8 @@ const multer = require('multer');
 const fs = require('fs');
 const sharp = require('sharp');
 const FILESIZE_MAX_BYTES = 2000000;
-const { createUser, authenticate, mainConnection, giveAdminUserApplication, approveUserApplication, getApprovedUser } = require('./db');
-// Required login and logout functions from middleware.js
+const { createUser, authenticate, mainConnection, giveAdminUserApplication, approveUserApplication, 
+    removeUserApplication } = require('./db');
 const { requireLogin, requireLogout } = require('./middleware');
 const { randomUUID } = require('crypto');
 const { JSDOM } = require('jsdom');
@@ -181,20 +181,20 @@ app.post("/accept/:email", (req, res) => {
         console.log('Response is ', response);
     });
 
-    // giveAdminUserApplication((data) => {
-    //     console.log(data[0][0]);
-    //     if (data[0] !== null) {
-    //         res.status(200).send(generateAdminDashboard(data[0]));
-    //     }
-    // });
-
     res.sendFile("admin.html", {
         root: path.join(__dirname, '../views')
     });
 });
 
-app.post("/reject/:index", (req, res) => {
-    const email = req.params.email;
+app.post("/reject/:uuid", (req, res) => {
+    const { uuid } = req.params;
+    const { comment } = req.body;
+    console.log('uuid is ', uuid);
+    console.log('comment is ', comment);
+
+    removeUserApplication(uuid, (response) => {
+        console.log('Response is ', response);
+    });
 
     res.sendFile("admin.html", {
         root: path.join(__dirname, '../views')
