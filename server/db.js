@@ -3,6 +3,7 @@
 const { connectionParams } = require("./constants");
 const bcrypt = require("bcrypt");
 const mysql = require("mysql2");
+const fs = require('fs');
 
 const mainConnection = mysql.createConnection(connectionParams);
 const connection = mainConnection.promise();
@@ -109,7 +110,15 @@ async function removeUserApplication(uuid, callback) {
         const query = `DELETE FROM user_application WHERE uuid = ?`;
         await connection.query(query, [uuid], (err, result) => {
             if (err) console.log('Error removing user application: ', err);
-            else return callback(result);
+            else
+            {
+                const path = `public/artistImages/${uuid}/`;
+                if (fs.existsSync(path)) {
+                    fs.rm(path, { recursive: true });
+                }
+                return callback(result);
+            }
+             
         });
     } catch (error) {
         console.log("Error something went wrong: ", error);

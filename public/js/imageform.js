@@ -2,22 +2,30 @@ const MAX_FILESIZE_BYTES = 2000000; // 2MB
 const ACCEPTED_FILE_EXTENSIONS = /jpeg|jpg|png/;
 const MAX_AMOUNT_OF_FILES = 8;
 const MIN_AMOUNT_OF_FILES = 3;
+let imagesReal = []; // Store previously uploaded images
 
-function onChange()
-{
+function onChange() {
     let files = document.getElementById('image').files;
-
     let images = document.getElementById('images');
+
+    // New files in addition to existing ones
+    let allFiles = [...imagesReal, ...files];
+
+    if (allFiles.length > MAX_AMOUNT_OF_FILES) {
+        alert(`You can only upload ${MAX_AMOUNT_OF_FILES} files at a time`);
+        return;
+    } else if (allFiles.length < MIN_AMOUNT_OF_FILES) {
+        alert(`You must select at least ${MIN_AMOUNT_OF_FILES} file`);
+        return;
+    }
+
+    // Clear previous images in UI
     images.innerHTML = '';
 
-    for (let i = 0; i < files.length; i++)
-    {
-        let file = files[i];
-
+    allFiles.forEach(file => {
         let reader = new FileReader();
 
-        reader.onload = function(e)
-        {
+        reader.onload = function(e) {
             let div = document.createElement('div');
             div.className = 'singleImage';
 
@@ -25,36 +33,15 @@ function onChange()
             button.innerText = 'X';
             button.className = 'imageButton';
 
-            button.onclick = function(e)
-            {
+            button.onclick = function(e) {
                 div.remove();
-                let fileName = file.name;
-
-                let imageFiles = document.getElementById('image').files;
-
-                let newImageFiles = [];
-
-                for (let i = 0; i < imageFiles.length; i++)
-                {
-                    if(imageFiles[i].name != fileName)
-                    {
-                        newImageFiles.push(imageFiles[i]);
-                    }
-                }
-
-                const dt = new DataTransfer();
-                for (let i = 0; i < newImageFiles.length; i++)
-                {
-                    dt.items.add(newImageFiles[i]);
-                }
-
-                document.getElementById('image').files = dt.files;
-            }
+                // Remove from imagesReal array on delete
+                imagesReal = imagesReal.filter(img => img.name !== file.name);
+                updateFormInput();
+            };
 
             let img = document.createElement('img');
             img.src = e.target.result;
-            img.width = 200;
-            img.height = 200;
 
             let p = document.createElement('p');
             p.innerText = file.name;
@@ -66,13 +53,27 @@ function onChange()
         };
 
         reader.readAsDataURL(file);
+    });
+
+    // Update imagesReal with the new files
+    imagesReal = allFiles;
+    updateFormInput();
+}
+
+function updateFormInput() {
+    const dt = new DataTransfer();
+    for (let i = 0; i < imagesReal.length; i++)
+    {
+        dt.items.add(imagesReal[i]);
     }
+
+    document.getElementById('image').files = dt.files;
 }
 
 function upload()
 {
     let form = document.getElementById('contactForm');
-    let files = document.getElementById('image').files;
+    let files = imagesReal; // Use imagesReal instead of directly accessing input files
 
     if(files.length > MAX_AMOUNT_OF_FILES)
     {

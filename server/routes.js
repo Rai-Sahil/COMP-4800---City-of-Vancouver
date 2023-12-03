@@ -365,71 +365,13 @@ function generateAdminDashboard() {
     });
 };
 
-app.delete("/imageUpload", (req, res) => {
-    const uuid = req.body.uuid;
-    const token = req.body.token;
-
-    if (token !== secretToken) {
-        res.status(403).send("Access Denied");
-        return;
-    }
-
-    const regex = /^[a-zA-Z0-9]{1,20}$/;
-    if (!regex.test(uuid)) {
-        res.status(400).send("Invalid artistId");
-        return;
-    }
-
-    // check if artistId exists
-    // TODO
-
-    const path = `public/artistImages/${uuid}/`;
-    if (fs.existsSync(path)) {
-        try {
-            fs.rmSync(path, { recursive: true });
-        }
-        catch (err) {
-            res.status(400).send("Error deleting images");
-            return;
-        }
-    }
-    else {
-        res.status(400).send("Could not delete, directory does not exist");
-        return;
-    }
-
-    res.send("Success");
-});
-
 const createFiles = async (req, res) => {
 
     let uuid = req.body.uuid;
 
-
-    const regex = /^[a-zA-Z0-9]{1,20}$/;
-    if (!regex.test('1234abc')) {
-        res.status(400).send();
-        return;
-    }
-
-    // check if artistId exists
-    // TODO
-
     const path = `public/artistImages/${uuid}/`;
     if (fs.existsSync(path)) {
-        // check if artist has been approved
-        // TODO
-
-
-        // if artist has been approved, dont let them upload again
-        // {
-        //     res.status(400).send("Artist has already been approved, cannot upload again");
-        //     return;
-        // }
-        // else
-        // {
         fs.rmSync(path, { recursive: true });
-        // }
     }
 
     fs.mkdirSync(path, { recursive: true });
