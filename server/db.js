@@ -9,7 +9,7 @@ const connection = mainConnection.promise();
 
 async function authenticate(email, password, callback) {
     try {
-        const query = `SELECT uuid, name, email, password FROM user WHERE email = ? LIMIT 1;`;
+        const query = `SELECT uuid, name, email, password, admin FROM user WHERE email = ? LIMIT 1;`;
         const [[user]] = await connection.query(query, [email]);
 
         if (!user) return callback(null);
@@ -20,6 +20,7 @@ async function authenticate(email, password, callback) {
                     name: user.name,
                     email: user.email,
                     uuid: user.uuid,
+                    admin: user.admin
                 });
             } else return callback(null);
         }

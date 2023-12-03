@@ -9,6 +9,8 @@ const { createUser, authenticate, mainConnection, giveAdminUserApplication, appr
 // Required login and logout functions from middleware.js
 const { requireLogin, requireLogout } = require('./middleware');
 const { randomUUID } = require('crypto');
+const { JSDOM } = require('jsdom');
+const { red, white } = require('colors');
 const app = express.Router();
 const secretToken = 'admin123';
 
@@ -32,9 +34,15 @@ app.get('/login', requireLogout, (req, res) => {
 });
 
 app.get('/header', (req, res) => {
-    res.sendFile("header.html", {
-        root: path.join(__dirname, '../views')
-    });
+    let headerBar = fs.readFileSync(path.join(__dirname, '../views', "header.html"));
+    let headerBarDOM = new JSDOM(headerBar);
+    if (req.session.admin) {
+        giveAdminUserApplication((data) => {
+            res.send(notifyAdminForApplication(headerBarDOM, data));
+        });
+    } else {
+        res.send(headerBarDOM.serialize());
+    } 
 });
 
 app.get('/about', (req, res) => {
@@ -70,6 +78,8 @@ app.post('/login', (req, res) => {
             req.session.user = user.name;
             req.session.uuid = user.uuid;
             req.session.loggedIn = true;
+            req.session.admin = user.admin.toJSON().data[0] ? true : false;
+            console.log(req.session.admin);
             req.session.save(() => {
                 (err) => err && console.log("Unable to save the session", err);
             })
@@ -239,6 +249,30 @@ app.get('/artists/single', (req, res) => {
         }
     });
 });
+
+function notifyAdminForApplication(headerBarDOM, data) {
+        let nav = headerBarDOM.window.document.getElementsByClassName("nav-links")[0];
+
+        let applications = headerBarDOM.window.document.createElement("a");
+        applications.className = "admin-link"
+        applications.href = "/admin";
+        
+        if (data[0] !== null) {
+            
+            applications.id = "notification-active";
+            applications.innerHTML = "[" + (data[0].length) + "] Admin Dashboard";
+            
+            let hamburger = headerBarDOM.window.document.getElementsByClassName("hamburger")[0];
+            hamburger.id = "notification-active";
+            hamburger.innerHTML += "<b class='notification'>!</b>";
+
+        } else {
+            applications.innerHTML = "Admin Dashboard";
+        }
+
+        nav.insertBefore(applications, nav.children[1]);
+        return headerBarDOM.serialize();   
+}
 
 function generateAdminDashboard() {
     let dashboard = `

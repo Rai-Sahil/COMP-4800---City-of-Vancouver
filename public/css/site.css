@@ -52,6 +52,10 @@ nav a:hover {
   text-decoration: underline;
 }
 
+nav .hamburger .notification{
+  font-size: 0.4em;
+}
+
 .flex {
   display: flex;
   flex-wrap: wrap;
@@ -72,6 +76,11 @@ nav a:hover {
   background: transparent;
   border: none;
 }
+
+#notification-active {
+  color: rgb(255, 80, 0) !important;
+}
+
 .nav-links {
     position: absolute;
     right: 0;
