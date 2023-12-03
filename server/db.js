@@ -10,13 +10,15 @@ const connection = mainConnection.promise();
 
 async function authenticate(email, password, callback) {
     try {
-        const query = `SELECT uuid, name, email, password, admin FROM user WHERE email = ? LIMIT 1;`;
+        const query = `SELECT * from user where email = ? LIMIT 1;`;
         const [[user]] = await connection.query(query, [email]);
 
         if (!user) return callback(null);
         else {
             const passwordsMatch = await bcrypt.compare(password, user.password);
             if (passwordsMatch) {
+                const [[appoved]] = await connection.query(`SELECT approved FROM user_application WHERE email = ? LIMIT 1;`, [email]);
+                if (appoved.approved === 0) return callback(null);
                 return callback({
                     name: user.name,
                     email: user.email,
