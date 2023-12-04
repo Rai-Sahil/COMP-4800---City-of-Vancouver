@@ -111,6 +111,7 @@ async function giveAdminUserApplication(callback) {
 
 async function approveUserApplication(email, callback) {
     try {
+
         const query = `UPDATE user_application SET approved = 1, approvedDate = ? WHERE email = ?`;
         await connection.query(query, [new Date().toISOString().slice(0, 19).replace('T', ' '), email], (err, result) => {
             if (err) console.log('Error approving user application: ', err);
