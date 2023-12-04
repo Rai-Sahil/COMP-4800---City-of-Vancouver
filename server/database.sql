@@ -116,4 +116,6 @@ BEGIN
     SELECT name, pronoun, email, phone, website, instagramHandle, facebookHandle, biography, cultural, genre, preference FROM user_application WHERE uuid = p_uuid;
 END //
 
+
+
 DELIMITER ;

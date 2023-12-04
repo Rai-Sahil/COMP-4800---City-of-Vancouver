@@ -12,48 +12,80 @@
 <body>
   <div id="header"></div>
   <div class="header"></div>
-  <h1 class="title-header">Artist Roster Application Questions</h1>
+  <h1 class="title-header">Edit Your Profile</h1>
 
-  <form id="contactForm" action="/userform-submit" method="POST" enctype="multipart/form-data">
+  
+
+  <form id="passwordForm" action="/password-submit" method="POST">
     <h3>
-      This is a legal agreement for collection and publishing of artists'
-      information and the publication of their artwork/images for
-      non-commercial use.
+      Account Settings
     </h3>
-    <h3>
-      Your application will stay active for 2 years, after which time you
-      will need to renew. You will receive an automated e-mail close to the
-      time of expiry and be prompted to renew. If you do not renew, it will
-      expire.
-    </h3>
-    <h3>
-      You will be able to edit and/or make changes to your application
-      materials any time after you apply, however, in order for the changes
-      to be published, the City of Vancouver will need to review and approve.
-    </h3>
-    <h3>Please provide contact information which you don’t mind being posted
-      publicly. These will be shared on our website in order for interested
-      businesses and organisations to contact you. City staff may also
-      contact you about opportunities.
-    </h3>
+    <nav class="navbar navbar-expand navbar-light bg-light">
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link">Back </a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link"  onclick="swapPasswordTab()">Account </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link"  onclick="swapProfileTab()">Profile and Images</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    
     <br /><br />
     <p></p>
+    <h2>
+      Account
+    </h3>
+    <label for="old">Old Password:<span class="isRequired">*</span></label>
+    <input type="password" id="old" name="old" required />
+    <label for="new">New Password:<span class="isRequired">*</span></label>
+    <input type="password" id="new" name="new" required />
+    <label for="confirm">Confirm New Password:<span class="isRequired">*</span></label>
+    <input type="password" id="confirm" name="confirm" required /><br />
+    
+    <input type="submit" value="Change Password" />
+  </form>
+
+  <form id="profileForm" action="/profile-submit" method="POST" enctype="multipart/form-data" hidden>
+    <h3>
+      In order for the changes
+      to be published, the City of Vancouver will need to review and approve.
+    </h3>
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Back </a>
+        </li>
+        <li class="nav-item active" id="accountTab">
+          <a class="nav-link" onclick="swapPasswordTab()">Account </a>
+        </li>
+        <li class="nav-item" id="profileTab">
+          <a class="nav-link" onclick="swapProfileTab()">Profile and Images</a>
+        </li>
+      </ul>
+    </nav>
+    
+    <br /><br />
+    <p></p>
+    <h2>
+      Account
+    </h3>
     <label for="name">Preferred Name / Artist Handle:<span class="isRequired">*</span></label>
     <input type="text" id="name" name="name" required />
     <br />
     <label for="pronoun">Pronoun:</label>
     <select id="pronoun" name="pronoun">
-      <option type="text" name="pronoun" value="she/her/hers">she/her/hers</option>
-      <option type="text" name="pronoun" value="he/him/his">he/him/his</option>
-      <option type="text" name="pronoun" value="they/them/theirs">they/them/theirs</option>
-      <option type="text" name="pronoun" value="prefer not to say">prefer not to say</option>
+      <option value="she">she/her/hers</option>
+      <option value="he">he/him/his</option>
+      <option value="they">they/them/theirs</option>
+      <option value="none">prefer not to say</option>
     </select>
     <br />
-    <label for="email">Email:<span class="isRequired">*</span></label>
-    <input type="email" id="email" name="email" required /><br />
-
-    <label for="Password">Password:<span class="isRequired">*</span></label>
-    <input type="password" id="password" name="password" required /><br />
 
     <label for="phone">Phone Number:</label>
     <input type="tel" id="phone" name="phone" />
@@ -67,34 +99,6 @@
     <label for="facebookHandle">Facebook Handle:</label>
     <input type="text" id="facebookHandle" name="facebookHandle" />
     <br />
-    <p>Do you reside in BC and have the legal right to work here?<span class="isRequired">*</span></p>
-    <div class="align-pair">
-      <input type="radio" id="yesBC" name="BCResident" value="yes" onclick="toggleResidency()" required />
-      <label for="yesBC">Yes</label>
-    </div>
-    <div class="align-pair">
-      <input type="radio" id="noBC" name="BCResident" value="no" onclick="toggleResidency()"/>
-      <label for="noBC">No</label>
-      <br />
-    </div>
-    <div id="error-message-1" style="color: red; display: none;">If you are not a BC resident or not legal to work, you can not apply for Artist Roster program.</div>
-    <p>Do you have past experience producing murals or digital designs?<span class="isRequired">*</span></p>
-    <div class="align-pair">
-      <input type="radio" id="yesExperience" name="experience" value="yes" required
-        onclick="toggleExperienceDescription()" />
-      <label for="yesExperience">Yes</label>
-    </div>
-    <div class="align-pair">
-      <input type="radio" id="noExperience" name="experience" value="no" onclick="toggleExperienceDescription()"/>
-      <label for="noExperience">No</label>
-      <br />
-    </div>
-    <div id="error-message-2" style="color: red; display: none;">If you do not have experience, you can not apply for Artist Roster program.</div>
-
-    <label id="experienceDescriptionLabel" for="experienceDescription" >If yes, please describe your past experience  producing murals or digital designs:<span class="isRequired">*</span></label>
-    <br />
-    <textarea id="experienceDescription" name="experienceDescription" rows="4" ></textarea>
-    <div id="experienceLetterCount" style="display: none"></div>
     <!-- <br /> -->
     <label for="biography">Please provide a short biography:<span class="isRequired">*</span></label><br />
     <textarea id="biography" name="biography" rows="4" required></textarea>
@@ -164,30 +168,24 @@
     <br />
     <p>Please select your art medium (minimum one):<span class="isRequired">*</span></p>
     <div class="align-pair-2">
-    <!-- name=medium shouldn't be changed; it checks for missing medium fields in userform.js -->
-      <input type="checkbox" id="murals" name="medium" value="Painted Murals" />
+      <input type="checkbox" id="murals" name="preference" value="Painted Murals" />
       <label for="murals">Painted Murals</label>
     </div>
     <div class="align-pair-2">
-      <input type="checkbox" id="digital" name="medium" value="Digital Design" />
+      <input type="checkbox" id="digital" name="preference" value="Digital Design" />
       <label for="digital">Digital Design</label>
     </div>
-    <div id="flexContainer">
-        <div id="images"></div>
-        <label for="image">Select Image to upload (between 3 to 8):</label>
-        <label for="image">(Please select all images at one try)</label>
-        <input type="file" name="image" id="image" accept="image/png, image/jpeg" multiple="multiple" min="3" max="8"
-          onchange="onChange()" />
-    </div>
+
     
-    <input type="submit" value="Submit Form" />
+    <input type="submit" value="Submit Changes" />
+    <span class="isRequired">*changes need to be reviewed and approved by staff</span>
+
   </form>
 
 
 
 </body>
 <!-- Leave this script at the bottom or error will occur with biography being null -->
-<script src="/js/userform.js" defer></script>
-<script src="/js/imageform.js" defer></script>
+<script src="/js/editAccount.js" defer></script>
 
 </html>

@@ -110,6 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
+
     function sendReminderEmail() {
         let artistId = new URLSearchParams(window.location.search).get("id");
         // Make an HTTP GET request to fetch artist data
@@ -139,6 +140,26 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.error('Error fetching artist data:', error);
             });
     }
+
+    function isLoggedIn() {
+        fetch(`/user-session`)
+            .then(response => response.json())
+            .then(json => {
+                let artistId = new URLSearchParams(window.location.search).get("id");
+                console.log(artistId == json.uuid);
+                if (json.uuid == artistId) {
+                    document.getElementById("artist-details").innerHTML += `<div class="row">
+                            <div class="col-sm-12">
+                        <a class="btn btn-primary " target="_blank" href="accountSettings?id=${artistId}">Edit</a>
+                    </div>
+                </div>`;
+                                 
+                }
+                console.log(json);
+            });
+    }
+    isLoggedIn();
+
 
     // Call sendReminderEmail when needed
     sendReminderEmail();

@@ -5,7 +5,7 @@ const multer = require('multer');
 const fs = require('fs');
 const sharp = require('sharp');
 const FILESIZE_MAX_BYTES = 2000000;
-const { createUser, authenticate, mainConnection, giveAdminUserApplication, approveUserApplication, 
+const { createUser, authenticate, mainConnection, updatePassword, giveAdminUserApplication, approveUserApplication, 
     removeUserApplication } = require('./db');
 const { requireLogin, requireLogout } = require('./middleware');
 const { randomUUID } = require('crypto');
@@ -33,6 +33,12 @@ app.get('/login', requireLogout, (req, res) => {
     });
 });
 
+// logout route
+app.get('/logout', requireLogin, (req, res) => {
+    req.session.destroy();
+    res.redirect('/');
+});
+
 app.get('/header', (req, res) => {
     let headerBar = fs.readFileSync(path.join(__dirname, '../views', "header.html"));
     let headerBarDOM = new JSDOM(headerBar);
@@ -51,14 +57,20 @@ app.get('/about', (req, res) => {
     });
 });
 
-app.get('/userform', (req, res) => {
+app.get('/userform', requireLogout, (req, res) => {
     res.sendFile("userform.html", {
         root: path.join(__dirname, '../views')
     });
 });
 
-app.get('/userProfile', requireLogin, (req, res) => {
+app.get('/userProfile', (req, res) => {
     res.sendFile("userProfile.html", {
+        root: path.join(__dirname, '../views')
+    });
+});
+
+app.get('/accountSettings', (req, res) => {
+    res.sendFile("accountSettings.html", {
         root: path.join(__dirname, '../views')
     });
 });
@@ -69,13 +81,14 @@ app.get('/admin', (req, res) => {
     });
 });
 
-app.post('/login', (req, res) => {
+app.post('/login', requireLogout, (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
     const user = authenticate(username, password, (user) => {
         if (user !== null) {
             req.session.user = user.name;
+            req.session.email = user.email;
             req.session.uuid = user.uuid;
             req.session.loggedIn = true;
             req.session.admin = user.admin.toJSON().data[0] ? true : false;
@@ -108,6 +121,10 @@ const upload = () => {
     }).array('image', 8);
 }
 
+app.get('/user-session', (req, res) => {
+    res.json(req.session);
+})
+
 app.post('/userform-submit', upload(), (req, res) => {
     const user = {
         name: req.body.name,
@@ -126,8 +143,6 @@ app.post('/userform-submit', upload(), (req, res) => {
         cultural: req.body.cultural,
         preference: req.body.preference,
     };
-
-    tempData.push(user);
 
     //const dummyUUID = Math.floor(Math.random() * 1000);
     createUser(user, (response) => {
@@ -152,7 +167,8 @@ app.post('/userform-submit', upload(), (req, res) => {
 
         mainConnection.query(query, function (err, result) {
             if (err) {
-                res.status(500).send("Could not register user");
+                res.status(500).send("Could not register user ");
+                console.log("Error in server side " + err);
                 return;
             } else {
                 res.render("../views/Components/successfullSubmission.ejs");
@@ -163,6 +179,32 @@ app.post('/userform-submit', upload(), (req, res) => {
 
 
 });
+
+app.post('/password-submit', (req, res) => {
+    console.log(req.body);
+    const password = {
+        oldPassword: req.body.old,
+        newPassword: req.body.new,
+        confirmPassword: req.body.confirm
+    };
+    console.log(password);
+    const user = authenticate(req.session.email, password.oldPassword, (user) => {
+        if (user !== null) {
+            if (password.newPassword === password.confirmPassword) {
+                console.log("HERE");
+                if (updatePassword(req.session.email, password.newPassword)) {
+                    res.status(200).send("Password change success");
+                } else {
+                    res.status(200).send("Password change failure")
+                };
+            } else {
+                res.status(400).send("New passwords must match");
+            }
+        } else {
+            res.status(400).send("Wrong old password");
+        }
+    })
+})
 
 app.use("/admin/user_application", (req, res, next) => {
 
@@ -186,15 +228,24 @@ app.post("/accept/:email", (req, res) => {
     });
 });
 
-app.post("/reject/:uuid", (req, res) => {
-    const { uuid } = req.params;
-    const { comment } = req.body;
-    console.log('uuid is ', uuid);
-    console.log('comment is ', comment);
+app.post("/reject/:email", (req, res) => {
+    const { email } = req.params;
 
-    removeUserApplication(uuid, (response) => {
+    const comment = req.body.comment;
+    const uuid = req.body.uuid;
+
+    removeUserApplication(email, (response) => {
         console.log('Response is ', response);
     });
+
+    try {
+        const path = `public/artistImages/${uuid}/`;
+        if (fs.existsSync(path)) {
+            fs.rmSync(path, { recursive: true });
+        }
+    } catch (err) {
+        console.log("Error deleting images: ", err);
+    }
 
     res.sendFile("admin.html", {
         root: path.join(__dirname, '../views')
@@ -202,7 +253,7 @@ app.post("/reject/:uuid", (req, res) => {
 });
 
 app.get('/artists', (req, res) => {
-    const query = `CALL getPartialApplications();`;
+    const query = `CALL getPartialApprovedApplications();`;
 
     mainConnection.query(query, function (err, result) {
         if (err) {
@@ -293,9 +344,11 @@ function notifyAdminForApplication(headerBarDOM, data) {
         let applications = headerBarDOM.window.document.createElement("a");
         applications.className = "admin-link"
         applications.href = "/admin";
+        console.log("HERE");
+        console.log(data[0]);
         
-        if (data[0] !== null) {
-            
+        if (data[0] && data[0].length > 0) {
+            console.log("not null");
             applications.id = "notification-active";
             applications.innerHTML = "[" + (data[0].length) + "] Admin Dashboard";
             
@@ -304,6 +357,7 @@ function notifyAdminForApplication(headerBarDOM, data) {
             hamburger.innerHTML += "<b class='notification'>!</b>";
 
         } else {
+            console.log("null");
             applications.innerHTML = "Admin Dashboard";
         }
 
@@ -379,71 +433,13 @@ function generateAdminDashboard() {
     });
 };
 
-app.delete("/imageUpload", (req, res) => {
-    const uuid = req.body.uuid;
-    const token = req.body.token;
-
-    if (token !== secretToken) {
-        res.status(403).send("Access Denied");
-        return;
-    }
-
-    const regex = /^[a-zA-Z0-9]{1,20}$/;
-    if (!regex.test(uuid)) {
-        res.status(400).send("Invalid artistId");
-        return;
-    }
-
-    // check if artistId exists
-    // TODO
-
-    const path = `public/artistImages/${uuid}/`;
-    if (fs.existsSync(path)) {
-        try {
-            fs.rmSync(path, { recursive: true });
-        }
-        catch (err) {
-            res.status(400).send("Error deleting images");
-            return;
-        }
-    }
-    else {
-        res.status(400).send("Could not delete, directory does not exist");
-        return;
-    }
-
-    res.send("Success");
-});
-
 const createFiles = async (req, res) => {
 
     let uuid = req.body.uuid;
 
-
-    const regex = /^[a-zA-Z0-9]{1,20}$/;
-    if (!regex.test('1234abc')) {
-        res.status(400).send();
-        return;
-    }
-
-    // check if artistId exists
-    // TODO
-
     const path = `public/artistImages/${uuid}/`;
     if (fs.existsSync(path)) {
-        // check if artist has been approved
-        // TODO
-
-
-        // if artist has been approved, dont let them upload again
-        // {
-        //     res.status(400).send("Artist has already been approved, cannot upload again");
-        //     return;
-        // }
-        // else
-        // {
         fs.rmSync(path, { recursive: true });
-        // }
     }
 
     fs.mkdirSync(path, { recursive: true });
