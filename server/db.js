@@ -10,7 +10,7 @@ const connection = mainConnection.promise();
 
 async function authenticate(email, password, callback) {
     try {
-        const query = `SELECT uuid, name, email, password, admin FROM user WHERE email = ? LIMIT 1;`;
+        const query = `SELECT * from user where email = ? LIMIT 1;`;
         const [[user]] = await connection.query(query, [email]);
         console.log(user);
         console.log(password);
@@ -19,7 +19,8 @@ async function authenticate(email, password, callback) {
         else {
             const passwordsMatch = await bcrypt.compare(password, user.password);
             if (passwordsMatch) {
-                console.log("match");
+                const [[appoved]] = await connection.query(`SELECT approved FROM user_application WHERE email = ? LIMIT 1;`, [email]);
+                if (appoved.approved === 0) return callback(null);
                 return callback({
                     name: user.name,
                     email: user.email,
@@ -130,17 +131,13 @@ async function getApprovedUser(callback) {
     }
 }
 
-async function removeUserApplication(uuid, callback) {
+async function removeUserApplication(email, callback) {
     try {
-        const query = `DELETE FROM user_application WHERE uuid = ?`;
-        await connection.query(query, [uuid], (err, result) => {
+        const query = `DELETE FROM user_application WHERE email = ?`;
+        await connection.query(query, [email], (err, result) => {
             if (err) console.log('Error removing user application: ', err);
             else
             {
-                const path = `public/artistImages/${uuid}/`;
-                if (fs.existsSync(path)) {
-                    fs.rm(path, { recursive: true });
-                }
                 return callback(result);
             }
              
@@ -149,6 +146,8 @@ async function removeUserApplication(uuid, callback) {
         console.log("Error something went wrong: ", error);
     }
 }
+
+
 
 module.exports = {
     authenticate,

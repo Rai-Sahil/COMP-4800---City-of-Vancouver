@@ -24,36 +24,56 @@ fetch('/admin/user_application')
                     ? user.preference.join(", ")
                     : user.preference
                 }</p>
+        <p> images: </p>
+        <div class="images-container" id="images${user.uuid}">
+        </div>
         <div class="button-container">
             <form method="POST" action="/accept/${user.email}">
                 <button type="submit" class="accept-button">Accept</button>
             </form>
             <form method="POST" action="#">
-                <button type="button" class="reject-button" data-uuid="${user.uuid}">Reject</button>
+                <button type="button" class="reject-button" data-email="${user.email}" data-uuid="${user.uuid}">Reject</button>
             </form>
         </div>`
 
             userCard.insertAdjacentHTML('beforeend', htmlElement);
+
+            let path = "artistImages/" + user.uuid + "/";
+            let fileExtenstion = ".jpeg";
+            let imageDiv = document.getElementById(`images${user.uuid}`);
+
+            for (let i = 0; i < 9; i++) 
+            {
+                let imageUrl = path + i + fileExtenstion;
+                let image = new Image();
+                image.src = imageUrl;
+                image.onload = function () {
+                    imageDiv.appendChild(image);
+                }
+            }
         });
+
     });
 
 
 userCard.addEventListener('click', event => {
     if (event.target.classList.contains('reject-button')) {
         // Get user's UUID from the button's data-attribute
+        const userEmail = event.target.dataset.email;
         const userUUID = event.target.dataset.uuid;
-
+        console.log('Client side user UUID: ', userUUID);
+        console.log('Client side user email: ', userEmail);
         // Show a dialog box/modal for comment input
         const comment = prompt('Enter your rejection comment:');
         console.log(comment);
         if (comment !== null) {
             // If the user entered a comment, submit it along with user UUID
-            fetch(`/reject/${userUUID}`, {
+            fetch(`/reject/${userEmail}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ comment })
+                body: JSON.stringify({ comment: comment, uuid: userUUID })
             })
                 .then(response => {
                     if (response.ok) {

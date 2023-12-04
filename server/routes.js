@@ -51,7 +51,7 @@ app.get('/about', (req, res) => {
     });
 });
 
-app.get('/userform', (req, res) => {
+app.get('/userform', requireLogout, (req, res) => {
     res.sendFile("userform.html", {
         root: path.join(__dirname, '../views')
     });
@@ -75,7 +75,7 @@ app.get('/admin', (req, res) => {
     });
 });
 
-app.post('/login', (req, res) => {
+app.post('/login', requireLogout, (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
@@ -138,8 +138,6 @@ app.post('/userform-submit', upload(), (req, res) => {
         preference: req.body.preference,
     };
 
-    tempData.push(user);
-
     //const dummyUUID = Math.floor(Math.random() * 1000);
     createUser(user, (response) => {
         //req.body.uuid = req.session.uuid;
@@ -163,7 +161,8 @@ app.post('/userform-submit', upload(), (req, res) => {
 
         mainConnection.query(query, function (err, result) {
             if (err) {
-                res.status(500).send("Could not register user");
+                res.status(500).send("Could not register user ");
+                console.log("Error in server side " + err);
                 return;
             } else {
                 res.render("../views/Components/successfullSubmission.ejs");
@@ -223,15 +222,24 @@ app.post("/accept/:email", (req, res) => {
     });
 });
 
-app.post("/reject/:uuid", (req, res) => {
-    const { uuid } = req.params;
-    const { comment } = req.body;
-    console.log('uuid is ', uuid);
-    console.log('comment is ', comment);
+app.post("/reject/:email", (req, res) => {
+    const { email } = req.params;
 
-    removeUserApplication(uuid, (response) => {
+    const comment = req.body.comment;
+    const uuid = req.body.uuid;
+
+    removeUserApplication(email, (response) => {
         console.log('Response is ', response);
     });
+
+    try {
+        const path = `public/artistImages/${uuid}/`;
+        if (fs.existsSync(path)) {
+            fs.rmSync(path, { recursive: true });
+        }
+    } catch (err) {
+        console.log("Error deleting images: ", err);
+    }
 
     res.sendFile("admin.html", {
         root: path.join(__dirname, '../views')
@@ -239,7 +247,7 @@ app.post("/reject/:uuid", (req, res) => {
 });
 
 app.get('/artists', (req, res) => {
-    const query = `CALL getPartialApplications();`;
+    const query = `CALL getPartialApprovedApplications();`;
 
     mainConnection.query(query, function (err, result) {
         if (err) {
