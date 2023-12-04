@@ -200,7 +200,7 @@ app.post("/reject/:email", (req, res) => {
 });
 
 app.get('/artists', (req, res) => {
-    const query = `CALL getPartialApplications();`;
+    const query = `CALL getPartialApprovedApplications();`;
 
     mainConnection.query(query, function (err, result) {
         if (err) {
