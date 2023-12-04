@@ -24,6 +24,9 @@ fetch('/admin/user_application')
                     ? user.preference.join(", ")
                     : user.preference
                 }</p>
+        <p> images: </p>
+        <div class="images-container" id="images${user.uuid}">
+        </div>
         <div class="button-container">
             <form method="POST" action="/accept/${user.email}">
                 <button type="submit" class="accept-button">Accept</button>
@@ -34,7 +37,22 @@ fetch('/admin/user_application')
         </div>`
 
             userCard.insertAdjacentHTML('beforeend', htmlElement);
+
+            let path = "artistImages/" + user.uuid + "/";
+            let fileExtenstion = ".jpeg";
+            let imageDiv = document.getElementById(`images${user.uuid}`);
+
+            for (let i = 0; i < 9; i++) 
+            {
+                let imageUrl = path + i + fileExtenstion;
+                let image = new Image();
+                image.src = imageUrl;
+                image.onload = function () {
+                    imageDiv.appendChild(image);
+                }
+            }
         });
+
     });
 
 
