@@ -6,7 +6,7 @@ const fs = require('fs');
 const sharp = require('sharp');
 const FILESIZE_MAX_BYTES = 2000000;
 const { createUser, authenticate, mainConnection, updatePassword, giveAdminUserApplication, approveUserApplication, 
-    removeUserApplication } = require('./db');
+    removeUserApplication, removeUser } = require('./db');
 const { requireLogin, requireLogout } = require('./middleware');
 const { randomUUID } = require('crypto');
 const { JSDOM } = require('jsdom');
@@ -141,8 +141,10 @@ app.post('/userform-submit', upload(), (req, res) => {
         biography: req.body.biography,
         genre: req.body.genre,
         cultural: req.body.cultural,
-        preference: req.body.preference,
+        preference: req.body.medium,
     };
+
+    let numberOfImages = req.files.length;
 
     //const dummyUUID = Math.floor(Math.random() * 1000);
     createUser(user, (response) => {
@@ -163,7 +165,7 @@ app.post('/userform-submit', upload(), (req, res) => {
         const bcResident = user.bcResident === 'no' ? 0 : 1;
         const experience = user.experience === 'no' ? 0 : 1;
 
-        const query = `CALL createApplication(${response.user.uuid}, '${user.name}', '${user.pronoun}', '${user.email}', '${user.phone}', '${user.website}', '${user.instaHandle}', '${user.facebookHandle}', ${bcResident}, ${experience}, '${user.experienceDescription}', '${user.biography}', '${user.genre}', '${user.cultural}', '${user.preference}');`
+        const query = `CALL createApplication(${response.user.uuid}, '${user.name}', '${user.pronoun}', '${user.email}', '${user.phone}', '${user.website}', '${user.instaHandle}', '${user.facebookHandle}', ${bcResident}, ${experience}, '${user.experienceDescription}', '${user.biography}', '${user.genre}', '${user.cultural}', '${user.preference}', '${numberOfImages}');`
 
         mainConnection.query(query, function (err, result) {
             if (err) {
@@ -235,6 +237,10 @@ app.post("/reject/:email", (req, res) => {
     const uuid = req.body.uuid;
 
     removeUserApplication(email, (response) => {
+        console.log('Response is ', response);
+    });
+
+    removeUser(email, (response) => {
         console.log('Response is ', response);
     });
 

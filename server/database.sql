@@ -32,6 +32,7 @@ create table if not exists user_application (
     rejectionReason varchar(255),
     applicationData datetime default current_timestamp,
     approvedDate datetime,
+    numImages int,
     primary key (uuid, applicationID),
     foreign key (uuid) references user(uuid) on delete cascade	
 ) engine=MyISAM;
@@ -79,11 +80,12 @@ CREATE PROCEDURE createApplication(
     IN p_biography VARCHAR(1023),
     IN p_genre VARCHAR(1023),
     IN p_cultural VARCHAR(1023),
-    IN p_preference VARCHAR(1023)
+    IN p_preference VARCHAR(1023),
+    IN p_numImages INT
 )
 BEGIN
-    INSERT INTO user_application (uuid, name, pronoun, email, phone, website, instagramHandle, facebookHandle, bcResident, experience, experienceDescription, biography, genre, cultural, preference)
-    VALUES (p_uuid, p_name, p_pronoun, p_email, p_phone, p_website, p_instagramHandle, p_facebookHandle, p_bcResident, p_experience, p_experienceDescription, p_biography, p_genre, p_cultural, p_preference);
+    INSERT INTO user_application (uuid, name, pronoun, email, phone, website, instagramHandle, facebookHandle, bcResident, experience, experienceDescription, biography, genre, cultural, preference, numImages)
+    VALUES (p_uuid, p_name, p_pronoun, p_email, p_phone, p_website, p_instagramHandle, p_facebookHandle, p_bcResident, p_experience, p_experienceDescription, p_biography, p_genre, p_cultural, p_preference, p_numImages);
 END //
 
 CREATE PROCEDURE getApprovedApplications()

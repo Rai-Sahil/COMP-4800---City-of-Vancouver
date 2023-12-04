@@ -148,6 +148,24 @@ async function removeUserApplication(email, callback) {
     }
 }
 
+async function removeUser(email, callback) {
+    try{
+        const query = `DELETE FROM user WHERE email = ?`;
+        await connection.query(query, [email], (err, result) => {
+            if (err) console.log('Error removing user: ', err);
+            else
+            {
+                return callback(result);
+            }
+             
+        });
+    
+    }
+    catch(error){
+        console.log("Error something went wrong: ", error);
+    }
+}
+
 
 
 module.exports = {
@@ -158,5 +176,6 @@ module.exports = {
     giveAdminUserApplication,
     approveUserApplication,
     getApprovedUser,
-    removeUserApplication
+    removeUserApplication,
+    removeUser
 };
