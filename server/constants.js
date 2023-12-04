@@ -6,7 +6,7 @@ const connectionParams = {
     user: process.env.DB_USER || "sa",
     password: process.env.DB_PASSWORD || "secret",
     database: process.env.DB_NAME || "CityofVan",
-    port: process.env.DB_PORT || 3307
+    port: process.env.DB_PORT || 3306
 };
 
 const transporter = nodemailer.createTransport({
