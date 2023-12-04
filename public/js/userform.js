@@ -1,5 +1,5 @@
-const e = require("express");
-
+// const e = require("express");
+// const { upload } = require('./imageform.js');
 const biographyLetterCountMaximum = 1000;
 const experienceLetterCountMaximum = 1000;
 const errorMaximumLetterCount = 'Your text exceed the maximum character limit of ';
@@ -81,17 +81,49 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
 
-  document.getElementById('contactForm').addEventListener('submit', function (e) {
+  // document.getElementById('contactForm').addEventListener('submit', function (e) {
+  //   var genreCheckboxes = document.querySelectorAll('input[name="genre"]:checked');
+  //   var mediumCheckboxes = document.querySelectorAll('input[name="medium"]:checked');
+
+  //   if (genreCheckboxes.length === 0) {
+  //     alert(errorNoGenreSelected);
+  //     e.preventDefault(); // Prevent the form from submitting
+  //   } else if (mediumCheckboxes.length === 0) {
+  //     alert(errorNoMediumSelected);
+  //     e.preventDefault();
+  //   }
+  // });
+
+
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // prevent the default form submission
+    var noBC = document.getElementById('noBC').checked;
+    var noExperience = document.getElementById('noExperience').checked;
+    if (this.checkValidity()) { // check if the form is valid
+      if (noBC || noExperience) {
+        alert('If you are not a BC resident or do not have experience, you cannot apply for the Artist Roster program.');
+        e.preventDefault(); // Prevent the form from submitting
+      } else if (checkCheckBoxes()) {
+        upload();
+      }
+    }
+  });
+
+  function checkCheckBoxes() {
     var genreCheckboxes = document.querySelectorAll('input[name="genre"]:checked');
     var mediumCheckboxes = document.querySelectorAll('input[name="medium"]:checked');
 
     if (genreCheckboxes.length === 0) {
       alert(errorNoGenreSelected);
       e.preventDefault(); // Prevent the form from submitting
+      return false;
     } else if (mediumCheckboxes.length === 0) {
       alert(errorNoMediumSelected);
       e.preventDefault();
+      return false;
+    } else {
+      return true;
     }
-  });
+  }
 });
 

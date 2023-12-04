@@ -91,9 +91,7 @@
     </div>
     <div id="error-message-2" style="color: red; display: none;">If you do not have experience, you can not apply for Artist Roster program.</div>
 
-    <label id="experienceDescriptionLabel" for="experienceDescription" >If yes, please describe
-      your past experience
-      producing murals or digital designs:</label>
+    <label id="experienceDescriptionLabel" for="experienceDescription" >If yes, please describe your past experience  producing murals or digital designs:<span class="isRequired">*</span></label>
     <br />
     <textarea id="experienceDescription" name="experienceDescription" rows="4" ></textarea>
     <div id="experienceLetterCount" style="display: none"></div>
@@ -166,11 +164,12 @@
     <br />
     <p>Please select your art medium (minimum one):<span class="isRequired">*</span></p>
     <div class="align-pair-2">
-      <input type="checkbox" id="murals" name="preference" value="Painted Murals" />
+    <!-- name=medium shouldn't be changed; it checks for missing medium fields in userform.js -->
+      <input type="checkbox" id="murals" name="medium" value="Painted Murals" />
       <label for="murals">Painted Murals</label>
     </div>
     <div class="align-pair-2">
-      <input type="checkbox" id="digital" name="preference" value="Digital Design" />
+      <input type="checkbox" id="digital" name="medium" value="Digital Design" />
       <label for="digital">Digital Design</label>
     </div>
     <div id="flexContainer">
@@ -181,7 +180,7 @@
           onchange="onChange()" />
     </div>
     
-    <input type="button" onclick="upload()" value="Submit Form" />
+    <input type="submit" value="Submit Form" />
   </form>
 
 

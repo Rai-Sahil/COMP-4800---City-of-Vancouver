@@ -52,7 +52,7 @@ body {
   /* Label styles */
   label {
     display: block;
-    width: 50%;
+    /* width: 50%; */
     margin: 10px 0;
     align-items: middle;
     /* font-weight: bold; */
