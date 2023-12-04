@@ -51,7 +51,7 @@ app.get('/about', (req, res) => {
     });
 });
 
-app.get('/userform', (req, res) => {
+app.get('/userform', requireLogout, (req, res) => {
     res.sendFile("userform.html", {
         root: path.join(__dirname, '../views')
     });
@@ -127,8 +127,6 @@ app.post('/userform-submit', upload(), (req, res) => {
         preference: req.body.preference,
     };
 
-    tempData.push(user);
-
     //const dummyUUID = Math.floor(Math.random() * 1000);
     createUser(user, (response) => {
         //req.body.uuid = req.session.uuid;
@@ -152,7 +150,8 @@ app.post('/userform-submit', upload(), (req, res) => {
 
         mainConnection.query(query, function (err, result) {
             if (err) {
-                res.status(500).send("Could not register user");
+                res.status(500).send("Could not register user ");
+                console.log("Error in server side " + err);
                 return;
             } else {
                 res.render("../views/Components/successfullSubmission.ejs");

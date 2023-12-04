@@ -11,7 +11,7 @@ function requireLogin(req, res, next) {
 
 function requireLogout(req, res, next) {
     if (req.session.loggedIn) {
-        res.redirect('/index');
+        res.redirect('/');
     } else {
         next();
     }
