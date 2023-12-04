@@ -5,7 +5,7 @@ const multer = require('multer');
 const fs = require('fs');
 const sharp = require('sharp');
 const FILESIZE_MAX_BYTES = 2000000;
-const { createUser, authenticate, mainConnection, giveAdminUserApplication, approveUserApplication, 
+const { createUser, authenticate, mainConnection, updatePassword, giveAdminUserApplication, approveUserApplication, 
     removeUserApplication } = require('./db');
 const { requireLogin, requireLogout } = require('./middleware');
 const { randomUUID } = require('crypto');
@@ -57,8 +57,14 @@ app.get('/userform', (req, res) => {
     });
 });
 
-app.get('/userProfile', requireLogin, (req, res) => {
+app.get('/userProfile', (req, res) => {
     res.sendFile("userProfile.html", {
+        root: path.join(__dirname, '../views')
+    });
+});
+
+app.get('/accountSettings', (req, res) => {
+    res.sendFile("accountSettings.html", {
         root: path.join(__dirname, '../views')
     });
 });
@@ -76,6 +82,7 @@ app.post('/login', (req, res) => {
     const user = authenticate(username, password, (user) => {
         if (user !== null) {
             req.session.user = user.name;
+            req.session.email = user.email;
             req.session.uuid = user.uuid;
             req.session.loggedIn = true;
             req.session.admin = user.admin.toJSON().data[0] ? true : false;
@@ -107,6 +114,10 @@ const upload = () => {
         }
     }).array('image', 8);
 }
+
+app.get('/user-session', (req, res) => {
+    res.json(req.session);
+})
 
 app.post('/userform-submit', upload(), (req, res) => {
     const user = {
@@ -163,6 +174,32 @@ app.post('/userform-submit', upload(), (req, res) => {
 
 
 });
+
+app.post('/password-submit', (req, res) => {
+    console.log(req.body);
+    const password = {
+        oldPassword: req.body.old,
+        newPassword: req.body.new,
+        confirmPassword: req.body.confirm
+    };
+    console.log(password);
+    const user = authenticate(req.session.email, password.oldPassword, (user) => {
+        if (user !== null) {
+            if (password.newPassword === password.confirmPassword) {
+                console.log("HERE");
+                if (updatePassword(req.session.email, password.newPassword)) {
+                    res.status(200).send("Password change success");
+                } else {
+                    res.status(200).send("Password change failure")
+                };
+            } else {
+                res.status(400).send("New passwords must match");
+            }
+        } else {
+            res.status(400).send("Wrong old password");
+        }
+    })
+})
 
 app.use("/admin/user_application", (req, res, next) => {
 
@@ -279,9 +316,11 @@ function notifyAdminForApplication(headerBarDOM, data) {
         let applications = headerBarDOM.window.document.createElement("a");
         applications.className = "admin-link"
         applications.href = "/admin";
+        console.log("HERE");
+        console.log(data[0]);
         
-        if (data[0] !== null) {
-            
+        if (data[0] && data[0].length > 0) {
+            console.log("not null");
             applications.id = "notification-active";
             applications.innerHTML = "[" + (data[0].length) + "] Admin Dashboard";
             
@@ -290,6 +329,7 @@ function notifyAdminForApplication(headerBarDOM, data) {
             hamburger.innerHTML += "<b class='notification'>!</b>";
 
         } else {
+            console.log("null");
             applications.innerHTML = "Admin Dashboard";
         }
 
