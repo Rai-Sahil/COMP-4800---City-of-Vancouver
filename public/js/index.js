@@ -44,7 +44,7 @@ async function generateArtists() {
     
         artists = await response.json();
         // Work with the received data
-        console.log('Received JSON data:', artists);
+
         // Perform operations with the received data
       } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
@@ -79,7 +79,7 @@ async function generateArtists() {
         artistFigure.appendChild(artistCaption);
 
         artistFigure.onclick = function() {
-            window.location.href = "/userProfile?id=" + i;
+            window.location.href = "/userProfile?id=" + artist.uuid;
         }
 
         artistsContainer.appendChild(artistFigure);

@@ -4,23 +4,11 @@ CREATE DATABASE IF NOT EXISTS `CityofVan`;
 use CityofVan;
 
 create table if not exists user (
-    uuid int not null auto_increment,
-    name varchar(31) not null,
+    uuid int not null auto_increment primary key,
     email varchar(31) not null,
-    password varchar(63),
-    phone varchar(15),
-    biography varchar(1023),
-    website varchar(127),
-    facebook varchar(127),
-    instagram varchar(127),
-    twitter varchar(127), 
-    linkedin varchar(127),
-    youtube varchar(127),
-    admin bit default 0,
-    verified bit default 0,
-    creationDate datetime default current_timestamp,
-    verifiedDate datetime,
-    primary key (uuid, email)
+    password varchar(255) not null,
+    name varchar(31) not null,
+    admin bit default 0
 );
 
 create table if not exists user_application (
@@ -41,30 +29,32 @@ create table if not exists user_application (
     preference varchar(1023),
     approved bit default 0,
     rejectionReason varchar(255),
+    applicationData datetime default current_timestamp,
+    approvedDate datetime,
     primary key (uuid, applicationID),
     foreign key (uuid) references user(uuid) on delete cascade	
 ) engine=MyISAM;
 
-create table if not exists user_art (
-    uuid int not null,
-    imageID int not null auto_increment,
-    name varchar(31),
-    description varchar(255),
-    verified bit default 0,
-    uploadDate datetime default current_timestamp,
-    verifiedDate datetime,
-    primary key (uuid, imageID),
-    foreign key (uuid) references user(uuid) on delete cascade
-) engine=MyISAM;
+-- create table if not exists user_art (
+--     uuid int not null,
+--     imageID int not null auto_increment,
+--     name varchar(31),
+--     description varchar(255),
+--     verified bit default 0,
+--     uploadDate datetime default current_timestamp,
+--     verifiedDate datetime,
+--     primary key (uuid, imageID),
+--     foreign key (uuid) references user(uuid) on delete cascade
+-- ) engine=MyISAM;
 
-create table if not exists user_art_category (
-	uuid int not null,
-    imageID int not null,
-    categoryOne bit,
-    primary key (uuid, imageID),
-    foreign key (uuid) references user(uuid) on delete cascade,
-    foreign key (imageID) references user_art(imageID) on delete cascade
-) engine=MyISAM;
+-- create table if not exists user_art_category (
+-- 	uuid int not null,
+--     imageID int not null,
+--     categoryOne bit,
+--     primary key (uuid, imageID),
+--     foreign key (uuid) references user(uuid) on delete cascade,
+--     foreign key (imageID) references user_art(imageID) on delete cascade
+-- ) engine=MyISAM;
 
 
 -- create view user_login as select contact_email, password from user;
@@ -118,5 +108,12 @@ CREATE PROCEDURE getPartialApprovedApplications()
 BEGIN
     SELECT uuid, genre, cultural, preference, name FROM user_application WHERE approved = 1;
 END //
+
+CREATE PROCEDURE getArtistById( IN p_uuid INT)
+BEGIN
+    SELECT name, email, phone, website, instagramHandle, facebookHandle, biography, cultural, genre, preference FROM user_application WHERE uuid = p_uuid;
+END //
+
+
 
 DELIMITER ;

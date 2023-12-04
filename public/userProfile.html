@@ -10,7 +10,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/userProfile.css">
-    <script type="module" src="/js/artist_profile.js"></script>
 </head>
 
 <body>
@@ -36,8 +35,7 @@
                     <div class="card mt-3">
                         <div class="card-body">
                             <h5 class="card-title">Artist Biography</h5>
-                            <p class="card-text">
-                                Artist biography content goes here
+                            <p id="biography" class="card-text">
                             </p>
                         </div>
                     </div>
@@ -54,7 +52,7 @@
                                             d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
                                         </path>
                                     </svg>Website</h6>
-                                <span class="text-secondary">https://fromdatabase.com</span>
+                                <a id="website" class="text-secondary"></a>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -65,8 +63,7 @@
                                         <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                                         <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
                                     </svg>Instagram</h6>
-                                <span class="text-secondary">read from database</span>
-                            </li>
+                                <a id="instagramHandle" class="text-secondary"></a>
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -75,20 +72,19 @@
                                         <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z">
                                         </path>
                                     </svg>Facebook</h6>
-                                <span class="text-secondary">read from database</span>
+                                <a id="facebookHandle" class="text-secondary"></a>
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-md-8">
                     <div class="card mb-3">
-                        <div class="card-body">
+                        <div class="card-body" id="artist-details">
                             <div class="row">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Artist Preffered Name</h6>
                                 </div>
-                                <div class="col-sm-9 text-secondary">
-                                    From Database
+                                <div id="name" class="col-sm-9 text-secondary">
                                 </div>
                             </div>
                             <hr>
@@ -96,8 +92,7 @@
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Email</h6>
                                 </div>
-                                <div class="col-sm-9 text-secondary">
-                                    From Database
+                                <div id="email" class="col-sm-9 text-secondary">
                                 </div>
                             </div>
                             <hr>
@@ -105,17 +100,12 @@
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Phone</h6>
                                 </div>
-                                <div class="col-sm-9 text-secondary">
-                                    (239) 816-9029
+                                <div id="phone" class="col-sm-9 text-secondary">
                                 </div>
                             </div>
 
                             <hr>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <a class="btn btn-primary " target="_blank" href="">Edit</a>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                     <div class="row gutters-sm">
@@ -124,14 +114,7 @@
                                 <div class="card-body">
                                     <h6 class="d-flex align-items-center mb-3"><i
                                             class="material-icons text-info mr-2">Artwork Genre</i></h6>
-                                    <ul>
-                                        <li>Abstract</li>
-                                        <li>Cultural Expression</li>
-                                        <li>Realism</li>
-                                        <li>Landscape/Nature</li>
-                                        <li>Narrative (storytelling, myths, fairytales)</li>
-                                        <li>Graffiti</li>
-                                        <li>Cartoon/Illustration</li>
+                                    <ul id="genre">
                                     </ul>
                                 </div>
                             </div>
@@ -141,14 +124,7 @@
                                 <div class="card-body">
                                     <h6 class="d-flex align-items-center mb-3"><i
                                             class="material-icons text-info mr-2">Cultural Categories</i></h6>
-                                    <ul>
-                                        <li>xʷməθkʷəy̓əm (Musqueam)</li>
-                                        <li>Sḵwx̱wú7mesh (Squamish)</li>
-                                        <li>səlilwətaɬ (Tsleil-Waututh)</li>
-                                        <li>Urban Indigenous</li>
-                                        <li>Black Artist</li>
-                                        <li>South Asian</li>
-                                        <li>Chinatown or Chinese heritage</li>
+                                    <ul id="cultural">
                                     </ul>
                                 </div>
                             </div>
@@ -158,9 +134,7 @@
                                 <div class="card-body">
                                     <h6 class="d-flex align-items-center mb-3"><i
                                             class="material-icons text-info mr-2">Art Medium</i></h6>
-                                    <ul>
-                                        <li>Painted Murals</li>
-                                        <li>Digital Design</li>
+                                    <ul id="medium">
                                     </ul>
                                 </div>
                             </div>
@@ -170,16 +144,7 @@
                                 <div class="card-body">
                                     <h6 class="d-flex align-items-center mb-3"><i
                                             class="material-icons text-info mr-2">Images</i></h6>
-                                    <div class="d-flex flex-wrap">
-                                        <div class="col-md-4 mb-3">
-                                            <div class="image-item">
-                                                <img src="/images/11.jpg" alt="Image 1" class="img-fluid">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 mb-3">
-                                            <div class="image-item">
-                                                <img src="/images/17.jpg" alt="Image 2" class="img-fluid">
-                                            </div>
+                                    <div class="d-flex flex-wrap" id="images">
                                             <div id="artistImagesContainer"></div>
                                             <div id="imageDialog">
                                                 <div id="imageDialogContent">
@@ -204,7 +169,7 @@
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript"></script>
-    <script type="module" src="/js/userProfile.js"></script>
+    <script defer type="module" src="/js/userProfile.js"></script>
 </body>
 
 </html>
