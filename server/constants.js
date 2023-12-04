@@ -3,10 +3,10 @@ const nodemailer = require("nodemailer");
 
 const connectionParams = {
     host: process.env.DB_HOST || "localhost",
-    user: process.env.DB_USER || "root",
+    user: process.env.DB_USER || "sa",
     password: process.env.DB_PASSWORD || "secret",
     database: process.env.DB_NAME || "CityofVan",
-    port: process.env.DB_PORT || 3333
+    port: process.env.DB_PORT || 3306
 };
 
 const transporter = nodemailer.createTransport({
