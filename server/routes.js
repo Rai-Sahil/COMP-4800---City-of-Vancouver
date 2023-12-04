@@ -33,6 +33,12 @@ app.get('/login', requireLogout, (req, res) => {
     });
 });
 
+// logout route
+app.get('/logout', requireLogin, (req, res) => {
+    req.session.destroy();
+    res.redirect('/');
+});
+
 app.get('/header', (req, res) => {
     let headerBar = fs.readFileSync(path.join(__dirname, '../views', "header.html"));
     let headerBarDOM = new JSDOM(headerBar);
