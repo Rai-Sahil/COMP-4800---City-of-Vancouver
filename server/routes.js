@@ -11,9 +11,9 @@ const { requireLogin, requireLogout } = require('./middleware');
 const { randomUUID } = require('crypto');
 const { JSDOM } = require('jsdom');
 const { red, white } = require('colors');
+const { sendReminderEmail } = require('./middleware');
 const app = express.Router();
 const secretToken = 'admin123';
-
 const tempData = [];
 const permanentUsers = [];
 const rejectedUsers = [];
@@ -148,7 +148,7 @@ app.post('/userform-submit', upload(), (req, res) => {
         const bcResident = user.bcResident === 'no' ? 0 : 1;
         const experience = user.experience === 'no' ? 0 : 1;
 
-        const query = `CALL createApplication(${response.user.uuid}, '${user.name}', '${user.email}', '${user.phone}', '${user.website}', '${user.instaHandle}', '${user.facebookHandle}', ${bcResident}, ${experience}, '${user.experienceDescription}', '${user.biography}', '${user.genre}', '${user.cultural}', '${user.preference}');`
+        const query = `CALL createApplication(${response.user.uuid}, '${user.name}', '${user.pronoun}', '${user.email}', '${user.phone}', '${user.website}', '${user.instaHandle}', '${user.facebookHandle}', ${bcResident}, ${experience}, '${user.experienceDescription}', '${user.biography}', '${user.genre}', '${user.cultural}', '${user.preference}');`
 
         mainConnection.query(query, function (err, result) {
             if (err) {
@@ -235,43 +235,57 @@ app.get('/artists', (req, res) => {
 
 });
 
-app.get('/artists/single', (req, res) => 
-{
+app.get('/artists/single', (req, res) => {
     const artistId = req.query.id;
 
     const query = `CALL getArtistById(${artistId});`;
 
-    mainConnection.query(query, function(err, result)
-    {
-        if (err)
-        {
-
+    mainConnection.query(query, function(err, result) {
+        if (err) {
             res.status(500).send("Could not get artists");
             return;
-            //throw err;  
         }
 
-        if(result[0].length == 0)
-        {
+        if (result[0].length == 0) {
             res.status(404).send("Artist not found");
             return;
         }
 
         let artist = result[0][0];
 
-        artist.images = [];
-        // SWITCH TO UUID
-        let imagePaths = fs.readdirSync(`public/artistImages/${artistId}/`, { withFileTypes: true });
-        for (let j = 0; j < imagePaths.length; j++)
-        {
-            artist.images.push(`artistImages/${artistId}/${imagePaths[j].name}`);
-        }
-            
+        // Read approvedDate from the database
+        const approvedDateQuery = `SELECT approvedDate FROM user_application WHERE uuid = ${artistId};`;
 
-        res.contentType('application/json');
-        res.json(artist);
+        mainConnection.query(approvedDateQuery, (approvedDateErr, approvedDateResult) => {
+            if (approvedDateErr) {
+                res.status(500).send("Could not get approved date");
+                return;
+            }
+
+            // Assuming approvedDate is a column in the user_application table
+            artist.approvedDate = approvedDateResult.length > 0 ? approvedDateResult[0].approvedDate : null;
+
+            // Handling images
+            artist.images = [];
+            let imagePaths = fs.readdirSync(`public/artistImages/${artistId}/`, { withFileTypes: true });
+            for (let j = 0; j < imagePaths.length; j++) {
+                artist.images.push(`artistImages/${artistId}/${imagePaths[j].name}`);
+            }
+
+            // Sending the response
+            res.contentType('application/json');
+            res.json(artist);
+        });
     });
 });
+
+app.post('/sendReminderEmail', (req, res) => {
+    const { email, approvedDate } = req.body;
+    const expiryDate = new Date(approvedDate + 2);
+    sendReminderEmail(email, expiryDate);
+    res.status(200).send("Successfully sent reminder email");
+});
+
 
 function notifyAdminForApplication(headerBarDOM, data) {
         let nav = headerBarDOM.window.document.getElementsByClassName("nav-links")[0];
@@ -319,8 +333,8 @@ function generateAdminDashboard() {
             <p>Website: ${user.website}</p>
             <p>Instagram: ${user.instaHandle}</p>
             <p>Facebook: ${user.facebookHandle}</p>
-            <p>BC Resident: ${user.bcResident}</p>
-            <p>Experience: ${user.experience}</p>
+            <p>BC Resident: ${user.bcResident.toJSON().data[0]}</p>
+            <p>Experience: ${user.experience.toJSON().data[0]}</p>
             <p>Experience Description: ${user.experienceDescription}</p>
             <p>Biography: ${user.biography}</p>
             <p>Genres: ${Array.isArray(user.genre) ? user.genre.join(", ") : user.genre

@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function () {
     getArtist();
     // Get references to the necessary elements
@@ -8,6 +7,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const closeImageDialog = document.getElementById('closeImageDialog');
     const previousImage = document.getElementById('previousImage');
     const nextImage = document.getElementById('nextImage');
+    const notificationIcon = document.querySelector(".notification-icon");
+    const modalBody = document.querySelector(".modal-body");
 
     console.log(imageItems);
     let currentImageIndex = 0;
@@ -38,8 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     closeImageDialog.addEventListener('click', closeDialog);
 
-    function getArtist() 
-    {
+    function getArtist() {
         let artistId = new URLSearchParams(window.location.search).get("id");
 
         fetch(`/artists/single?id=${artistId}`)
@@ -55,32 +55,38 @@ document.addEventListener('DOMContentLoaded', function () {
                 facebookHandle.innerHTML = artist.facebookHandle;
                 //instagramHandle.href = artist.instagramHandle;
                 instagramHandle.innerHTML = artist.instagramHandle;
-
+                const approvedDate = new Date(artist.approvedDate);
+                const formattedDate = `${approvedDate.toLocaleDateString()} `;
+                const expiryDate = new Date(artist.approvedDate);
+                expiryDate.setFullYear(expiryDate.getFullYear() + 2);
+                if (artist.approvedDate) {
+                    notificationIcon.innerHTML = `<i class="fa-regular fa-bell" data-toggle="modal" data-target="#approvedDateModal"></i>`;
+                    modalBody.innerHTML = `Approved on ${formattedDate}. Your application will expire on ${expiryDate.toLocaleDateString()}`;
+                } else {
+                    notificationIcon.innerHTML = `<i class="fa-regular fa-bell"></i> Not yet approved`;
+                    modalBody.innerHTML = "This artist has not been approved yet.";
+                }
 
                 let genres = separateCategories(artist.genre);
                 let cultures = separateCategories(artist.cultural);
                 let mediums = separateCategories(artist.preference);
 
 
-                for (let i = 0; i < genres.length; i++)
-                {
+                for (let i = 0; i < genres.length; i++) {
                     genre.innerHTML += `<li>${genres[i]}</li>`;
                 }
 
-                for (let i = 0; i < cultures.length; i++)
-                {
+                for (let i = 0; i < cultures.length; i++) {
                     cultural.innerHTML += `<li>${cultures[i]}</li>`;
                 }
 
-                for (let i = 0; i < mediums.length; i++)
-                {
+                for (let i = 0; i < mediums.length; i++) {
                     medium.innerHTML += `<li>${mediums[i]}</li>`;
                 }
-    
+
                 const imageContainer = document.getElementById("images");
 
-                for (let i = 0; i < artist.images.length; i++) 
-                {
+                for (let i = 0; i < artist.images.length; i++) {
                     let outerDiv = document.createElement("div");
                     outerDiv.className = "col-md-4 mb-3";
 
@@ -100,20 +106,52 @@ document.addEventListener('DOMContentLoaded', function () {
                     outerDiv.appendChild(innerDiv);
                     imageContainer.appendChild(outerDiv);
                 }
+
             });
     }
 
+    function sendReminderEmail() {
+        let artistId = new URLSearchParams(window.location.search).get("id");
+        // Make an HTTP GET request to fetch artist data
+        fetch(`/artists/single?id=${artistId}`)
+            .then(response => response.json())
+            .then(artist => {
+                // Extract the email from the artist data
+                const userEmail = artist.email;
 
+                // Make an HTTP POST request to the server endpoint with the userEmail
+                fetch('/sendReminderEmail', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email: userEmail }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data); // Log the server's response
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            })
+            .catch(error => {
+                console.error('Error fetching artist data:', error);
+            });
+    }
 
-    function separateCategories(categories) 
-    {
+    // Call sendReminderEmail when needed
+    sendReminderEmail();
+
+    function separateCategories(categories) {
         let categoryArray = categories.split(",");
 
-        for (let i = 0; i < categoryArray.length; i++)
-        {
+        for (let i = 0; i < categoryArray.length; i++) {
             categoryArray[i] = categoryArray[i].trim();
         }
 
         return categoryArray;
     }
+
+
 });
