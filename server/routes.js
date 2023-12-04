@@ -188,11 +188,22 @@ app.post("/accept/:email", (req, res) => {
 
 app.post("/reject/:email", (req, res) => {
     const { email } = req.params;
-    const { comment } = req.body;
+
+    const comment = req.body.comment;
+    const uuid = req.body.uuid;
 
     removeUserApplication(email, (response) => {
         console.log('Response is ', response);
     });
+
+    try {
+        const path = `public/artistImages/${uuid}/`;
+        if (fs.existsSync(path)) {
+            fs.rmSync(path, { recursive: true });
+        }
+    } catch (err) {
+        console.log("Error deleting images: ", err);
+    }
 
     res.sendFile("admin.html", {
         root: path.join(__dirname, '../views')

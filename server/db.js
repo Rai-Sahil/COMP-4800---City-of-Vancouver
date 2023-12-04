@@ -114,10 +114,6 @@ async function removeUserApplication(email, callback) {
             if (err) console.log('Error removing user application: ', err);
             else
             {
-                const path = `public/artistImages/${uuid}/`;
-                if (fs.existsSync(path)) {
-                    fs.rm(path, { recursive: true });
-                }
                 return callback(result);
             }
              
@@ -126,6 +122,8 @@ async function removeUserApplication(email, callback) {
         console.log("Error something went wrong: ", error);
     }
 }
+
+
 
 module.exports = {
     authenticate,
