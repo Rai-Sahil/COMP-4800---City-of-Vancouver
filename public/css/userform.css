@@ -6,7 +6,7 @@
 
 /* Body styles */
 body {
-  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
   background-color: #f7f7f7;
   margin: 0;
   padding: 0;
@@ -20,56 +20,55 @@ body {
   margin: 0;
 }
 
-  
-  /* Section styles */
-  h3 {
-    margin: 20px 50px 20px 50px;
-    padding: 15px;
-    background-color: rgb(0, 122, 188);
-    color: #fff; /* Text color */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for a subtle lift */
-    text-align: center; /* Center-align text */
-    font-size: 1.2em; /* Adjust font size as needed */
-  }
-  
-  /* Form container styles */
-  form {
-    max-width: 800px;
-    margin: 0 auto;
-    background-color: #fff;
-    padding: 20px;
-    box-shadow: 0px 0px 10px #ccc;
-    border-radius: 5px;
-  }
-  
-  pr {
-    display: block;
-    margin: 10px 0;
-    /* font-weight: bold; */
-  }
-  /* Label styles */
-  label {
-    display: block;
-    /* width: 50%; */
-    margin: 10px 0;
-    align-items: middle;
-    /* font-weight: bold; */
-  }
-  
-  /* Input and textarea styles */
-  input[type="text"],
-  input[type="email"],
-  input[type="password"],
-  input[type="tel"],
-  input[type="url"],
-  input[type="checkbox"],
-  input[type="radio"]{
-    padding: 10px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
+/* Section styles */
+h3 {
+  margin: 20px 50px 20px 50px;
+  padding: 15px;
+  background-color: rgb(0, 122, 188);
+  color: #fff; /* Text color */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for a subtle lift */
+  text-align: center; /* Center-align text */
+  font-size: 1.2em; /* Adjust font size as needed */
+}
+
+/* Form container styles */
+form {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0px 0px 10px #ccc;
+  border-radius: 5px;
+}
+
+pr {
+  display: block;
+  margin: 10px 0;
+  /* font-weight: bold; */
+}
+/* Label styles */
+label {
+  display: block;
+  /* width: 50%; */
+  margin: 10px 0;
+  align-items: middle;
+  /* font-weight: bold; */
+}
+
+/* Input and textarea styles */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="url"],
+input[type="checkbox"],
+input[type="radio"] {
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
 
 textarea {
   width: 100%;
@@ -87,7 +86,9 @@ input[type="radio"] {
 }
 
 /* Button styles */
-input[type="submit"], input[type="button"], input[type="file"] {
+input[type="submit"],
+input[type="button"],
+input[type="file"] {
   background-color: #0f8000;
   color: #fff;
   padding: 10px 20px;
@@ -115,12 +116,12 @@ span.isRequired {
 } */
 
 /* Hide elements initially */
-#experienceDescriptionLabel, #experienceDescription {
+#experienceDescriptionLabel,
+#experienceDescription {
   display: none;
 }
 
-#imageForm
-{
+#imageForm {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -128,26 +129,22 @@ span.isRequired {
   min-width: 50vw;
 }
 
-#flexContainer
-{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    /* min-height: 100vh; */
-    max-width: 700px;
-    margin: 0 auto;
-    margin-top: 30px;
-    margin-bottom: 30px;
-
-
+#flexContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  /* min-height: 100vh; */
+  max-width: 700px;
+  margin: 0 auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
-#images
-{
+#images {
   display: flex;
-  max-width: 100%;  /* Ensure images div doesn't exceed its parent's width */
+  max-width: 100%; /* Ensure images div doesn't exceed its parent's width */
   overflow-x: auto; /* Add horizontal scroll if content overflows */
   overflow-y: auto; /* Add vertical scroll if content overflows */
   max-height: 50vh;
@@ -158,7 +155,7 @@ span.isRequired {
   border-radius: 5px;
   min-height: 50vh;
   min-width: 100%;
-  border: #333  solid 1px;
+  border: #333 solid 1px;
 }
 
 select {
@@ -182,8 +179,8 @@ select {
 
 @media screen and (max-width: 768px) {
   .singleImage {
-      flex: 0 0 calc(100% - 10px); /* Single image taking full width on mobile */
-      max-width: calc(100% - 10px);
+    flex: 0 0 calc(100% - 10px); /* Single image taking full width on mobile */
+    max-width: calc(100% - 10px);
   }
 }
 
@@ -208,4 +205,3 @@ img {
 .imageButton:hover {
   background-color: darkred;
 }
-

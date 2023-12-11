@@ -1,4 +1,4 @@
-import Artist from './Artist.js';
+import Artist from "./Artist.js";
 
 let artistId = new URLSearchParams(window.location.search).get("id");
 let artist = Artist.artists[artistId];
@@ -21,51 +21,53 @@ const dialogImage = dialog.getElementsByTagName("img")[0];
 const previousButton = document.getElementById("previousImage");
 const nextButton = document.getElementById("nextImage");
 
-previousButton.onclick = () => { 
-    selectedImageIndex = (selectedImageIndex - 1 + artist.images.length) % artist.images.length;
-    dialogImage.src = artist.images[selectedImageIndex];
-}
+previousButton.onclick = () => {
+  selectedImageIndex =
+    (selectedImageIndex - 1 + artist.images.length) % artist.images.length;
+  dialogImage.src = artist.images[selectedImageIndex];
+};
 
 nextButton.onclick = () => {
-    selectedImageIndex = (selectedImageIndex + 1) % artist.images.length;
-    dialogImage.src = artist.images[selectedImageIndex];
-}
+  selectedImageIndex = (selectedImageIndex + 1) % artist.images.length;
+  dialogImage.src = artist.images[selectedImageIndex];
+};
 
 // Create the image elements
 artist.images.forEach((imageSrc, i) => {
-    const imageFigure = document.createElement("figure");
-    const image = document.createElement("img");
-    image.src = imageSrc;
+  const imageFigure = document.createElement("figure");
+  const image = document.createElement("img");
+  image.src = imageSrc;
 
-    imageFigure.appendChild(image);
-    imageContainer.appendChild(imageFigure);
+  imageFigure.appendChild(image);
+  imageContainer.appendChild(imageFigure);
 
-    image.onclick = () => {
-        dialogImage.src = image.src;
-        selectedImageIndex = i;
-        dialog.showModal();
-    }
+  image.onclick = () => {
+    dialogImage.src = image.src;
+    selectedImageIndex = i;
+    dialog.showModal();
+  };
 });
 
 // Close the dialog if the user presses escape
 window.closeDialog = () => {
-    dialog.close();
-}
+  dialog.close();
+};
 
 // Close the dialog if the user clicks outside of it
-dialog.addEventListener('click', (event) => {
-    if (event.target === dialog) {
-        dialog.close();
-    }
+dialog.addEventListener("click", (event) => {
+  if (event.target === dialog) {
+    dialog.close();
+  }
 });
 
-// List all artist art categories in artistCategoriesContainer without duplicates 
-const artistCategoriesContainer = document.getElementById("artistCategoriesContainer");
+// List all artist art categories in artistCategoriesContainer without duplicates
+const artistCategoriesContainer = document.getElementById(
+  "artistCategoriesContainer"
+);
 const categories = artist.categories;
 const uniqueCategories = [...new Set(categories)];
-uniqueCategories.forEach(category => {
-    const categoryElement = document.createElement("p");
-    categoryElement.innerHTML = category;
-    artistCategoriesContainer.appendChild(categoryElement);
+uniqueCategories.forEach((category) => {
+  const categoryElement = document.createElement("p");
+  categoryElement.innerHTML = category;
+  artistCategoriesContainer.appendChild(categoryElement);
 });
-

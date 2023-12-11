@@ -52,7 +52,7 @@ nav a:hover {
   text-decoration: underline;
 }
 
-nav .hamburger .notification{
+nav .hamburger .notification {
   font-size: 0.4em;
 }
 
@@ -83,15 +83,15 @@ nav .hamburger .notification{
 }
 
 .nav-links {
-    position: absolute;
-    right: 0;
-    top: 0;
-    background: #fff;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.2s ease-out;
-    flex-direction: column;
-    width: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: #fff;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  flex-direction: column;
+  width: 100%;
 }
 
 .nav-links a {
