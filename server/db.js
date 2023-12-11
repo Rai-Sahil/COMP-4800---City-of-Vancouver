@@ -111,6 +111,7 @@ async function giveAdminUserApplication(callback) {
 
 async function approveUserApplication(email, callback) {
     try {
+
         const query = `UPDATE user_application SET approved = 1, approvedDate = ? WHERE email = ?`;
         await connection.query(query, [new Date().toISOString().slice(0, 19).replace('T', ' '), email], (err, result) => {
             if (err) console.log('Error approving user application: ', err);
@@ -147,6 +148,24 @@ async function removeUserApplication(email, callback) {
     }
 }
 
+async function removeUser(email, callback) {
+    try{
+        const query = `DELETE FROM user WHERE email = ?`;
+        await connection.query(query, [email], (err, result) => {
+            if (err) console.log('Error removing user: ', err);
+            else
+            {
+                return callback(result);
+            }
+             
+        });
+    
+    }
+    catch(error){
+        console.log("Error something went wrong: ", error);
+    }
+}
+
 
 
 module.exports = {
@@ -157,5 +176,6 @@ module.exports = {
     giveAdminUserApplication,
     approveUserApplication,
     getApprovedUser,
-    removeUserApplication
+    removeUserApplication,
+    removeUser
 };

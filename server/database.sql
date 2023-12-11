@@ -15,6 +15,7 @@ create table if not exists user_application (
     uuid int not null,
     applicationID int not null auto_increment,
     name varchar(31) not null,
+    pronoun varchar(31),
     email varchar(31) not null,
     phone varchar(15),
     website varchar(127),
@@ -31,6 +32,7 @@ create table if not exists user_application (
     rejectionReason varchar(255),
     applicationData datetime default current_timestamp,
     approvedDate datetime,
+    numImages int,
     primary key (uuid, applicationID),
     foreign key (uuid) references user(uuid) on delete cascade	
 ) engine=MyISAM;
@@ -66,6 +68,7 @@ DELIMITER //
 CREATE PROCEDURE createApplication(
     IN p_uuid INT,
     IN p_name VARCHAR(31),
+    IN p_pronoun VARCHAR(31),
     IN p_email VARCHAR(31),
     IN p_phone VARCHAR(15),
     IN p_website VARCHAR(127),
@@ -77,11 +80,12 @@ CREATE PROCEDURE createApplication(
     IN p_biography VARCHAR(1023),
     IN p_genre VARCHAR(1023),
     IN p_cultural VARCHAR(1023),
-    IN p_preference VARCHAR(1023)
+    IN p_preference VARCHAR(1023),
+    IN p_numImages INT
 )
 BEGIN
-    INSERT INTO user_application (uuid, name, email, phone, website, instagramHandle, facebookHandle, bcResident, experience, experienceDescription, biography, genre, cultural, preference)
-    VALUES (p_uuid, p_name, p_email, p_phone, p_website, p_instagramHandle, p_facebookHandle, p_bcResident, p_experience, p_experienceDescription, p_biography, p_genre, p_cultural, p_preference);
+    INSERT INTO user_application (uuid, name, pronoun, email, phone, website, instagramHandle, facebookHandle, bcResident, experience, experienceDescription, biography, genre, cultural, preference, numImages)
+    VALUES (p_uuid, p_name, p_pronoun, p_email, p_phone, p_website, p_instagramHandle, p_facebookHandle, p_bcResident, p_experience, p_experienceDescription, p_biography, p_genre, p_cultural, p_preference, p_numImages);
 END //
 
 CREATE PROCEDURE getApprovedApplications()
@@ -111,7 +115,7 @@ END //
 
 CREATE PROCEDURE getArtistById( IN p_uuid INT)
 BEGIN
-    SELECT name, email, phone, website, instagramHandle, facebookHandle, biography, cultural, genre, preference FROM user_application WHERE uuid = p_uuid;
+    SELECT name, pronoun, email, phone, website, instagramHandle, facebookHandle, biography, cultural, genre, preference FROM user_application WHERE uuid = p_uuid;
 END //
 
 

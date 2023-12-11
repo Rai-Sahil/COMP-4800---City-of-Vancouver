@@ -42,14 +42,12 @@ fetch('/admin/user_application')
             let fileExtenstion = ".jpeg";
             let imageDiv = document.getElementById(`images${user.uuid}`);
 
-            for (let i = 0; i < 9; i++) 
+            for (let i = 0; i < user.numImages; i++) 
             {
+                let img = document.createElement("img");
                 let imageUrl = path + i + fileExtenstion;
-                let image = new Image();
-                image.src = imageUrl;
-                image.onload = function () {
-                    imageDiv.appendChild(image);
-                }
+                img.src = imageUrl;
+                imageDiv.appendChild(img);
             }
         });
 

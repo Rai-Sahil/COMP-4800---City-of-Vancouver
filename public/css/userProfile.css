@@ -134,3 +134,20 @@ body {
     color: #fff;
     cursor: pointer;
 }
+
+.notification-icon {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: white; /* Change the background color as needed */
+    color: #060000; /* Change the text color as needed */
+    border-radius: 50%;
+    padding: 10px; /* Adjust the padding to increase or decrease the size */
+    cursor: pointer;
+    font-size: 20px; /* Adjust the font size as needed */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Optional: Add a subtle box shadow */
+}
+
+.notification-icon i {
+    margin: 0; /* Remove default icon margin */
+}
